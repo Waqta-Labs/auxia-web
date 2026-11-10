@@ -3,8 +3,9 @@ import { Navigate, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../hooks/useAuth.js';
 import { routes } from '@app/router/routes.js';
-import AuxiaLogo from '@shared/presentation/components/auxiaLogo.jsx';
 import LanguageSwitcher from '@shared/presentation/components/languageSwitcher.jsx';
+import logoNight from '@assets/logos/14.svg';
+import logoLight from '@assets/logos/4.svg';
 import AidNetworkAnimation from '../components/aidNetworkAnimation.jsx';
 import '../styles/signIn.css';
 
@@ -69,7 +70,7 @@ export default function SignInPage() {
         <div className="si-hero__grid" />
 
         <header className="si-hero__brand">
-          <AuxiaLogo height={44} />
+          <img className="si-logo" src={logoNight} alt="AuxIA" />
         </header>
 
         <div className="si-hero__stage">
@@ -91,7 +92,7 @@ export default function SignInPage() {
       {/* Formulario */}
       <main className="si-panel">
         <div className="si-panel__top">
-          <div className="si-panel__brand-mobile"><AuxiaLogo height={36} primary="#212161" background="#ffffff" accent="#4750dd" wordAux="#4750dd" wordIa="#141514" /></div>
+          <div className="si-panel__brand-mobile"><img className="si-logo si-logo--mobile" src={logoLight} alt="AuxIA" /></div>
           <LanguageSwitcher variant="pill" />
         </div>
 

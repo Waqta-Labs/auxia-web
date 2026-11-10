@@ -144,7 +144,7 @@
 .si-submit:focus-visible { outline: 3px solid var(--color-sky); outline-offset: 3px; }
 .si-spinner { width: 18px; height: 18px; border: 2.5px solid rgba(255, 255, 255, 0.4); border-top-color: #fff; border-radius: 50%; animation: si-spin 0.7s linear infinite; }
 
-.si-hint { display: flex; align-items: center; justify-content: center; gap: 6px; margin: var(--space-3) 0 0; font-size: 0.75rem; color: var(--gray-300); text-align: center; }
+.si-hint { display: flex; align-items: center; justify-content: center; gap: 6px; margin: var(--space-5) 0 0; font-size: 0.75rem; color: var(--gray-300); text-align: center; }
 .si-panel__footer { text-align: center; font-size: 0.75rem; color: var(--gray-200); padding-top: var(--space-3); }
 
 /* ── Selector de idioma (pill) ── */
@@ -175,3 +175,6 @@
 @media (prefers-reduced-motion: reduce) {
   .si *, .si *::before, .si *::after { animation: none !important; transition: none !important; }
 }
+
+.si-logo { display: block; height: 88px; width: auto; }
+.si-logo--mobile { height: 64px; }
