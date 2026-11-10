@@ -1,0 +1,15 @@
+{
+  "signIn": {
+    "title": "Sign in",
+    "subtitle": "AuxIA Command Center",
+    "email": "Institutional email",
+    "password": "Password",
+    "submit": "Sign in",
+    "loading": "Signing in...",
+    "errors": {
+      "credentialsRequired": "Enter your email and password.",
+      "invalidCredentials": "Invalid credentials.",
+      "networkError": "Could not reach the server."
+    }
+  }
+}

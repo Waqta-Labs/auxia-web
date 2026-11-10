@@ -1,0 +1,15 @@
+{
+  "signIn": {
+    "title": "Iniciar sesión",
+    "subtitle": "Centro de Mando AuxIA",
+    "email": "Correo institucional",
+    "password": "Contraseña",
+    "submit": "Ingresar",
+    "loading": "Ingresando...",
+    "errors": {
+      "credentialsRequired": "Ingresa tu correo y contraseña.",
+      "invalidCredentials": "Credenciales inválidas.",
+      "networkError": "No se pudo conectar con el servidor."
+    }
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "publicPortal": {
+    "title": "Estado de la atención"
+  },
+  "zoneStatus": {
+    "title": "Estado de la zona"
+  },
+  "verifyDelivery": {
+    "title": "Verificar entrega"
+  }
+}

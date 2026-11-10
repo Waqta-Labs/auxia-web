@@ -1,0 +1,11 @@
+{
+  "publicPortal": {
+    "title": "Care status"
+  },
+  "zoneStatus": {
+    "title": "Zone status"
+  },
+  "verifyDelivery": {
+    "title": "Verify delivery"
+  }
+}

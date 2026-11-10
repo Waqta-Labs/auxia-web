@@ -1,0 +1,24 @@
+{
+  "appName": "AuxIA",
+  "placeholder": "Pantalla pendiente de implementar.",
+  "nav": {
+    "dashboard": "Dashboard",
+    "gisMap": "Mapa GIS",
+    "prioritization": "Priorización",
+    "inventory": "Inventario",
+    "logistics": "Logística",
+    "audit": "Auditoría",
+    "publicPortal": "Portal público"
+  },
+  "actions": {
+    "signOut": "Cerrar sesión",
+    "signIn": "Iniciar sesión"
+  },
+  "dashboard": {
+    "title": "Centro de Mando"
+  },
+  "notFound": {
+    "title": "Página no encontrada",
+    "back": "Volver al inicio"
+  }
+}

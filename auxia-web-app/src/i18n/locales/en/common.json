@@ -1,0 +1,24 @@
+{
+  "appName": "AuxIA",
+  "placeholder": "Screen pending implementation.",
+  "nav": {
+    "dashboard": "Dashboard",
+    "gisMap": "GIS map",
+    "prioritization": "Prioritization",
+    "inventory": "Inventory",
+    "logistics": "Logistics",
+    "audit": "Audit",
+    "publicPortal": "Public portal"
+  },
+  "actions": {
+    "signOut": "Sign out",
+    "signIn": "Sign in"
+  },
+  "dashboard": {
+    "title": "Command Center"
+  },
+  "notFound": {
+    "title": "Page not found",
+    "back": "Back to home"
+  }
+}
