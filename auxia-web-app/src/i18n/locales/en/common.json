@@ -3,11 +3,11 @@
   "placeholder": "Screen pending implementation.",
   "nav": {
     "dashboard": "Dashboard",
-    "gisMap": "GIS map",
-    "prioritization": "Prioritization",
+    "gisMap": "GIS Map",
+    "prioritization": "AI Prioritization",
     "inventory": "Inventory",
-    "logistics": "Logistics",
-    "audit": "Audit",
+    "logistics": "Brigades",
+    "audit": "Blockchain Traceability",
     "publicPortal": "Public portal"
   },
   "actions": {
@@ -15,11 +15,39 @@
     "signIn": "Sign in"
   },
   "dashboard": {
-    "title": "Command Center"
+    "title": "Command Center",
+    "kpi": {
+      "activeRequests": "Active requests",
+      "offlineShare": "{{percent}}% reported offline",
+      "criticalCases": "Critical cases",
+      "criticalHint": "AI score > {{threshold}}",
+      "deployedBrigades": "Deployed brigades",
+      "availableBrigades_one": "{{count}} available",
+      "availableBrigades_other": "{{count}} available",
+      "verifiedSupplies": "Verified supplies",
+      "verifiedHint": "Validated on Blockchain"
+    }
   },
   "notFound": {
     "title": "Page not found",
     "back": "Back to home"
   },
-  "language": "Language"
+  "language": "Language",
+  "sidebar": {
+    "activeCrisis": "Active crisis",
+    "live": "Live",
+    "noCrisis": "No active crisis",
+    "navLabel": "Main navigation"
+  },
+  "topbar": {
+    "searchPlaceholder": "Search GPS, report ID, brigade",
+    "realtime": "Real-Time Mode Active",
+    "generalAlarm": "General Alarm"
+  },
+  "roles": {
+    "ORGANIZATION_ADMIN": "Organization administrator",
+    "AUTHORITY": "Authority",
+    "FIELD_BRIGADE": "Field brigade",
+    "AUDITOR": "Auditor"
+  }
 }

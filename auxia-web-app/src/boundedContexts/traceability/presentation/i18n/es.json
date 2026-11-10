@@ -1,5 +1,22 @@
 {
   "auditLedger": {
     "title": "Auditoría y trazabilidad"
+  },
+  "ledger": {
+    "title": "Trazabilidad Blockchain e Inventario",
+    "subtitle": "Registros inmutables",
+    "columns": {
+      "hash": "Hash de transacción",
+      "origin": "Origen",
+      "destination": "Destino",
+      "status": "Estado"
+    },
+    "status": {
+      "INITIATED": "En camino",
+      "REGISTERED": "Anclando",
+      "CERTIFIED": "Validado",
+      "FAILED": "Reintentando"
+    },
+    "empty": "Todavía no hay entregas registradas."
   }
 }

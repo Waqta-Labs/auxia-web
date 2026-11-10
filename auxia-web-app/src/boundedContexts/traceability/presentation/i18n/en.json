@@ -1,5 +1,22 @@
 {
   "auditLedger": {
     "title": "Audit and traceability"
+  },
+  "ledger": {
+    "title": "Blockchain Traceability and Inventory",
+    "subtitle": "Immutable records",
+    "columns": {
+      "hash": "Transaction hash",
+      "origin": "Origin",
+      "destination": "Destination",
+      "status": "Status"
+    },
+    "status": {
+      "INITIATED": "On the way",
+      "REGISTERED": "Anchoring",
+      "CERTIFIED": "Validated",
+      "FAILED": "Retrying"
+    },
+    "empty": "No deliveries registered yet."
   }
 }

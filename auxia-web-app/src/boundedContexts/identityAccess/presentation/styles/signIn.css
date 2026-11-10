@@ -147,12 +147,6 @@
 .si-hint { display: flex; align-items: center; justify-content: center; gap: 6px; margin: var(--space-5) 0 0; font-size: 0.75rem; color: var(--gray-300); text-align: center; }
 .si-panel__footer { text-align: center; font-size: 0.75rem; color: var(--gray-200); padding-top: var(--space-3); }
 
-/* ── Selector de idioma (pill) ── */
-.lang-pill { display: inline-flex; align-items: center; gap: 2px; margin-left: auto; padding: 4px 6px 4px 12px; border: 1.5px solid var(--gray-50); border-radius: 999px; color: var(--gray-300); background: var(--color-white); }
-.lang-pill__btn { min-width: 36px; min-height: 32px; padding: 0 10px; border: 0; border-radius: 999px; background: transparent; color: inherit; font: inherit; font-size: 0.8125rem; font-weight: var(--fw-bold); cursor: pointer; transition: background 0.2s, color 0.2s; }
-.lang-pill__btn:hover { background: var(--royal-50); }
-.lang-pill__btn[aria-pressed='true'] { background: var(--color-night); color: var(--color-white); }
-.lang-pill__btn:focus-visible { outline: 2px solid var(--color-sky); outline-offset: 1px; }
 
 /* ── Keyframes ── */
 @keyframes si-spin { to { transform: rotate(360deg); } }

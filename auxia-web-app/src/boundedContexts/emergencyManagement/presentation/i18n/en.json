@@ -4,5 +4,43 @@
   },
   "prioritization": {
     "title": "Prioritization inbox"
+  },
+  "map": {
+    "title": "Aid heat map",
+    "layers": {
+      "zones": "Affected zones",
+      "coverage": "Coverage",
+      "brigades": "Brigades GPS"
+    },
+    "caption": "Aid heat map · increasing intensity →"
+  },
+  "priority": {
+    "title": "AI Prioritization",
+    "subtitle": "Sorted by Urgency Score",
+    "why": "Why it is prioritized",
+    "assign": "Assign brigade",
+    "empty": "No zones with an urgency score yet."
+  },
+  "needs": {
+    "MEDICAL": "Medical",
+    "RESCUE": "Rescue",
+    "FOOD": "Food",
+    "WATER": "Water",
+    "SHELTER": "Shelter"
+  },
+  "reasons": {
+    "children_one": "{{count}} child",
+    "children_other": "{{count}} children",
+    "elderly_one": "{{count}} elderly person",
+    "elderly_other": "{{count}} elderly people",
+    "injured_one": "{{count}} injured person",
+    "injured_other": "{{count}} injured people",
+    "families_one": "{{count}} family affected",
+    "families_other": "{{count}} families affected",
+    "noSignal": "no signal for {{value}} h",
+    "noAid": "{{value}} h without aid",
+    "accessCut": "access cut off",
+    "isolatedZone": "isolated zone",
+    "waterShortage": "no drinking water"
   }
 }

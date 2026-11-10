@@ -4,10 +4,10 @@
   "nav": {
     "dashboard": "Dashboard",
     "gisMap": "Mapa GIS",
-    "prioritization": "Priorización",
+    "prioritization": "Priorización IA",
     "inventory": "Inventario",
-    "logistics": "Logística",
-    "audit": "Auditoría",
+    "logistics": "Brigadas",
+    "audit": "Trazabilidad Blockchain",
     "publicPortal": "Portal público"
   },
   "actions": {
@@ -15,11 +15,39 @@
     "signIn": "Iniciar sesión"
   },
   "dashboard": {
-    "title": "Centro de Mando"
+    "title": "Centro de Mando",
+    "kpi": {
+      "activeRequests": "Solicitudes activas",
+      "offlineShare": "{{percent}}% reportadas offline",
+      "criticalCases": "Casos críticos",
+      "criticalHint": "Score IA > {{threshold}}",
+      "deployedBrigades": "Brigadas desplegadas",
+      "availableBrigades_one": "{{count}} disponible",
+      "availableBrigades_other": "{{count}} disponibles",
+      "verifiedSupplies": "Suministros verificados",
+      "verifiedHint": "Validados en Blockchain"
+    }
   },
   "notFound": {
     "title": "Página no encontrada",
     "back": "Volver al inicio"
   },
-  "language": "Idioma"
+  "language": "Idioma",
+  "sidebar": {
+    "activeCrisis": "Crisis activa",
+    "live": "En vivo",
+    "noCrisis": "Sin crisis activa",
+    "navLabel": "Navegación principal"
+  },
+  "topbar": {
+    "searchPlaceholder": "Buscar GPS, ID de reporte, brigada",
+    "realtime": "Modo Tiempo Real Activo",
+    "generalAlarm": "Alarma General"
+  },
+  "roles": {
+    "ORGANIZATION_ADMIN": "Administrador de organización",
+    "AUTHORITY": "Autoridad",
+    "FIELD_BRIGADE": "Brigada de campo",
+    "AUDITOR": "Auditor"
+  }
 }
