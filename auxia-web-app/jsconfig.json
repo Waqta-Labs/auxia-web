@@ -1,22 +1,21 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
     "jsx": "react-jsx",
     "paths": {
       "@app/*": [
-        "src/app/*"
+        "./src/app/*"
       ],
       "@bc/*": [
-        "src/boundedContexts/*"
+        "./src/boundedContexts/*"
       ],
       "@shared/*": [
-        "src/shared/*"
+        "./src/shared/*"
       ],
       "@i18n/*": [
-        "src/i18n/*"
+        "./src/i18n/*"
       ],
       "@assets/*": [
-        "src/assets/*"
+        "./src/assets/*"
       ]
     }
   },

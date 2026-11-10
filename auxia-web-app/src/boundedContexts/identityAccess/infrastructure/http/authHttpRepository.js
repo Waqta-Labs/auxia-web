@@ -9,6 +9,8 @@ export class AuthHttpRepository extends AuthRepository {
       return toAuthSession(data);
     } catch (error) {
       const status = error.response?.status;
+      // El backend responde 401 con el mismo mensaje ante cualquier fallo (no revela la causa).
+      if (status === 423 || status === 429) throw new Error('accountLocked');
       if (status === 400 || status === 401 || status === 403) throw new Error('invalidCredentials');
       throw new Error('networkError');
     }

@@ -1,15 +1,31 @@
 {
   "signIn": {
-    "title": "Sign in",
-    "subtitle": "AuxIA Command Center",
+    "title": "Welcome back",
+    "subtitle": "Sign in to the AuxIA Command Center",
     "email": "Institutional email",
+    "emailPlaceholder": "name@institution.gov",
     "password": "Password",
+    "showPassword": "Show password",
+    "hidePassword": "Hide password",
     "submit": "Sign in",
-    "loading": "Signing in...",
+    "loading": "Verifying...",
+    "lockHint": "After 5 failed attempts in a row, the account is locked.",
     "errors": {
       "credentialsRequired": "Enter your email and password.",
-      "invalidCredentials": "Invalid credentials.",
-      "networkError": "Could not reach the server."
+      "invalidCredentials": "Incorrect email or password.",
+      "accountLocked": "Account locked after too many failed attempts. Contact your administrator.",
+      "networkError": "Could not reach the server. Please try again."
     }
-  }
+  },
+  "hero": {
+    "eyebrow": "Command Center",
+    "title": "Humanitarian aid, prioritized and traceable.",
+    "subtitle": "Decide where to help first, coordinate distribution and verify every delivery on the blockchain.",
+    "pills": {
+      "priority": "Prioritization",
+      "distribution": "Distribution",
+      "traceability": "Traceability"
+    }
+  },
+  "footer": "© Waqta Labs · AuxIA"
 }

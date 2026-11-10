@@ -1,0 +1,39 @@
+/* Guidelines de estilo AuxIA (capítulo 6): paleta de apoyo completa y tipografía.
+   Cada escala va de claro (50) a oscuro (900). Los colores base están en tokens.css. */
+:root {
+  /* Base */
+  --color-coral: #ff4d4d;
+  --color-black: #000000;
+
+  /* Verde lima */
+  --lime-50: #bcfb89;  --lime-100: #93d359; --lime-200: #75a946; --lime-300: #598133;
+  --lime-400: #3d5b22; --lime-500: #243812; --lime-600: #0d1805;
+  /* Verde esmeralda */
+  --emerald-50: #c0ffd7; --emerald-100: #08ee90; --emerald-200: #05c274; --emerald-300: #039759;
+  --emerald-400: #016f40; --emerald-500: #014928; --emerald-600: #002613;
+  /* Verde oscuro / turquesa */
+  --teal-50: #b5fef9; --teal-100: #35e5dd; --teal-200: #29bab3; --teal-300: #1e918b;
+  --teal-400: #136a65; --teal-500: #094542; --teal-600: #032321;
+  /* Celeste */
+  --sky-50: #e3f3fc; --sky-100: #85d5f6; --sky-200: #4cafd1; --sky-300: #3987a2;
+  --sky-400: #276276; --sky-500: #163e4c; --sky-600: #071e26;
+  /* Azul real */
+  --royal-50: #eff0fc; --royal-100: #cfd0f7; --royal-200: #a3a5f0; --royal-300: #767be9;
+  --royal-400: #4750dd; --royal-500: #252fa7; --royal-600: #111760;
+  /* Azul noche */
+  --night-50: #dcdcf2; --night-100: #b2b2e2; --night-200: #8989d3; --night-300: #6161bf;
+  --night-400: #3c3ca0; --night-500: #212161; --night-600: #0c0c30;
+  /* Grises */
+  --gray-50: #e6eae4; --gray-100: #bec2bc; --gray-200: #989b96; --gray-300: #747672;
+  --gray-400: #515350; --gray-500: #313231; --gray-600: #141514;
+
+  /* Tipografía: Inter (light 300 / regular 400 / bold 700) */
+  --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --fw-light: 300;
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-bold: 700;
+
+  /* Gradiente de marca */
+  --gradient-brand: linear-gradient(135deg, var(--color-royal) 0%, var(--royal-300) 55%, var(--color-sky) 100%);
+}

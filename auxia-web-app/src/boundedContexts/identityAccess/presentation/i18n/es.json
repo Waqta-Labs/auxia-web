@@ -1,15 +1,31 @@
 {
   "signIn": {
-    "title": "Iniciar sesión",
-    "subtitle": "Centro de Mando AuxIA",
+    "title": "Bienvenido de vuelta",
+    "subtitle": "Ingresa al Centro de Mando AuxIA",
     "email": "Correo institucional",
+    "emailPlaceholder": "nombre@institucion.gob.pe",
     "password": "Contraseña",
+    "showPassword": "Mostrar contraseña",
+    "hidePassword": "Ocultar contraseña",
     "submit": "Ingresar",
-    "loading": "Ingresando...",
+    "loading": "Verificando...",
+    "lockHint": "Tras 5 intentos fallidos seguidos, la cuenta se bloquea.",
     "errors": {
       "credentialsRequired": "Ingresa tu correo y contraseña.",
-      "invalidCredentials": "Credenciales inválidas.",
-      "networkError": "No se pudo conectar con el servidor."
+      "invalidCredentials": "Correo o contraseña incorrectos.",
+      "accountLocked": "Cuenta bloqueada por intentos fallidos. Contacta a tu administrador.",
+      "networkError": "No se pudo conectar con el servidor. Inténtalo nuevamente."
     }
-  }
+  },
+  "hero": {
+    "eyebrow": "Centro de Mando",
+    "title": "Ayuda humanitaria, priorizada y trazable.",
+    "subtitle": "Decide dónde ayudar primero, coordina la distribución y verifica cada entrega en blockchain.",
+    "pills": {
+      "priority": "Priorización",
+      "distribution": "Distribución",
+      "traceability": "Trazabilidad"
+    }
+  },
+  "footer": "© Waqta Labs · AuxIA"
 }

@@ -20,5 +20,6 @@
   "notFound": {
     "title": "Page not found",
     "back": "Back to home"
-  }
+  },
+  "language": "Language"
 }
