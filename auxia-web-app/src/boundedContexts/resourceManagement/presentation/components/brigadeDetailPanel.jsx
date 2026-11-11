@@ -13,6 +13,7 @@ export default function BrigadeDetailPanel({ detail, canManage }) {
   const removeMember = useRemoveBrigadeMember();
   const setAvailability = useSetBrigadeAvailability();
   const [name, setName] = useState('');
+  const [phone, setPhone] = useState('');
   const [role, setRole] = useState(MemberRole.VOLUNTEER);
   const [failure, setFailure] = useState(null);
   const brigade = detail.data;
@@ -24,7 +25,7 @@ export default function BrigadeDetailPanel({ detail, canManage }) {
 
   const submitMember = (event) => {
     event.preventDefault();
-    run(addMember, { brigadeId: brigade.id, name, role }, () => setName(''));
+    run(addMember, { brigadeId: brigade.id, name, role, phone }, () => { setName(''); setPhone(''); });
   };
 
   const busy = addMember.isPending || removeMember.isPending || setAvailability.isPending;
@@ -62,7 +63,10 @@ export default function BrigadeDetailPanel({ detail, canManage }) {
               {brigade.members.map((member) => (
                 <li key={member.id}>
                   <span className="fl-avatar fl-avatar--sm" aria-hidden="true">{initials(member.name)}</span>
-                  <span className="fl-members__name">{member.name}</span>
+                  <span className="fl-members__name">
+                    {member.name}
+                    {member.phone && <small>{member.phone}</small>}
+                  </span>
                   <span className="fl-members__role">{roleLabel(t, member.role)}</span>
                   {canManage && (
                     <button
@@ -92,6 +96,10 @@ export default function BrigadeDetailPanel({ detail, canManage }) {
                   ))}
                 </select>
               </div>
+              <input
+                value={phone} onChange={(event) => setPhone(event.target.value)} inputMode="tel"
+                placeholder={t('brigades.detail.memberPhone')} aria-label={t('brigades.detail.memberPhone')}
+              />
               <button type="submit" className="fl-btn-outline" disabled={busy}>
                 {addMember.isPending ? t('brigades.detail.adding') : t('brigades.detail.add')}
               </button>

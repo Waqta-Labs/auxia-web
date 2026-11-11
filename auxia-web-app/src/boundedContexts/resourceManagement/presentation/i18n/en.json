@@ -62,7 +62,8 @@
       "putOffDuty": "Set off duty",
       "putInService": "Put in service",
       "lockedWhileAssigned": "Availability cannot be changed while the brigade is on a mission.",
-      "readOnly": "Your role is read-only. Brigades are managed by the organization administrator."
+      "readOnly": "Your role is read-only. Brigades are managed by the organization administrator.",
+      "memberPhone": "Phone"
     },
     "new": {
       "open": "New brigade",

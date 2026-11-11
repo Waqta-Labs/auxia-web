@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { addBrigadeMemberUseCase } from '../../infrastructure/container.js';
 
-// mutate({ brigadeId, name, role }): agrega un miembro.
+// mutate({ brigadeId, name, role, phone }): agrega un miembro.
 export function useAddBrigadeMember() {
   const queryClient = useQueryClient();
   return useMutation({

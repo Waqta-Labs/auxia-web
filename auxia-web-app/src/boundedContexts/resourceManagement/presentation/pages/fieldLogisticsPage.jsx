@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { routes } from '@app/router/routes.js';
+import { routes, routeRoles } from '@app/router/routes.js';
 import { usePermissions } from '@bc/identityAccess/presentation/hooks/usePermissions.js';
 import { BrigadeTab, countByTab, filterBrigades } from '../../domain/services/filterBrigades.js';
 import { useBrigadeList } from '../hooks/useBrigadeList.js';
@@ -16,7 +16,8 @@ export default function FieldLogisticsPage() {
   const { t } = useTranslation('resourceManagement');
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
-  const { isAdmin } = usePermissions();
+  const { role, isAdmin } = usePermissions();
+  const canOpenPrioritization = routeRoles.prioritization.includes(role);
 
   const list = useBrigadeList();
   const [tab, setTab] = useState(BrigadeTab.ALL);
@@ -66,8 +67,8 @@ export default function FieldLogisticsPage() {
           <>
             <BrigadeMission
               detail={detail}
-              onOpenZone={(zoneId) => navigate(routes.prioritization + '?zone=' + zoneId)}
-              onOpenPrioritization={() => navigate(routes.prioritization)}
+              onOpenZone={canOpenPrioritization ? (zoneId) => navigate(routes.prioritization + '?zone=' + zoneId) : undefined}
+              onOpenPrioritization={canOpenPrioritization ? () => navigate(routes.prioritization) : undefined}
             />
             <BrigadeDetailPanel detail={detail} canManage={isAdmin} />
           </>

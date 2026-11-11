@@ -83,9 +83,10 @@ export class Brigade {
 
 write(RM + 'domain/entities/BrigadeMember.js', String.raw`
 export class BrigadeMember {
-  constructor({ id, name, role, userId = null }) {
+  constructor({ id, name, role, phone = null, userId = null }) {
     this.id = id;
     this.name = name;
+    this.phone = phone;
     this.role = role;     // LEADER | DRIVER | MEDIC | VOLUNTEER
     this.userId = userId; // cuenta FIELD_BRIGADE con la que entra a la App de Campo, si tiene
     Object.freeze(this);
@@ -234,11 +235,11 @@ export class AddBrigadeMember {
   }
 
   // Errores de validación: memberNameRequired, roleInvalid.
-  async execute({ brigadeId, name, role }) {
+  async execute({ brigadeId, name, role, phone }) {
     const cleanName = (name ?? '').trim();
     if (!cleanName) throw new Error('memberNameRequired');
     if (!Object.values(MemberRole).includes(role)) throw new Error('roleInvalid');
-    return this.brigadeRepository.addMember(brigadeId, { name: cleanName, role });
+    return this.brigadeRepository.addMember(brigadeId, { name: cleanName, role, phone: (phone ?? '').trim() || null });
   }
 }
 `);
@@ -290,13 +291,14 @@ export function toBrigade(dto) {
   });
 }
 
-// El README describe estos recursos en prosa; se leen los nombres más probables de cada campo.
-// Si el backend usa otros, solo hay que ajustar las dos funciones siguientes.
+// Los miembros usan fullName/role/phone/userId (Swagger). La asignación en curso (currentAssignment)
+// aún no se vio con datos reales: se leen los nombres más probables; ajustar toAssignment si hace falta.
 const toMember = (dto) =>
   new BrigadeMember({
     id: dto.id,
-    name: dto.name ?? dto.fullName ?? dto.displayName ?? '—',
+    name: dto.fullName ?? dto.name ?? '—',
     role: String(dto.role ?? '').toUpperCase(),
+    phone: dto.phone ?? null,
     userId: dto.userId ?? null,
   });
 
@@ -366,8 +368,11 @@ export class BrigadeHttpRepository extends BrigadeRepository {
     return data?.id ?? null;
   }
 
-  async addMember(brigadeId, { name, role }) {
-    await call(() => httpClient.post('/brigades/' + brigadeId + '/members', { name, role }));
+  // Body del Swagger: { fullName, role, phone, userId }. El userId (cuenta de la App de Campo) aún no se pide.
+  async addMember(brigadeId, { name, role, phone }) {
+    const body = { fullName: name, role };
+    if (phone) body.phone = phone;
+    await call(() => httpClient.post('/brigades/' + brigadeId + '/members', body));
   }
 
   async removeMember(brigadeId, memberId) {
@@ -405,7 +410,8 @@ const buildDtos = () =>
     const size = 3 + (i % 3);
     const members = Array.from({ length: size }, (_, k) => ({
       id: 'mb-' + i + '-' + k,
-      name: PEOPLE[(i + k) % PEOPLE.length],
+      fullName: PEOPLE[(i + k) % PEOPLE.length],
+      phone: '9876' + String(10000 + i * 10 + k),
       role: i === 19 && k === 0 ? 'VOLUNTEER' : ROLES[k % ROLES.length], // br-20 sin líder
     }));
     const [zoneId, zoneName, score] = ZONES[i % ZONES.length];
@@ -466,11 +472,11 @@ export class BrigadeMockRepository extends BrigadeRepository {
     return id;
   }
 
-  async addMember(brigadeId, { name, role }) {
+  async addMember(brigadeId, { name, role, phone }) {
     await delay(400);
     const dto = this.find(brigadeId);
     this.sequence += 1;
-    dto.members.push({ id: 'mb-new-' + this.sequence, name, role });
+    dto.members.push({ id: 'mb-new-' + this.sequence, fullName: name, role, phone });
   }
 
   async removeMember(brigadeId, memberId) {
@@ -560,7 +566,7 @@ export function ${name}() {
 write(RM + 'presentation/hooks/useCreateBrigade.js',
   mutationHook('useCreateBrigade', 'createBrigadeUseCase', 'mutate({ name, code, latitude, longitude }): crea una brigada disponible.', '(values) => createBrigadeUseCase.execute(values)'));
 write(RM + 'presentation/hooks/useAddBrigadeMember.js',
-  mutationHook('useAddBrigadeMember', 'addBrigadeMemberUseCase', 'mutate({ brigadeId, name, role }): agrega un miembro.', '(values) => addBrigadeMemberUseCase.execute(values)'));
+  mutationHook('useAddBrigadeMember', 'addBrigadeMemberUseCase', 'mutate({ brigadeId, name, role, phone }): agrega un miembro.', '(values) => addBrigadeMemberUseCase.execute(values)'));
 write(RM + 'presentation/hooks/useRemoveBrigadeMember.js',
   mutationHook('useRemoveBrigadeMember', 'removeBrigadeMemberUseCase', 'mutate({ brigadeId, memberId }): quita un miembro.', '(values) => removeBrigadeMemberUseCase.execute(values)'));
 write(RM + 'presentation/hooks/useSetBrigadeAvailability.js',
@@ -656,6 +662,7 @@ import { formatNumber } from '@shared/utils/formatters.js';
 
 // Centro de la pantalla: la misión en curso de la brigada seleccionada. Las misiones no se crean aquí:
 // nacen al aprobar un plan de distribución (Priorización IA → zona → Asignar brigada).
+// onOpenZone / onOpenPrioritization solo llegan si el rol puede entrar a Priorización IA (el administrador no).
 export default function BrigadeMission({ detail, onOpenZone, onOpenPrioritization }) {
   const { t, i18n } = useTranslation('resourceManagement');
   const lng = i18n.resolvedLanguage;
@@ -707,7 +714,7 @@ export default function BrigadeMission({ detail, onOpenZone, onOpenPrioritizatio
             </div>
           )}
 
-          {assignment.zoneId && (
+          {assignment.zoneId && onOpenZone && (
             <button type="button" className="fl-btn-outline" onClick={() => onOpenZone(assignment.zoneId)}>
               {t('brigades.mission.openZone')}
             </button>
@@ -719,9 +726,11 @@ export default function BrigadeMission({ detail, onOpenZone, onOpenPrioritizatio
         <div className="fl-mission fl-mission--empty">
           <p>{t('brigades.mission.none')}</p>
           <p className="fl-note">{t('brigades.mission.noneHint')}</p>
-          <button type="button" className="fl-btn-lime" onClick={onOpenPrioritization}>
-            {t('brigades.mission.goPrioritization')}
-          </button>
+          {onOpenPrioritization && (
+            <button type="button" className="fl-btn-lime" onClick={onOpenPrioritization}>
+              {t('brigades.mission.goPrioritization')}
+            </button>
+          )}
         </div>
       )}
     </section>
@@ -745,6 +754,7 @@ export default function BrigadeDetailPanel({ detail, canManage }) {
   const removeMember = useRemoveBrigadeMember();
   const setAvailability = useSetBrigadeAvailability();
   const [name, setName] = useState('');
+  const [phone, setPhone] = useState('');
   const [role, setRole] = useState(MemberRole.VOLUNTEER);
   const [failure, setFailure] = useState(null);
   const brigade = detail.data;
@@ -756,7 +766,7 @@ export default function BrigadeDetailPanel({ detail, canManage }) {
 
   const submitMember = (event) => {
     event.preventDefault();
-    run(addMember, { brigadeId: brigade.id, name, role }, () => setName(''));
+    run(addMember, { brigadeId: brigade.id, name, role, phone }, () => { setName(''); setPhone(''); });
   };
 
   const busy = addMember.isPending || removeMember.isPending || setAvailability.isPending;
@@ -794,7 +804,10 @@ export default function BrigadeDetailPanel({ detail, canManage }) {
               {brigade.members.map((member) => (
                 <li key={member.id}>
                   <span className="fl-avatar fl-avatar--sm" aria-hidden="true">{initials(member.name)}</span>
-                  <span className="fl-members__name">{member.name}</span>
+                  <span className="fl-members__name">
+                    {member.name}
+                    {member.phone && <small>{member.phone}</small>}
+                  </span>
                   <span className="fl-members__role">{roleLabel(t, member.role)}</span>
                   {canManage && (
                     <button
@@ -824,6 +837,10 @@ export default function BrigadeDetailPanel({ detail, canManage }) {
                   ))}
                 </select>
               </div>
+              <input
+                value={phone} onChange={(event) => setPhone(event.target.value)} inputMode="tel"
+                placeholder={t('brigades.detail.memberPhone')} aria-label={t('brigades.detail.memberPhone')}
+              />
               <button type="submit" className="fl-btn-outline" disabled={busy}>
                 {addMember.isPending ? t('brigades.detail.adding') : t('brigades.detail.add')}
               </button>
@@ -928,7 +945,7 @@ write(RM + 'presentation/pages/fieldLogisticsPage.jsx', String.raw`
 import { useMemo, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { routes } from '@app/router/routes.js';
+import { routes, routeRoles } from '@app/router/routes.js';
 import { usePermissions } from '@bc/identityAccess/presentation/hooks/usePermissions.js';
 import { BrigadeTab, countByTab, filterBrigades } from '../../domain/services/filterBrigades.js';
 import { useBrigadeList } from '../hooks/useBrigadeList.js';
@@ -943,7 +960,8 @@ export default function FieldLogisticsPage() {
   const { t } = useTranslation('resourceManagement');
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
-  const { isAdmin } = usePermissions();
+  const { role, isAdmin } = usePermissions();
+  const canOpenPrioritization = routeRoles.prioritization.includes(role);
 
   const list = useBrigadeList();
   const [tab, setTab] = useState(BrigadeTab.ALL);
@@ -993,8 +1011,8 @@ export default function FieldLogisticsPage() {
           <>
             <BrigadeMission
               detail={detail}
-              onOpenZone={(zoneId) => navigate(routes.prioritization + '?zone=' + zoneId)}
-              onOpenPrioritization={() => navigate(routes.prioritization)}
+              onOpenZone={canOpenPrioritization ? (zoneId) => navigate(routes.prioritization + '?zone=' + zoneId) : undefined}
+              onOpenPrioritization={canOpenPrioritization ? () => navigate(routes.prioritization) : undefined}
             />
             <BrigadeDetailPanel detail={detail} canManage={isAdmin} />
           </>
@@ -1083,7 +1101,8 @@ write(RM + 'presentation/styles/fieldLogistics.css', String.raw`
 .fl-avatar--sm { width: 32px; height: 32px; font-size: 0.75rem; }
 .fl-members { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; }
 .fl-members li { display: flex; align-items: center; gap: 10px; }
-.fl-members__name { flex: 1; min-width: 0; font-size: 0.9375rem; }
+.fl-members__name { display: grid; flex: 1; min-width: 0; font-size: 0.9375rem; }
+.fl-members__name small { color: var(--night-100); font-size: 0.75rem; }
 .fl-members__role { color: var(--night-100); font-size: 0.8125rem; }
 .fl-icon-btn { display: grid; place-items: center; width: 28px; height: 28px; border: 0; border-radius: 8px; background: transparent; color: var(--night-100); font-size: 1.125rem; cursor: pointer; }
 .fl-icon-btn:hover:not(:disabled) { background: rgba(255, 107, 107, 0.16); color: #ff9b9b; }
@@ -1159,6 +1178,7 @@ mergeJson(RM + 'presentation/i18n/es.json', {
       addMember: 'Agregar miembro',
       memberName: 'Nombre',
       memberRole: 'Rol',
+      memberPhone: 'Teléfono',
       add: 'Agregar',
       adding: 'Agregando...',
       putOffDuty: 'Poner fuera de servicio',
@@ -1231,6 +1251,7 @@ mergeJson(RM + 'presentation/i18n/en.json', {
       addMember: 'Add member',
       memberName: 'Name',
       memberRole: 'Role',
+      memberPhone: 'Phone',
       add: 'Add',
       adding: 'Adding...',
       putOffDuty: 'Set off duty',

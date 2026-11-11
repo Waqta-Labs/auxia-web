@@ -15,13 +15,14 @@ export function toBrigade(dto) {
   });
 }
 
-// El README describe estos recursos en prosa; se leen los nombres más probables de cada campo.
-// Si el backend usa otros, solo hay que ajustar las dos funciones siguientes.
+// Los miembros usan fullName/role/phone/userId (Swagger). La asignación en curso (currentAssignment)
+// aún no se vio con datos reales: se leen los nombres más probables; ajustar toAssignment si hace falta.
 const toMember = (dto) =>
   new BrigadeMember({
     id: dto.id,
-    name: dto.name ?? dto.fullName ?? dto.displayName ?? '—',
+    name: dto.fullName ?? dto.name ?? '—',
     role: String(dto.role ?? '').toUpperCase(),
+    phone: dto.phone ?? null,
     userId: dto.userId ?? null,
   });
 

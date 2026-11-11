@@ -30,8 +30,11 @@ export class BrigadeHttpRepository extends BrigadeRepository {
     return data?.id ?? null;
   }
 
-  async addMember(brigadeId, { name, role }) {
-    await call(() => httpClient.post('/brigades/' + brigadeId + '/members', { name, role }));
+  // Body del Swagger: { fullName, role, phone, userId }. El userId (cuenta de la App de Campo) aún no se pide.
+  async addMember(brigadeId, { name, role, phone }) {
+    const body = { fullName: name, role };
+    if (phone) body.phone = phone;
+    await call(() => httpClient.post('/brigades/' + brigadeId + '/members', body));
   }
 
   async removeMember(brigadeId, memberId) {

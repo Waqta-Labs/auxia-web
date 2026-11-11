@@ -3,6 +3,7 @@ import { formatNumber } from '@shared/utils/formatters.js';
 
 // Centro de la pantalla: la misión en curso de la brigada seleccionada. Las misiones no se crean aquí:
 // nacen al aprobar un plan de distribución (Priorización IA → zona → Asignar brigada).
+// onOpenZone / onOpenPrioritization solo llegan si el rol puede entrar a Priorización IA (el administrador no).
 export default function BrigadeMission({ detail, onOpenZone, onOpenPrioritization }) {
   const { t, i18n } = useTranslation('resourceManagement');
   const lng = i18n.resolvedLanguage;
@@ -54,7 +55,7 @@ export default function BrigadeMission({ detail, onOpenZone, onOpenPrioritizatio
             </div>
           )}
 
-          {assignment.zoneId && (
+          {assignment.zoneId && onOpenZone && (
             <button type="button" className="fl-btn-outline" onClick={() => onOpenZone(assignment.zoneId)}>
               {t('brigades.mission.openZone')}
             </button>
@@ -66,9 +67,11 @@ export default function BrigadeMission({ detail, onOpenZone, onOpenPrioritizatio
         <div className="fl-mission fl-mission--empty">
           <p>{t('brigades.mission.none')}</p>
           <p className="fl-note">{t('brigades.mission.noneHint')}</p>
-          <button type="button" className="fl-btn-lime" onClick={onOpenPrioritization}>
-            {t('brigades.mission.goPrioritization')}
-          </button>
+          {onOpenPrioritization && (
+            <button type="button" className="fl-btn-lime" onClick={onOpenPrioritization}>
+              {t('brigades.mission.goPrioritization')}
+            </button>
+          )}
         </div>
       )}
     </section>

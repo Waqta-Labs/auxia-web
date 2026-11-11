@@ -62,7 +62,8 @@
       "putOffDuty": "Poner fuera de servicio",
       "putInService": "Poner en servicio",
       "lockedWhileAssigned": "No se puede cambiar la disponibilidad mientras la brigada está en misión.",
-      "readOnly": "Tu rol solo permite consultar. Las brigadas las administra el administrador de la organización."
+      "readOnly": "Tu rol solo permite consultar. Las brigadas las administra el administrador de la organización.",
+      "memberPhone": "Teléfono"
     },
     "new": {
       "open": "Nueva brigada",

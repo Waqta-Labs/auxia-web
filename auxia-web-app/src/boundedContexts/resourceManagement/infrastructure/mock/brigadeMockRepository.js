@@ -22,7 +22,8 @@ const buildDtos = () =>
     const size = 3 + (i % 3);
     const members = Array.from({ length: size }, (_, k) => ({
       id: 'mb-' + i + '-' + k,
-      name: PEOPLE[(i + k) % PEOPLE.length],
+      fullName: PEOPLE[(i + k) % PEOPLE.length],
+      phone: '9876' + String(10000 + i * 10 + k),
       role: i === 19 && k === 0 ? 'VOLUNTEER' : ROLES[k % ROLES.length], // br-20 sin líder
     }));
     const [zoneId, zoneName, score] = ZONES[i % ZONES.length];
@@ -83,11 +84,11 @@ export class BrigadeMockRepository extends BrigadeRepository {
     return id;
   }
 
-  async addMember(brigadeId, { name, role }) {
+  async addMember(brigadeId, { name, role, phone }) {
     await delay(400);
     const dto = this.find(brigadeId);
     this.sequence += 1;
-    dto.members.push({ id: 'mb-new-' + this.sequence, name, role });
+    dto.members.push({ id: 'mb-new-' + this.sequence, fullName: name, role, phone });
   }
 
   async removeMember(brigadeId, memberId) {
