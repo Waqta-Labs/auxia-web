@@ -1,12 +1,13 @@
 import { AuthSession } from '../../domain/entities/AuthSession.js';
+import { parseUtc } from '@shared/utils/formatters.js';
 
-// Ajustar los nombres de campo si el Swagger del backend difiere.
+// POST /auth/sign-in -> { token, tokenType, expiresAt, userId, organizationId, role, fullName }
 export function toAuthSession(dto) {
-  const parsed = dto.expiresAt ? new Date(dto.expiresAt).getTime() : NaN;
   return new AuthSession({
-    token: dto.token ?? dto.accessToken,
-    expiresAt: Number.isNaN(parsed) ? null : parsed,
+    token: dto.token,
+    expiresAt: parseUtc(dto.expiresAt),
     role: dto.role,
     organizationId: dto.organizationId,
+    displayName: dto.fullName ?? null,
   });
 }

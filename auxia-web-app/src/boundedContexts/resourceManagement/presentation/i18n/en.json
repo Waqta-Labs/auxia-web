@@ -4,5 +4,87 @@
   },
   "fieldLogistics": {
     "title": "Field logistics"
+  },
+  "brigades": {
+    "title": "Field Logistics and Brigades",
+    "subtitle": "{{deployed}} of {{total}} brigades deployed",
+    "loadError": "Could not load the brigade information.",
+    "retry": "Retry",
+    "noSelection": "There are no brigades yet. Create the first one to get started.",
+    "status": {
+      "AVAILABLE": "Available",
+      "ASSIGNED": "On mission",
+      "OFF_DUTY": "Off duty"
+    },
+    "roles": {
+      "LEADER": "Leader",
+      "DRIVER": "Driver",
+      "MEDIC": "Paramedic",
+      "VOLUNTEER": "Volunteer"
+    },
+    "tabs": {
+      "all": "All",
+      "assigned": "On mission",
+      "available": "Available",
+      "offDuty": "Off duty"
+    },
+    "list": {
+      "title": "Active brigades",
+      "search": "Search brigade or code",
+      "filters": "Filter by status",
+      "empty": "No brigades match this filter.",
+      "members": "{{count}} people"
+    },
+    "mission": {
+      "title": "Current mission",
+      "zone": "Destination zone",
+      "eta": "Estimated arrival",
+      "minutes": "{{count}} min",
+      "distance": "Distance",
+      "resources": "Resources to deliver",
+      "openZone": "View zone in AI Prioritization",
+      "none": "This brigade has no mission in progress.",
+      "noneHint": "Missions start when a distribution plan is approved: the AI picks the nearest free brigade with a leader.",
+      "goPrioritization": "Go to AI Prioritization"
+    },
+    "detail": {
+      "code": "Code",
+      "base": "Base (GPS)",
+      "members": "Members",
+      "noMembers": "This brigade has no members yet.",
+      "noLeader": "No leader: the AI will not assign it missions until it has one.",
+      "remove": "Remove {{name}}",
+      "addMember": "Add member",
+      "memberName": "Name",
+      "memberRole": "Role",
+      "add": "Add",
+      "adding": "Adding...",
+      "putOffDuty": "Set off duty",
+      "putInService": "Put in service",
+      "lockedWhileAssigned": "Availability cannot be changed while the brigade is on a mission.",
+      "readOnly": "Your role is read-only. Brigades are managed by the organization administrator."
+    },
+    "new": {
+      "open": "New brigade",
+      "title": "New brigade",
+      "hint": "It starts available. Add at least one leader so it can receive missions.",
+      "name": "Name",
+      "code": "Code (optional)",
+      "codePlaceholder": "Generated if left empty",
+      "latitude": "Base latitude",
+      "longitude": "Base longitude",
+      "create": "Create brigade",
+      "saving": "Creating...",
+      "cancel": "Cancel"
+    },
+    "errors": {
+      "nameRequired": "Enter the brigade name.",
+      "locationInvalid": "Enter a valid latitude (−90 to 90) and longitude (−180 to 180).",
+      "memberNameRequired": "Enter the member name.",
+      "roleInvalid": "Choose a valid role.",
+      "statusInvalid": "Invalid status.",
+      "forbidden": "Only the organization administrator can change brigades.",
+      "generic": "The operation could not be completed. Please try again."
+    }
   }
 }

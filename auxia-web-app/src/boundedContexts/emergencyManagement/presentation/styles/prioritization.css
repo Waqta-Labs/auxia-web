@@ -1,0 +1,141 @@
+.pz { display: grid; gap: var(--space-3); }
+.pz-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+.pz-head h1 { margin: 0 0 4px; font-size: 1.75rem; font-weight: 700; letter-spacing: -0.02em; }
+.pz-head p { margin: 0; color: var(--night-100); }
+
+.pz-alert { margin: 0; padding: 12px 16px; border: 1px solid rgba(255, 77, 77, 0.35); border-radius: 12px; background: rgba(255, 77, 77, 0.1); color: #ffb3b3; font-size: 0.875rem; }
+.pz-error { margin: 8px 0 0; color: #ff9b9b; font-size: 0.875rem; }
+.pz-note { margin: 8px 0 0; font-size: 0.8125rem; color: var(--night-100); }
+.pz-label { display: block; margin-bottom: 6px; font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--color-sky); }
+.pz-h3 { margin: 0 0 12px; font-size: 1rem; font-weight: 700; }
+
+/* Controles */
+.pz-link-btn { padding: 4px 0; border: 0; background: transparent; color: var(--color-sky); font: inherit; font-size: 0.875rem; font-weight: 500; text-decoration: underline; cursor: pointer; }
+.pz-link-btn:disabled { opacity: 0.5; cursor: progress; }
+.pz-btn-lime, .pz-btn-outline { min-height: 44px; padding: 0 20px; border-radius: 10px; font: inherit; font-weight: 700; cursor: pointer; transition: filter 0.2s, background 0.2s, transform 0.2s; }
+.pz-btn-lime { border: 0; background: var(--color-lime); color: var(--night-600); }
+.pz-btn-lime:hover:not(:disabled) { filter: brightness(1.06); transform: translateY(-1px); }
+.pz-btn-outline { border: 1.5px solid rgba(255, 255, 255, 0.85); background: transparent; color: #fff; }
+.pz-btn-outline:hover:not(:disabled) { background: rgba(255, 255, 255, 0.08); }
+.pz-btn-lime:disabled, .pz-btn-outline:disabled { opacity: 0.5; cursor: not-allowed; }
+.pz-btn-lime:focus-visible, .pz-btn-outline:focus-visible, .pz-link-btn:focus-visible, .pz-icon-btn:focus-visible, .pz-tab:focus-visible, .pz-zone-btn:focus-visible { outline: 2px solid var(--color-sky); outline-offset: 2px; }
+
+/* Barra de filtros */
+.pz-toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; padding: 16px; border: 1px solid var(--cc-line); border-radius: 16px; background: var(--cc-card); }
+.pz-search { position: relative; display: flex; align-items: center; flex: 1 1 280px; min-width: 220px; height: 44px; padding: 0 14px; gap: 10px; border-radius: 10px; background: var(--cc-card-inner); color: var(--night-100); }
+.pz-search input { flex: 1; min-width: 0; height: 100%; border: 0; outline: 0; background: transparent; color: #fff; font: inherit; }
+.pz-search:focus-within, .pz-range:focus-within, .pz-select:focus-within { box-shadow: 0 0 0 2px var(--color-royal); }
+.pz-range { display: flex; align-items: center; gap: 8px; height: 44px; margin: 0; padding: 0 12px; border: 0; border-radius: 10px; background: var(--cc-card-inner); color: var(--night-100); }
+.pz-range legend { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+.pz-range input { width: 64px; height: 100%; border: 0; outline: 0; background: transparent; color: #fff; font: inherit; text-align: center; }
+.pz-select { display: flex; align-items: center; height: 44px; padding: 0 8px; border-radius: 10px; background: var(--cc-card-inner); }
+.pz-select select { height: 100%; border: 0; outline: 0; background: transparent; color: #fff; font: inherit; cursor: pointer; }
+.pz-select option { background: var(--cc-card); color: #fff; }
+
+/* Panel con pestañas y tabla */
+.pz-panel { border: 1px solid var(--cc-line); border-radius: 16px; background: var(--cc-card); overflow: hidden; }
+.pz-tabs { display: flex; flex-wrap: wrap; gap: 4px; padding: 12px 16px 0; border-bottom: 1px solid var(--cc-line); }
+.pz-tab { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 16px; border: 0; border-bottom: 3px solid transparent; border-radius: 10px 10px 0 0; background: transparent; color: var(--night-100); font: inherit; font-weight: 500; cursor: pointer; transition: color 0.2s, background 0.2s; }
+.pz-tab:hover { color: #fff; background: rgba(255, 255, 255, 0.04); }
+.pz-tab[aria-pressed='true'] { color: #fff; font-weight: 700; background: rgba(255, 255, 255, 0.07); border-bottom-color: var(--color-lime); }
+.pz-tab__count { padding: 1px 8px; border-radius: 999px; background: rgba(255, 255, 255, 0.1); font-size: 0.75rem; }
+
+.pz-table-wrap { overflow-x: auto; }
+.pz-table { width: 100%; border-collapse: collapse; min-width: 720px; }
+.pz-table th { padding: 12px 16px; text-align: left; font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--color-sky); background: rgba(0, 0, 0, 0.25); white-space: nowrap; }
+.pz-table td { padding: 12px 16px; border-bottom: 1px solid var(--cc-line); font-size: 0.9375rem; vertical-align: middle; }
+.pz-table tbody tr { cursor: pointer; transition: background 0.15s; }
+.pz-table tbody tr:hover { background: rgba(255, 255, 255, 0.04); }
+.pz-table tbody tr.is-selected { background: rgba(71, 80, 221, 0.2); box-shadow: inset 3px 0 0 var(--color-lime); }
+.pz-num { text-align: right !important; font-variant-numeric: tabular-nums; }
+.pz-empty { padding: 32px 16px !important; text-align: center; color: var(--night-100); cursor: default; }
+.pz-zone-btn { padding: 0; border: 0; background: transparent; color: #fff; font: inherit; font-weight: 500; text-align: left; cursor: pointer; }
+.pz-manual { margin-left: 8px; padding: 2px 8px; border-radius: 999px; background: rgba(255, 176, 32, 0.16); color: #ffb020; font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; }
+.pz-needs { display: inline-flex; flex-wrap: wrap; gap: 6px; }
+.pz-tag { padding: 2px 10px; border-radius: 999px; background: rgba(133, 213, 246, 0.16); color: var(--color-sky); font-size: 0.75rem; font-weight: 500; }
+
+.pz-score { display: inline-grid; place-items: center; min-width: 40px; height: 26px; padding: 0 10px; border-radius: 999px; background: var(--color-lime); color: var(--night-600); font-size: 0.8125rem; font-weight: 700; }
+.pz-score--high { background: #ffb020; }
+.pz-score--moderate { background: var(--color-sky); }
+.pz-score--low, .pz-score--unscored { background: var(--gray-100); }
+
+.pz-pill { display: inline-block; padding: 3px 12px; border-radius: 999px; font-size: 0.75rem; font-weight: 500; white-space: nowrap; }
+.pz-damage--CRITICAL { background: rgba(255, 77, 77, 0.16); color: var(--color-coral); }
+.pz-damage--SEVERE { background: rgba(255, 176, 32, 0.16); color: #ffb020; }
+.pz-damage--MODERATE { background: rgba(133, 213, 246, 0.16); color: var(--color-sky); }
+.pz-damage--LOW { background: rgba(255, 255, 255, 0.1); color: var(--night-50); }
+.pz-status--REGISTERED { background: rgba(255, 255, 255, 0.1); color: var(--night-50); }
+.pz-status--PRIORITIZED { background: rgba(71, 80, 221, 0.4); color: var(--color-sky); }
+.pz-status--SERVED { background: rgba(5, 194, 116, 0.18); color: var(--color-emerald); }
+
+.pz-skel { display: block; height: 22px; border-radius: 8px; background: linear-gradient(90deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.06)); background-size: 200% 100%; animation: cc-shimmer 1.4s linear infinite; }
+.pz-skel--block { height: 96px; border-radius: 12px; }
+
+.pz-pagination { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 16px; font-size: 0.8125rem; color: var(--night-100); }
+.pz-pager { display: flex; gap: 8px; }
+.pz-pager .pz-btn-outline { min-height: 36px; padding: 0 14px; }
+
+/* Drawer de explicabilidad */
+.pz-backdrop { position: fixed; inset: 0; z-index: 900; background: rgba(5, 5, 25, 0.55); animation: pz-fade 0.2s ease both; }
+.pz-drawer { position: fixed; top: 0; right: 0; bottom: 0; z-index: 910; display: flex; flex-direction: column; width: min(440px, 100vw); border-left: 1px solid var(--cc-line); background: var(--cc-card); box-shadow: -24px 0 48px rgba(0, 0, 0, 0.35); animation: pz-slide 0.28s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.pz-drawer__head { display: flex; align-items: center; gap: 12px; padding: 20px 24px; border-bottom: 1px solid var(--cc-line); }
+.pz-drawer__title { flex: 1; min-width: 0; }
+.pz-drawer__title h2 { margin: 0; font-size: 1.125rem; font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pz-drawer__title p { margin: 2px 0 0; font-size: 0.8125rem; color: var(--night-100); }
+.pz-icon-btn { display: grid; place-items: center; width: 36px; height: 36px; border: 0; border-radius: 8px; background: transparent; color: var(--night-100); cursor: pointer; }
+.pz-icon-btn:hover { background: rgba(255, 255, 255, 0.08); color: #fff; }
+.pz-drawer__body { flex: 1; display: grid; align-content: start; gap: 20px; padding: 20px 24px; overflow-y: auto; }
+.pz-drawer__foot { padding: 16px 24px 20px; border-top: 1px solid var(--cc-line); }
+.pz-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+.pz-box { padding: 14px 16px; border-radius: 12px; background: rgba(0, 0, 0, 0.28); }
+.pz-box p { margin: 0; }
+.pz-box--manual { border: 1px solid rgba(255, 176, 32, 0.4); background: rgba(255, 176, 32, 0.08); }
+.pz-box--manual .pz-label { color: #ffb020; }
+.pz-explain-line { font-weight: 700; line-height: 1.4; }
+
+.pz-bars { display: grid; gap: 14px; margin: 0; padding: 0; list-style: none; }
+.pz-bar__row { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 6px; font-size: 0.875rem; }
+.pz-bar__row strong { color: var(--color-sky); font-variant-numeric: tabular-nums; }
+.pz-bar { height: 8px; border-radius: 999px; background: rgba(255, 255, 255, 0.1); overflow: hidden; }
+.pz-bar__fill { display: block; height: 100%; border-radius: 999px; background: var(--color-sky); transition: width 0.5s cubic-bezier(0.22, 1, 0.36, 1); }
+.pz-bar__fill--lead { background: var(--color-lime); }
+
+.pz-facts { display: grid; gap: 8px; margin: 0; }
+.pz-facts div { display: flex; justify-content: space-between; gap: 16px; font-size: 0.875rem; }
+.pz-facts dt { color: var(--night-100); }
+.pz-facts dd { margin: 0; text-align: right; font-variant-numeric: tabular-nums; }
+
+.pz-override { display: grid; gap: 4px; }
+.pz-override .pz-h3 { margin-bottom: 0; }
+.pz-field { display: grid; gap: 6px; margin: 8px 0 4px; font-size: 0.8125rem; font-weight: 500; }
+.pz-field textarea { width: 100%; padding: 10px 12px; border: 1px solid var(--cc-line); border-radius: 10px; background: var(--cc-card-inner); color: #fff; font: inherit; resize: vertical; }
+.pz-field textarea:focus-visible { outline: 2px solid var(--color-royal); }
+.pz-override .pz-actions { margin-top: 12px; }
+
+@keyframes pz-slide { from { transform: translateX(100%); } to { transform: translateX(0); } }
+@keyframes pz-fade { from { opacity: 0; } to { opacity: 1; } }
+
+@media (max-width: 560px) {
+  .pz-actions { grid-template-columns: 1fr; }
+  .pz-drawer__head, .pz-drawer__body, .pz-drawer__foot { padding-left: 16px; padding-right: 16px; }
+}
+
+/* ── Asignar brigada ── */
+.pz-back { justify-self: start; }
+.pz-stack { display: grid; gap: 10px; }
+.pz-stack-gap { margin-top: 12px; }
+.pz-plan { display: grid; gap: 14px; }
+.pz-plan__head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.pz-chip { display: inline-flex; align-items: center; min-height: 24px; padding: 0 10px; border-radius: 999px; font-size: 0.75rem; font-weight: 700; background: rgba(255, 255, 255, 0.1); }
+.pz-chip--proposed { background: rgba(125, 211, 252, 0.16); color: var(--color-sky); }
+.pz-chip--approved, .pz-chip--executed { background: rgba(190, 242, 100, 0.16); color: var(--color-lime); }
+.pz-chip--rejected { background: rgba(255, 107, 107, 0.16); color: #ff8a8a; }
+.pz-items { width: 100%; border-collapse: collapse; font-size: 0.875rem; }
+.pz-items th { padding: 0 0 6px; text-align: right; font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--night-100); }
+.pz-items th:first-child, .pz-items td:first-child { text-align: left; }
+.pz-items td { padding: 7px 0; border-top: 1px solid var(--cc-line); text-align: right; font-variant-numeric: tabular-nums; }
+.pz-box--ok { border: 1px solid rgba(190, 242, 100, 0.4); background: rgba(190, 242, 100, 0.08); }
+.pz-box--ok .pz-label { color: var(--color-lime); }
+.pz-brigade { font-size: 1.125rem; font-weight: 700; margin: 2px 0; }

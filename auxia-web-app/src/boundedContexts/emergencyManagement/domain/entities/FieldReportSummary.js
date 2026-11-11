@@ -1,11 +1,7 @@
 export class FieldReportSummary {
-  constructor({ total, relayed }) {
-    this.total = total;     // reportes de campo activos
-    this.relayed = relayed; // los que llegaron retransmitidos por Mesh (sin conexión)
+  constructor({ total, pendingZone }) {
+    this.total = total;             // reportes de campo de la emergencia
+    this.pendingZone = pendingZone; // los que aún esperan que una autoridad les asigne zona
     Object.freeze(this);
-  }
-
-  get relayedShare() {
-    return this.total > 0 ? this.relayed / this.total : 0;
   }
 }

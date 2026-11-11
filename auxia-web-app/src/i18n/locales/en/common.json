@@ -20,13 +20,16 @@
       "activeRequests": "Active requests",
       "offlineShare": "{{percent}}% reported offline",
       "criticalCases": "Critical cases",
-      "criticalHint": "AI score > {{threshold}}",
+      "criticalHint": "Critical priority according to the AI",
       "deployedBrigades": "Deployed brigades",
       "availableBrigades_one": "{{count}} available",
       "availableBrigades_other": "{{count}} available",
       "verifiedSupplies": "Verified supplies",
-      "verifiedHint": "Validated on Blockchain"
-    }
+      "verifiedHint": "Validated on Blockchain",
+      "pendingZone_one": "{{count}} report without a zone",
+      "pendingZone_other": "{{count}} reports without a zone"
+    },
+    "error": "Some data could not be loaded. Check your connection or sign in again."
   },
   "notFound": {
     "title": "Page not found",
@@ -42,7 +45,8 @@
   "topbar": {
     "searchPlaceholder": "Search GPS, report ID, brigade",
     "realtime": "Real-Time Mode Active",
-    "generalAlarm": "General Alarm"
+    "generalAlarm": "General Alarm",
+    "mockData": "Mock data"
   },
   "roles": {
     "ORGANIZATION_ADMIN": "Organization administrator",

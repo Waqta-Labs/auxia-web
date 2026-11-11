@@ -1,9 +1,10 @@
 import { useTranslation } from 'react-i18next';
+import { humanize } from '@shared/utils/formatters.js';
+import { featureLabel, formatContribution } from '../utils/featureLabel.js';
 
 function reasonText(t, reason) {
-  const options = { value: reason.value, defaultValue: reason.key };
-  if (typeof reason.value === 'number') options.count = reason.value;
-  return t('reasons.' + reason.key, options);
+  const label = featureLabel(t, reason.key);
+  return typeof reason.contribution === 'number' ? label + ' (' + formatContribution(reason.contribution) + ')' : label;
 }
 
 export default function PriorityList({ zones = [], loading = false, onAssign }) {
@@ -26,10 +27,12 @@ export default function PriorityList({ zones = [], loading = false, onAssign }) 
         {!loading && zones.map((zone) => (
           <article key={zone.id} className="prio-card">
             <header className="prio-card__head">
-              <span className={'score score--' + zone.level}>{zone.urgencyScore ?? '—'}</span>
+              <span className={'score score--' + zone.level}>
+                {zone.urgencyScore !== null ? Math.round(zone.urgencyScore) : '—'}
+              </span>
               <h3 className="prio-card__name">{zone.name}</h3>
               {zone.needs[0] && (
-                <span className="tag">{t('needs.' + zone.needs[0], { defaultValue: zone.needs[0] })}</span>
+                <span className="tag">{t('needs.' + zone.needs[0], { defaultValue: humanize(zone.needs[0]) })}</span>
               )}
             </header>
             <div className="prio-why">

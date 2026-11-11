@@ -1,7 +1,9 @@
+// Necesidades que reporta el backend (estructuradas por la IA).
 export const NeedCategory = Object.freeze({
-  MEDICAL: 'MEDICAL',
-  RESCUE: 'RESCUE',
-  FOOD: 'FOOD',
   WATER: 'WATER',
+  FOOD: 'FOOD',
   SHELTER: 'SHELTER',
+  HYGIENE: 'HYGIENE',
+  MEDICINE: 'MEDICINE',
+  OTHER: 'OTHER',
 });

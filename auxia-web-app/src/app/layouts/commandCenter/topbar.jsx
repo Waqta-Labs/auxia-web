@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next';
+import { env } from '@shared/infrastructure/config/env.js';
 import LanguageSwitcher from '@shared/presentation/components/languageSwitcher.jsx';
 
 export default function Topbar() {
@@ -15,6 +16,7 @@ export default function Topbar() {
       </label>
 
       <span className="cc-top__spacer" />
+      {env.useMocks && <span className="cc-mock">{t('topbar.mockData')}</span>}
       <span className="cc-realtime">{t('topbar.realtime')}</span>
       <LanguageSwitcher variant="pill" />
       {/* Pendiente: conectar con el protocolo de alarma general del backend. */}

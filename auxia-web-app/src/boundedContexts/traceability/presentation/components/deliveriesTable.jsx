@@ -1,8 +1,8 @@
 import { useTranslation } from 'react-i18next';
-import { truncateHash } from '@shared/utils/formatters.js';
+import { truncateHash, formatDateTime } from '@shared/utils/formatters.js';
 
 export default function DeliveriesTable({ deliveries = [], loading = false }) {
-  const { t } = useTranslation('traceability');
+  const { t, i18n } = useTranslation('traceability');
 
   return (
     <section className="panel">
@@ -16,8 +16,8 @@ export default function DeliveriesTable({ deliveries = [], loading = false }) {
           <thead>
             <tr>
               <th scope="col">{t('ledger.columns.hash')}</th>
-              <th scope="col">{t('ledger.columns.origin')}</th>
-              <th scope="col">{t('ledger.columns.destination')}</th>
+              <th scope="col">{t('ledger.columns.zone')}</th>
+              <th scope="col">{t('ledger.columns.delivered')}</th>
               <th scope="col">{t('ledger.columns.status')}</th>
             </tr>
           </thead>
@@ -41,8 +41,8 @@ export default function DeliveriesTable({ deliveries = [], loading = false }) {
                     </a>
                   ) : '—'}
                 </td>
-                <td>{d.originName ?? '—'}</td>
-                <td>{d.destinationName ?? '—'}</td>
+                <td>{d.zoneName ?? '—'}</td>
+                <td>{formatDateTime(d.deliveredAt, i18n.resolvedLanguage)}</td>
                 <td>
                   <span className={'status status--' + d.status}>{t('ledger.status.' + d.status)}</span>
                 </td>

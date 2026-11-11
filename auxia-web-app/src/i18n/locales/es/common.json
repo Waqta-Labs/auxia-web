@@ -20,13 +20,16 @@
       "activeRequests": "Solicitudes activas",
       "offlineShare": "{{percent}}% reportadas offline",
       "criticalCases": "Casos críticos",
-      "criticalHint": "Score IA > {{threshold}}",
+      "criticalHint": "Prioridad crítica según la IA",
       "deployedBrigades": "Brigadas desplegadas",
       "availableBrigades_one": "{{count}} disponible",
       "availableBrigades_other": "{{count}} disponibles",
       "verifiedSupplies": "Suministros verificados",
-      "verifiedHint": "Validados en Blockchain"
-    }
+      "verifiedHint": "Validados en Blockchain",
+      "pendingZone_one": "{{count}} reporte sin zona",
+      "pendingZone_other": "{{count}} reportes sin zona"
+    },
+    "error": "No se pudieron cargar algunos datos. Revisa tu conexión o vuelve a iniciar sesión."
   },
   "notFound": {
     "title": "Página no encontrada",
@@ -42,7 +45,8 @@
   "topbar": {
     "searchPlaceholder": "Buscar GPS, ID de reporte, brigada",
     "realtime": "Modo Tiempo Real Activo",
-    "generalAlarm": "Alarma General"
+    "generalAlarm": "Alarma General",
+    "mockData": "Datos de prueba"
   },
   "roles": {
     "ORGANIZATION_ADMIN": "Administrador de organización",

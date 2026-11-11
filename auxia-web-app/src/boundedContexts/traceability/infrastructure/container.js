@@ -1,8 +1,8 @@
 import { DeliveryMockRepository } from './mock/deliveryMockRepository.js';
-import { GetRecentDeliveries } from '../application/useCases/getRecentDeliveries.js';
-import { GetVerificationStats } from '../application/useCases/getVerificationStats.js';
+import { DeliveryHttpRepository } from './http/deliveryHttpRepository.js';
+import { GetDeliveryOverview } from '../application/useCases/getDeliveryOverview.js';
+import { env } from '@shared/infrastructure/config/env.js';
 
-const deliveryRepository = new DeliveryMockRepository();
+const deliveryRepository = env.useMocks ? new DeliveryMockRepository() : new DeliveryHttpRepository();
 
-export const getRecentDeliveriesUseCase = new GetRecentDeliveries(deliveryRepository);
-export const getVerificationStatsUseCase = new GetVerificationStats(deliveryRepository);
+export const getDeliveryOverviewUseCase = new GetDeliveryOverview(deliveryRepository);

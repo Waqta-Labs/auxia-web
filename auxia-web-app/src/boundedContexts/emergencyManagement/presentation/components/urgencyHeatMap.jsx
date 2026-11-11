@@ -41,8 +41,10 @@ export default function UrgencyHeatMap({ zones = [], brigades = [], loading = fa
       ) : (
         <MapContainer className="heatmap" center={center} zoom={14} scrollWheelZoom={false}>
           <TileLayer
-            url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
-            attribution="&copy; OpenStreetMap contributors &copy; CARTO"
+            className="map-tiles"
+            url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
+            attribution="&copy; OpenStreetMap contributors"
+            maxZoom={19}
           />
 
           {layers.coverage &&

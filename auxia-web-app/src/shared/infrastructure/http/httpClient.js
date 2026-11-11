@@ -1,4 +1,5 @@
 import axios from 'axios';
+import i18n from 'i18next';
 import { env } from '../config/env.js';
 
 let getToken = () => null;
@@ -19,6 +20,8 @@ export const httpClient = axios.create({
 httpClient.interceptors.request.use((config) => {
   const token = getToken();
   if (token) config.headers.Authorization = 'Bearer ' + token;
+  // El backend responde en español solo si se lo pedimos.
+  config.headers['Accept-Language'] = i18n.resolvedLanguage || 'es';
   return config;
 });
 

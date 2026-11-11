@@ -9,7 +9,9 @@
       "hash": "Transaction hash",
       "origin": "Origin",
       "destination": "Destination",
-      "status": "Status"
+      "status": "Status",
+      "zone": "Destination zone",
+      "delivered": "Delivered"
     },
     "status": {
       "INITIATED": "On the way",

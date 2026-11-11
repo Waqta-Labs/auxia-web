@@ -1,15 +1,37 @@
 import { EmergencyMockRepository } from './mock/emergencyMockRepository.js';
 import { ZoneMockRepository } from './mock/zoneMockRepository.js';
 import { FieldReportMockRepository } from './mock/fieldReportMockRepository.js';
+import { DistributionPlanMockRepository } from './mock/distributionPlanMockRepository.js';
+import { EmergencyHttpRepository } from './http/emergencyHttpRepository.js';
+import { ZoneHttpRepository } from './http/zoneHttpRepository.js';
+import { FieldReportHttpRepository } from './http/fieldReportHttpRepository.js';
+import { DistributionPlanHttpRepository } from './http/distributionPlanHttpRepository.js';
 import { GetActiveEmergency } from '../application/useCases/getActiveEmergency.js';
 import { GetZoneRanking } from '../application/useCases/getZoneRanking.js';
 import { GetFieldReportSummary } from '../application/useCases/getFieldReportSummary.js';
+import { GetZonePriorityDetail } from '../application/useCases/getZonePriorityDetail.js';
+import { OverrideZoneScore } from '../application/useCases/overrideZoneScore.js';
+import { RemoveManualPriority } from '../application/useCases/removeManualPriority.js';
+import { GetZoneDistributionPlan } from '../application/useCases/getZoneDistributionPlan.js';
+import { RecommendDistribution } from '../application/useCases/recommendDistribution.js';
+import { ApproveDistributionPlan } from '../application/useCases/approveDistributionPlan.js';
+import { RejectDistributionPlan } from '../application/useCases/rejectDistributionPlan.js';
+import { AssignBrigadeToPlan } from '../application/useCases/assignBrigadeToPlan.js';
+import { env } from '@shared/infrastructure/config/env.js';
 
-// Composición. Para usar el backend real, cambiar los repositorios mock por sus versiones HTTP.
-const emergencyRepository = new EmergencyMockRepository();
-const zoneRepository = new ZoneMockRepository();
-const fieldReportRepository = new FieldReportMockRepository();
+const emergencyRepository = env.useMocks ? new EmergencyMockRepository() : new EmergencyHttpRepository();
+const zoneRepository = env.useMocks ? new ZoneMockRepository() : new ZoneHttpRepository();
+const fieldReportRepository = env.useMocks ? new FieldReportMockRepository() : new FieldReportHttpRepository();
+const distributionPlanRepository = env.useMocks ? new DistributionPlanMockRepository() : new DistributionPlanHttpRepository();
 
 export const getActiveEmergencyUseCase = new GetActiveEmergency(emergencyRepository);
 export const getZoneRankingUseCase = new GetZoneRanking(zoneRepository);
 export const getFieldReportSummaryUseCase = new GetFieldReportSummary(fieldReportRepository);
+export const getZonePriorityDetailUseCase = new GetZonePriorityDetail(zoneRepository);
+export const overrideZoneScoreUseCase = new OverrideZoneScore(zoneRepository);
+export const removeManualPriorityUseCase = new RemoveManualPriority(zoneRepository);
+export const getZoneDistributionPlanUseCase = new GetZoneDistributionPlan(distributionPlanRepository);
+export const recommendDistributionUseCase = new RecommendDistribution(distributionPlanRepository);
+export const approveDistributionPlanUseCase = new ApproveDistributionPlan(distributionPlanRepository);
+export const rejectDistributionPlanUseCase = new RejectDistributionPlan(distributionPlanRepository);
+export const assignBrigadeToPlanUseCase = new AssignBrigadeToPlan(distributionPlanRepository);

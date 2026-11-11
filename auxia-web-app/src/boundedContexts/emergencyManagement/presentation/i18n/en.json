@@ -3,14 +3,48 @@
     "title": "Multivariable GIS map"
   },
   "prioritization": {
-    "title": "Prioritization inbox"
+    "title": "AI Prioritization",
+    "subtitle": "Zones sorted by Urgency Score",
+    "noEmergency": "There is no active emergency.",
+    "error": "The zone ranking could not be loaded.",
+    "retry": "Retry",
+    "manual": "Manual",
+    "empty": "No zone matches the filters.",
+    "toolbar": {
+      "search": "Search zone or ID",
+      "scoreRange": "Urgency Score",
+      "min": "Min.",
+      "max": "Max.",
+      "need": "Need type",
+      "allNeeds": "All needs",
+      "clear": "Clear filters"
+    },
+    "tabs": {
+      "all": "All",
+      "critical": "Critical",
+      "unscored": "Unscored",
+      "served": "Served"
+    },
+    "columns": {
+      "score": "Score",
+      "zone": "Zone",
+      "needs": "Needs",
+      "damage": "Damage",
+      "people": "People affected",
+      "status": "Status"
+    },
+    "pagination": {
+      "range": "{{from}}–{{to}} of {{total}} zones",
+      "prev": "Previous",
+      "next": "Next"
+    }
   },
   "map": {
     "title": "Aid heat map",
     "layers": {
       "zones": "Affected zones",
       "coverage": "Coverage",
-      "brigades": "Brigades GPS"
+      "brigades": "Brigade bases"
     },
     "caption": "Aid heat map · increasing intensity →"
   },
@@ -26,7 +60,10 @@
     "RESCUE": "Rescue",
     "FOOD": "Food",
     "WATER": "Water",
-    "SHELTER": "Shelter"
+    "SHELTER": "Shelter",
+    "HYGIENE": "Hygiene",
+    "MEDICINE": "Medicine",
+    "OTHER": "Other"
   },
   "reasons": {
     "children_one": "{{count}} child",
@@ -42,5 +79,134 @@
     "accessCut": "access cut off",
     "isolatedZone": "isolated zone",
     "waterShortage": "no drinking water"
+  },
+  "damage": {
+    "LOW": "Low",
+    "MODERATE": "Moderate",
+    "SEVERE": "Severe",
+    "CRITICAL": "Critical"
+  },
+  "zoneStatus": {
+    "REGISTERED": "Registered",
+    "PRIORITIZED": "Prioritized",
+    "SERVED": "Served"
+  },
+  "features": {
+    "damageLevel": "Damage level",
+    "peopleAffected": "People affected",
+    "familiesAffected": "Families affected",
+    "children": "Minors present",
+    "elderlyPeople": "Elderly people",
+    "disabledPeople": "People with disabilities",
+    "population": "Population",
+    "hoursWithoutAid": "Time without aid",
+    "needs": "Reported needs"
+  },
+  "drawer": {
+    "close": "Close",
+    "explain": "AI explainability",
+    "summary": "{{features}} → Score {{score}}",
+    "breakdown": "Score breakdown",
+    "topOnly": "Showing the variables that added the most points.",
+    "model": "Model {{version}}.",
+    "unavailable": "This zone does not have a score yet.",
+    "missing": "Missing: {{variables}}.",
+    "explainError": "The score explanation could not be loaded.",
+    "loadError": "The zone detail could not be loaded.",
+    "data": "Zone data",
+    "fields": {
+      "status": "Status",
+      "damage": "Damage level",
+      "location": "GPS location",
+      "population": "Population",
+      "families": "Families affected",
+      "people": "People affected",
+      "children": "Minors",
+      "elderly": "Elderly people",
+      "disabled": "People with disabilities",
+      "lastAid": "Last aid received"
+    },
+    "noLocation": "No location",
+    "noAid": "No aid received yet",
+    "manualTitle": "Manual priority",
+    "manualSince": "Set on {{date}}",
+    "removeManual": "Remove manual priority",
+    "assign": "Assign brigade",
+    "override": "Override score",
+    "readOnly": "Your role can only view this."
+  },
+  "override": {
+    "title": "Override score with manual priority",
+    "hint": "The zone will move to the top of the ranking. The justification is kept in the zone decision history.",
+    "label": "Justification",
+    "placeholder": "E.g.: Access cut off and injured people without aid reported by the brigade.",
+    "confirm": "Confirm",
+    "cancel": "Cancel",
+    "saving": "Saving...",
+    "errors": {
+      "reasonRequired": "Write a justification.",
+      "forbidden": "Only an active authority can change the priority.",
+      "generic": "Could not save. Please try again."
+    }
+  },
+  "plan": {
+    "back": "Back to details",
+    "title": "Distribution plan",
+    "intro": "Which resources this zone receives and which brigade carries them.",
+    "status": {
+      "PROPOSED": "Proposed",
+      "APPROVED": "Approved",
+      "REJECTED": "Rejected",
+      "EXECUTED": "Delivered"
+    },
+    "coverage": {
+      "label": "Coverage",
+      "FULL": "Full",
+      "PARTIAL": "Partial",
+      "NONE": "None"
+    },
+    "items": {
+      "resource": "Resource",
+      "recommended": "Recommended",
+      "quantity": "To deliver"
+    },
+    "justification": "AI justification",
+    "approve": "Approve and assign brigade",
+    "approving": "Approving...",
+    "approveHint": "On approval, the AI picks the nearest free brigade with a leader and the delivery opens in the Field App.",
+    "rejectAction": "Reject",
+    "cancel": "Cancel",
+    "reject": {
+      "title": "Reject plan",
+      "hint": "The reserved inventory is released. The reason stays in the zone history.",
+      "label": "Reason",
+      "confirm": "Confirm rejection",
+      "saving": "Rejecting...",
+      "reasonRequired": "Write the reason for the rejection."
+    },
+    "noBrigade": {
+      "title": "Approved without a brigade",
+      "text": "No free brigade with a leader was available at approval. Try again when one is.",
+      "retry": "Assign brigade",
+      "assigning": "Assigning..."
+    },
+    "assigned": {
+      "title": "Brigade assigned",
+      "unnamed": "Brigade assigned",
+      "text": "The delivery is now open for the Field App."
+    },
+    "executed": "The delivery of this plan has already been registered.",
+    "rejectedNote": "The last plan of this zone was rejected.",
+    "none": "This zone has no distribution plan yet.",
+    "generateHint": "The AI splits your organization's inventory among every zone with a score and needs, so plans are created for several zones at once. Each plan stays proposed until you approve or reject it.",
+    "noScore": "This zone has no score yet: the AI cannot include it in the split.",
+    "noneAfter": "The AI created no new plan for this zone. That is expected if it is already covered or has no pending needs; a score, reported needs or inventory may also be missing. Plans for other zones may have been created.",
+    "generate": "Generate AI recommendation",
+    "generating": "Generating...",
+    "loadError": "Could not load the zone plan.",
+    "errors": {
+      "forbidden": "Only an active authority can decide on plans.",
+      "generic": "The operation could not be completed. Please try again."
+    }
   }
 }

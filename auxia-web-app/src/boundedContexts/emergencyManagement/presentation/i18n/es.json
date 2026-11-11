@@ -3,14 +3,48 @@
     "title": "Mapa GIS multivariable"
   },
   "prioritization": {
-    "title": "Bandeja de priorización"
+    "title": "Priorización IA",
+    "subtitle": "Bandeja de zonas ordenadas por Urgency Score",
+    "noEmergency": "No hay una emergencia activa.",
+    "error": "No se pudo cargar el ranking de zonas.",
+    "retry": "Reintentar",
+    "manual": "Manual",
+    "empty": "Ninguna zona coincide con los filtros.",
+    "toolbar": {
+      "search": "Buscar zona o ID",
+      "scoreRange": "Urgency Score",
+      "min": "Mín.",
+      "max": "Máx.",
+      "need": "Tipo de necesidad",
+      "allNeeds": "Todas las necesidades",
+      "clear": "Limpiar filtros"
+    },
+    "tabs": {
+      "all": "Todas",
+      "critical": "Críticas",
+      "unscored": "Sin puntaje",
+      "served": "Atendidas"
+    },
+    "columns": {
+      "score": "Score",
+      "zone": "Zona",
+      "needs": "Necesidades",
+      "damage": "Daño",
+      "people": "Personas afectadas",
+      "status": "Estado"
+    },
+    "pagination": {
+      "range": "{{from}}–{{to}} de {{total}} zonas",
+      "prev": "Anterior",
+      "next": "Siguiente"
+    }
   },
   "map": {
     "title": "Mapa de calor de auxilio",
     "layers": {
       "zones": "Zonas afectadas",
       "coverage": "Cobertura",
-      "brigades": "Brigadas GPS"
+      "brigades": "Bases de brigadas"
     },
     "caption": "Mapa de calor de auxilio · intensidad creciente →"
   },
@@ -26,7 +60,10 @@
     "RESCUE": "Rescate",
     "FOOD": "Alimentos",
     "WATER": "Agua",
-    "SHELTER": "Refugio"
+    "SHELTER": "Refugio",
+    "HYGIENE": "Higiene",
+    "MEDICINE": "Medicina",
+    "OTHER": "Otros"
   },
   "reasons": {
     "children_one": "{{count}} niño",
@@ -42,5 +79,134 @@
     "accessCut": "acceso cortado",
     "isolatedZone": "zona aislada",
     "waterShortage": "sin agua potable"
+  },
+  "damage": {
+    "LOW": "Bajo",
+    "MODERATE": "Moderado",
+    "SEVERE": "Severo",
+    "CRITICAL": "Crítico"
+  },
+  "zoneStatus": {
+    "REGISTERED": "Registrada",
+    "PRIORITIZED": "Priorizada",
+    "SERVED": "Atendida"
+  },
+  "features": {
+    "damageLevel": "Nivel de daño",
+    "peopleAffected": "Personas afectadas",
+    "familiesAffected": "Familias afectadas",
+    "children": "Presencia de menores",
+    "elderlyPeople": "Adultos mayores",
+    "disabledPeople": "Personas con discapacidad",
+    "population": "Población",
+    "hoursWithoutAid": "Tiempo sin atención",
+    "needs": "Necesidades reportadas"
+  },
+  "drawer": {
+    "close": "Cerrar",
+    "explain": "Explicabilidad IA",
+    "summary": "{{features}} → Score {{score}}",
+    "breakdown": "Desglose del puntaje",
+    "topOnly": "Se muestran las variables que más puntos sumaron.",
+    "model": "Modelo {{version}}.",
+    "unavailable": "Esta zona todavía no tiene puntaje.",
+    "missing": "Falta registrar: {{variables}}.",
+    "explainError": "No se pudo cargar la explicación del puntaje.",
+    "loadError": "No se pudo cargar el detalle de la zona.",
+    "data": "Datos de la zona",
+    "fields": {
+      "status": "Estado",
+      "damage": "Nivel de daño",
+      "location": "Ubicación GPS",
+      "population": "Población",
+      "families": "Familias afectadas",
+      "people": "Personas afectadas",
+      "children": "Menores",
+      "elderly": "Adultos mayores",
+      "disabled": "Personas con discapacidad",
+      "lastAid": "Última ayuda recibida"
+    },
+    "noLocation": "Sin ubicación",
+    "noAid": "Aún no recibe ayuda",
+    "manualTitle": "Prioridad manual",
+    "manualSince": "Establecida el {{date}}",
+    "removeManual": "Quitar prioridad manual",
+    "assign": "Asignar brigada",
+    "override": "Anular score",
+    "readOnly": "Tu rol solo permite consultar."
+  },
+  "override": {
+    "title": "Anular score con prioridad manual",
+    "hint": "La zona pasará al primer lugar del ranking. La justificación queda en el historial de decisiones de la zona.",
+    "label": "Justificación",
+    "placeholder": "Ej.: Acceso cortado y heridos sin atención reportados por la brigada.",
+    "confirm": "Confirmar",
+    "cancel": "Cancelar",
+    "saving": "Guardando...",
+    "errors": {
+      "reasonRequired": "Escribe una justificación.",
+      "forbidden": "Solo una autoridad activa puede cambiar la prioridad.",
+      "generic": "No se pudo guardar. Inténtalo nuevamente."
+    }
+  },
+  "plan": {
+    "back": "Volver al detalle",
+    "title": "Plan de distribución",
+    "intro": "Qué recursos recibe esta zona y qué brigada los lleva.",
+    "status": {
+      "PROPOSED": "Propuesto",
+      "APPROVED": "Aprobado",
+      "REJECTED": "Rechazado",
+      "EXECUTED": "Entregado"
+    },
+    "coverage": {
+      "label": "Cobertura",
+      "FULL": "Total",
+      "PARTIAL": "Parcial",
+      "NONE": "Sin cobertura"
+    },
+    "items": {
+      "resource": "Recurso",
+      "recommended": "Recomendado",
+      "quantity": "A entregar"
+    },
+    "justification": "Justificación de la IA",
+    "approve": "Aprobar y asignar brigada",
+    "approving": "Aprobando...",
+    "approveHint": "Al aprobar, la IA elige la brigada libre más cercana con un líder y se abre la entrega en la App de Campo.",
+    "rejectAction": "Rechazar",
+    "cancel": "Cancelar",
+    "reject": {
+      "title": "Rechazar plan",
+      "hint": "Se libera el inventario reservado. El motivo queda en el historial de la zona.",
+      "label": "Motivo",
+      "confirm": "Confirmar rechazo",
+      "saving": "Rechazando...",
+      "reasonRequired": "Escribe el motivo del rechazo."
+    },
+    "noBrigade": {
+      "title": "Aprobado sin brigada",
+      "text": "No había una brigada libre con líder al aprobar. Cuando haya una disponible, vuelve a intentarlo.",
+      "retry": "Asignar brigada",
+      "assigning": "Asignando..."
+    },
+    "assigned": {
+      "title": "Brigada asignada",
+      "unnamed": "Brigada asignada",
+      "text": "La entrega ya está abierta para la App de Campo."
+    },
+    "executed": "La entrega de este plan ya fue registrada.",
+    "rejectedNote": "El último plan de esta zona fue rechazado.",
+    "none": "Esta zona todavía no tiene un plan de distribución.",
+    "generateHint": "La IA reparte el inventario de tu organización entre todas las zonas con puntaje y necesidades, así que se crean planes para varias zonas a la vez. Cada plan queda propuesto hasta que lo apruebes o rechaces.",
+    "noScore": "Esta zona aún no tiene puntaje: la IA no puede incluirla en el reparto.",
+    "noneAfter": "La IA no creó un plan nuevo para esta zona. Es lo esperado si ya está cubierta o no tiene necesidades pendientes; también puede faltar puntaje, necesidades reportadas o inventario. Los planes de otras zonas sí pudieron crearse.",
+    "generate": "Generar recomendación con IA",
+    "generating": "Generando...",
+    "loadError": "No se pudo cargar el plan de la zona.",
+    "errors": {
+      "forbidden": "Solo una autoridad activa puede decidir sobre los planes.",
+      "generic": "No se pudo completar la operación. Inténtalo nuevamente."
+    }
   }
 }

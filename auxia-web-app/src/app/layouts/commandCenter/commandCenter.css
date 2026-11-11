@@ -83,3 +83,5 @@
 @media (prefers-reduced-motion: reduce) {
   .cc *, .cc *::before { animation: none !important; transition: none !important; }
 }
+
+.cc-mock { padding: 4px 12px; border: 1px solid rgba(255, 176, 32, 0.5); border-radius: 999px; background: rgba(255, 176, 32, 0.12); color: #ffb020; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; white-space: nowrap; }

@@ -4,5 +4,87 @@
   },
   "fieldLogistics": {
     "title": "Logística de campo"
+  },
+  "brigades": {
+    "title": "Logística de Campo y Brigadas",
+    "subtitle": "{{deployed}} de {{total}} brigadas desplegadas",
+    "loadError": "No se pudo cargar la información de brigadas.",
+    "retry": "Reintentar",
+    "noSelection": "Todavía no hay brigadas. Crea la primera para empezar.",
+    "status": {
+      "AVAILABLE": "Disponible",
+      "ASSIGNED": "En misión",
+      "OFF_DUTY": "Fuera de servicio"
+    },
+    "roles": {
+      "LEADER": "Líder",
+      "DRIVER": "Conductor",
+      "MEDIC": "Paramédico",
+      "VOLUNTEER": "Voluntario"
+    },
+    "tabs": {
+      "all": "Todas",
+      "assigned": "En misión",
+      "available": "Disponibles",
+      "offDuty": "Fuera de servicio"
+    },
+    "list": {
+      "title": "Brigadas activas",
+      "search": "Buscar brigada o código",
+      "filters": "Filtrar por estado",
+      "empty": "No hay brigadas con ese filtro.",
+      "members": "{{count}} pers."
+    },
+    "mission": {
+      "title": "Misión en curso",
+      "zone": "Zona de destino",
+      "eta": "Llegada estimada",
+      "minutes": "{{count}} min",
+      "distance": "Distancia",
+      "resources": "Recursos a entregar",
+      "openZone": "Ver zona en Priorización IA",
+      "none": "Esta brigada no tiene una misión en curso.",
+      "noneHint": "Las misiones nacen al aprobar un plan de distribución: la IA elige la brigada libre más cercana con un líder.",
+      "goPrioritization": "Ir a Priorización IA"
+    },
+    "detail": {
+      "code": "Código",
+      "base": "Base (GPS)",
+      "members": "Miembros",
+      "noMembers": "Esta brigada todavía no tiene miembros.",
+      "noLeader": "Sin líder: la IA no le asignará misiones hasta que tenga uno.",
+      "remove": "Quitar a {{name}}",
+      "addMember": "Agregar miembro",
+      "memberName": "Nombre",
+      "memberRole": "Rol",
+      "add": "Agregar",
+      "adding": "Agregando...",
+      "putOffDuty": "Poner fuera de servicio",
+      "putInService": "Poner en servicio",
+      "lockedWhileAssigned": "No se puede cambiar la disponibilidad mientras la brigada está en misión.",
+      "readOnly": "Tu rol solo permite consultar. Las brigadas las administra el administrador de la organización."
+    },
+    "new": {
+      "open": "Nueva brigada",
+      "title": "Nueva brigada",
+      "hint": "Nace disponible. Agrega al menos un líder para que pueda recibir misiones.",
+      "name": "Nombre",
+      "code": "Código (opcional)",
+      "codePlaceholder": "Se genera si lo dejas vacío",
+      "latitude": "Latitud de la base",
+      "longitude": "Longitud de la base",
+      "create": "Crear brigada",
+      "saving": "Creando...",
+      "cancel": "Cancelar"
+    },
+    "errors": {
+      "nameRequired": "Escribe el nombre de la brigada.",
+      "locationInvalid": "Escribe una latitud (−90 a 90) y una longitud (−180 a 180) válidas.",
+      "memberNameRequired": "Escribe el nombre del miembro.",
+      "roleInvalid": "Elige un rol válido.",
+      "statusInvalid": "Estado no válido.",
+      "forbidden": "Solo el administrador de la organización puede modificar brigadas.",
+      "generic": "No se pudo completar la operación. Inténtalo nuevamente."
+    }
   }
 }
