@@ -23,7 +23,7 @@
 .iv-banner > span:nth-child(2) { flex: 1; min-width: 0; }
 .iv-dot { flex: none; width: 10px; height: 10px; border-radius: 50%; background: var(--color-danger); box-shadow: 0 0 10px var(--color-danger); }
 
-.iv-cards { display: grid; align-content: start; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: var(--space-3); margin: 0; padding: 0; list-style: none; }
+.iv-cards { display: grid; align-content: start; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: var(--space-3); margin: 0; padding: 0; list-style: none; }
 .iv-card { display: grid; gap: 10px; min-width: 0; padding: 18px 20px; border: 1px solid var(--cc-line); border-radius: 16px; background: var(--cc-card); }
 .iv-card--critical { border-color: rgba(255, 77, 77, 0.75); }
 .iv-card--low { border-color: rgba(255, 176, 32, 0.55); }
