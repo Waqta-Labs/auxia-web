@@ -41,15 +41,14 @@
 .vd-spinner { width: 56px; height: 56px; border-radius: 50%; border: 3px solid rgba(133, 213, 246, 0.2); border-top-color: var(--color-sky); animation: vd-spin 0.9s linear infinite; }
 @keyframes vd-spin { to { transform: rotate(360deg); } }
 
-.vd-compare { display: grid; gap: 0; justify-items: stretch; position: relative; }
-.vd-hash { position: relative; display: grid; gap: 6px; padding: 14px 16px; border: 1px solid rgba(178, 178, 226, 0.18); border-radius: 16px; background: rgba(5, 5, 28, 0.55); }
-.vd-compare .vd-hash:last-child { padding-top: 26px; }
+.vd-compare { display: grid; gap: 0; justify-items: stretch; position: relative;}
+.vd-hash { position: relative; display: grid; gap: 6px; margin: 16px 0; padding: 16px; border: 1px solid rgba(178, 178, 226, 0.18); border-radius: 16px; background: rgba(5, 5, 28, 0.55); }
 .vd-hash--bad { border-color: rgba(255, 77, 77, 0.55); }
 .vd-hash__label { padding-right: 76px; font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--night-100); }
 .vd-hash__value { padding-right: 64px; font-family: ui-monospace, 'SFMono-Regular', Menlo, monospace; font-size: 0.8125rem; line-height: 1.45; overflow-wrap: anywhere; color: #fff; }
 .vd-hash__copy { position: absolute; top: 10px; right: 10px; min-height: 28px; padding: 0 12px; border: 1px solid rgba(178, 178, 226, 0.3); border-radius: 999px; background: transparent; color: var(--color-sky); font: inherit; font-size: 0.75rem; font-weight: 600; cursor: pointer; }
 .vd-hash__copy:hover { background: rgba(133, 213, 246, 0.12); }
-.vd-equal { z-index: 2; justify-self: center; display: grid; place-items: center; width: 40px; height: 40px; margin: -8px 0 -22px; border-radius: 50%; background: var(--vd-accent); color: var(--night-600); font-size: 1.25rem; font-weight: 700; box-shadow: 0 0 0 5px rgba(12, 12, 48, 0.9), 0 0 24px var(--vd-glow); }
+.vd-equal { z-index: 2; justify-self: center; display: grid; place-items: center; width: 40px; height: 40px; margin: -2px 0 0; border-radius: 50%; background: var(--vd-accent); color: var(--night-600); font-size: 1.25rem; font-weight: 700; box-shadow: 0 0 0 5px rgba(12, 12, 48, 0.9), 0 0 24px var(--vd-glow); }
 
 .vd-info { display: grid; gap: 10px; padding-top: 16px; border-top: 1px solid rgba(178, 178, 226, 0.16); font-size: 0.875rem; }
 .vd-info div { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; }
