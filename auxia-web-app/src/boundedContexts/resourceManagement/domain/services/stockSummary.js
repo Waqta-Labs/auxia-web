@@ -1,6 +1,8 @@
 import { StockLevel } from '../entities/StockResource.js';
 
-export const CategoryFilter = Object.freeze({ ALL: 'ALL', MEDICAL: 'MEDICAL', RESCUE: 'RESCUE', SUPPLIES: 'SUPPLIES' });
+export const CategoryFilter = Object.freeze({
+  ALL: 'ALL', WATER: 'WATER', FOOD: 'FOOD', SHELTER: 'SHELTER', HYGIENE: 'HYGIENE', MEDICINE: 'MEDICINE', OTHER: 'OTHER',
+});
 
 export function filterByCategory(resources, category) {
   return category === CategoryFilter.ALL ? resources : resources.filter((resource) => resource.category === category);

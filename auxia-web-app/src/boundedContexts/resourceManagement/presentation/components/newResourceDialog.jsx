@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { stockCategories } from '../../domain/enums/stockCategory.js';
+import { stockCategories, stockUnits } from '../../domain/enums/stockCategory.js';
 import { useRegisterResource } from '../hooks/useRegisterResource.js';
-import { categoryLabel, inventoryErrorMessage } from '../utils/stockFormat.js';
+import { categoryLabel, inventoryErrorMessage, unitLabel } from '../utils/stockFormat.js';
 
 export default function NewResourceDialog({ inventoryId, onClose }) {
   const { t } = useTranslation('resourceManagement');
@@ -30,7 +30,7 @@ export default function NewResourceDialog({ inventoryId, onClose }) {
       <form className="iv-dialog" role="dialog" aria-modal="true" aria-labelledby="iv-new-title" onSubmit={submit} noValidate>
         <h2 id="iv-new-title" className="iv-h2">{t('inventory.new.title')}</h2>
         <p className="iv-note">{t('inventory.new.hint')}</p>
-        <label className="iv-field"><span>{t('inventory.new.name')}</span><input ref={nameRef} value={values.name} onChange={change('name')} /></label>
+        <label className="iv-field"><span>{t('inventory.new.name')}</span><input ref={nameRef} value={values.name} onChange={change('name')} maxLength={150} /></label>
         <label className="iv-field">
           <span>{t('inventory.new.category')}</span>
           <select value={values.category} onChange={change('category')}>
@@ -39,8 +39,14 @@ export default function NewResourceDialog({ inventoryId, onClose }) {
           </select>
         </label>
         <div className="iv-field-row">
-          <label className="iv-field"><span>{t('inventory.new.unit')}</span><input value={values.unit} onChange={change('unit')} placeholder={t('inventory.new.unitPlaceholder')} /></label>
-          <label className="iv-field"><span>{t('inventory.new.minimum')}</span><input value={values.minimumStock} onChange={change('minimumStock')} inputMode="decimal" placeholder="0" /></label>
+          <label className="iv-field">
+            <span>{t('inventory.new.unit')}</span>
+            <select value={values.unit} onChange={change('unit')}>
+              <option value="">{t('inventory.new.unitPlaceholder')}</option>
+              {stockUnits.map((unit) => <option key={unit} value={unit}>{unitLabel(t, unit)}</option>)}
+            </select>
+          </label>
+          <label className="iv-field"><span>{t('inventory.new.minimum')}</span><input value={values.minimumStock} onChange={change('minimumStock')} inputMode="numeric" placeholder="0" /></label>
         </div>
         {message && <p className="iv-error" role="alert">{message}</p>}
         <div className="iv-dialog__actions">

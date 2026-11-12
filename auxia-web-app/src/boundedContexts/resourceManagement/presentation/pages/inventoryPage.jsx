@@ -116,9 +116,9 @@ export default function InventoryPage() {
                 )}
               </header>
               <div className="iv-tabs" role="group" aria-label={t('inventory.table.filter')}>
-                {[CategoryFilter.ALL, CategoryFilter.MEDICAL, CategoryFilter.RESCUE, CategoryFilter.SUPPLIES].map((value) => (
+                {Object.values(CategoryFilter).map((value) => (
                   <button key={value} type="button" className="iv-tab" aria-pressed={category === value} onClick={() => setCategory(value)}>
-                    {t('inventory.tabs.' + value)} <span className="iv-tab__count">{counts[value] ?? 0}</span>
+                    {t('inventory.categories.' + value)} <span className="iv-tab__count">{counts[value] ?? 0}</span>
                   </button>
                 ))}
               </div>

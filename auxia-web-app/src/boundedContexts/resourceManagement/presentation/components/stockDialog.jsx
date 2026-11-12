@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useRestockResource } from '../hooks/useRestockResource.js';
 import { useWithdrawStock } from '../hooks/useWithdrawStock.js';
-import { inventoryErrorMessage, quantity } from '../utils/stockFormat.js';
+import { inventoryErrorMessage, quantity, unitSymbol } from '../utils/stockFormat.js';
 
 // mode 'in': registrar entrada (ingreso). mode 'out': registrar salida (ajuste negativo con motivo).
 export default function StockDialog({ mode, inventoryId, resources, resourceId, onClose }) {
@@ -51,13 +51,13 @@ export default function StockDialog({ mode, inventoryId, resources, resourceId, 
           </p>
         )}
         <label className="iv-field">
-          <span>{t('inventory.form.quantity')}{resource?.unit ? ' (' + resource.unit + ')' : ''}</span>
-          <input value={amount} onChange={(event) => setAmount(event.target.value)} inputMode="decimal" placeholder="0" />
+          <span>{t('inventory.form.quantity')}{resource?.unit ? ' (' + unitSymbol(resource.unit, lng) + ')' : ''}</span>
+          <input value={amount} onChange={(event) => setAmount(event.target.value)} inputMode="numeric" placeholder="0" />
         </label>
         {isOut && (
           <label className="iv-field">
             <span>{t('inventory.form.reason')}</span>
-            <input value={reason} onChange={(event) => setReason(event.target.value)} placeholder={t('inventory.form.reasonPlaceholder')} />
+            <input value={reason} onChange={(event) => setReason(event.target.value)} placeholder={t('inventory.form.reasonPlaceholder')} maxLength={300} />
           </label>
         )}
 

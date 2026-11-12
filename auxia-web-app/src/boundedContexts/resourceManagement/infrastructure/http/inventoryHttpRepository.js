@@ -41,19 +41,20 @@ export class InventoryHttpRepository extends InventoryRepository {
     return data?.id ?? null;
   }
 
-  // Body supuesto: { name, category, unit, minimumStock }.
+  // RegisterResourceRequest: name (máx. 150), category (WATER, FOOD, SHELTER, HYGIENE, MEDICINE, OTHER),
+  // unit (UNIT, KG, LITER, KIT), minimumStock (entero >= 0).
   async registerResource(inventoryId, body) {
     const { data } = await call(() => httpClient.post(base(inventoryId) + '/resources', body));
     return data?.id ?? data?.resourceId ?? null;
   }
 
-  // Body supuesto: { quantity } (positiva).
+  // RestockRequest: { quantity } (entero > 0).
   async restock(inventoryId, resourceId, quantity) {
     await call(() => httpClient.post(base(inventoryId) + '/resources/' + resourceId + '/restock', { quantity }));
   }
 
-  // Body supuesto: { quantity, reason }; quantity con signo (negativa = salida).
-  async adjust(inventoryId, resourceId, quantity, reason) {
-    await call(() => httpClient.patch(base(inventoryId) + '/resources/' + resourceId + '/adjustment', { quantity, reason }));
+  // AdjustStockRequest: { quantityChange (entero con signo, nunca 0; negativo = salida), reason (máx. 300) }.
+  async adjust(inventoryId, resourceId, quantityChange, reason) {
+    await call(() => httpClient.patch(base(inventoryId) + '/resources/' + resourceId + '/adjustment', { quantityChange, reason }));
   }
 }

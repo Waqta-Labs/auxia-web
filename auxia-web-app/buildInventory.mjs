@@ -25,9 +25,15 @@ if (!existsSync(RM + 'infrastructure/container.js')) throw new Error('Estate en 
 
 /* ════════════════════════ DOMAIN ════════════════════════ */
 write(RM + 'domain/enums/stockCategory.js', String.raw`
-// Categoría de un recurso (backend): MEDICAL, RESCUE o SUPPLIES.
-export const StockCategory = Object.freeze({ MEDICAL: 'MEDICAL', RESCUE: 'RESCUE', SUPPLIES: 'SUPPLIES' });
+// Categoría de un recurso (RegisterResourceRequest del backend).
+export const StockCategory = Object.freeze({
+  WATER: 'WATER', FOOD: 'FOOD', SHELTER: 'SHELTER', HYGIENE: 'HYGIENE', MEDICINE: 'MEDICINE', OTHER: 'OTHER',
+});
 export const stockCategories = Object.values(StockCategory);
+
+// Unidad de medida (backend): UNIT, KG, LITER o KIT.
+export const StockUnit = Object.freeze({ UNIT: 'UNIT', KG: 'KG', LITER: 'LITER', KIT: 'KIT' });
+export const stockUnits = Object.values(StockUnit);
 `);
 
 write(RM + 'domain/entities/StockResource.js', String.raw`
@@ -117,7 +123,9 @@ export class InventoryRepository {
 write(RM + 'domain/services/stockSummary.js', String.raw`
 import { StockLevel } from '../entities/StockResource.js';
 
-export const CategoryFilter = Object.freeze({ ALL: 'ALL', MEDICAL: 'MEDICAL', RESCUE: 'RESCUE', SUPPLIES: 'SUPPLIES' });
+export const CategoryFilter = Object.freeze({
+  ALL: 'ALL', WATER: 'WATER', FOOD: 'FOOD', SHELTER: 'SHELTER', HYGIENE: 'HYGIENE', MEDICINE: 'MEDICINE', OTHER: 'OTHER',
+});
 
 export function filterByCategory(resources, category) {
   return category === CategoryFilter.ALL ? resources : resources.filter((resource) => resource.category === category);
@@ -149,11 +157,11 @@ export function mostUrgentAlert(alerts, resources) {
 `);
 
 write(RM + 'domain/services/parseQuantity.js', String.raw`
-// Cantidad escrita por la persona ("12", "12,5"): número mayor que 0, o null si no es válida.
+// Cantidad escrita por la persona ("12"): entero mayor que 0 (el backend la recibe como int32), o null si no es válida.
 export function parsePositive(value) {
   const text = String(value ?? '').trim();
-  const n = Number(text.replace(',', '.'));
-  return text !== '' && Number.isFinite(n) && n > 0 ? n : null;
+  const n = Number(text);
+  return /^\d+$/.test(text) && Number.isSafeInteger(n) && n > 0 && n <= 2147483647 ? n : null;
 }
 `);
 
@@ -201,17 +209,18 @@ export class RegisterResource {
     this.inventoryRepository = inventoryRepository;
   }
 
-  // Errores de validación: nameRequired, categoryRequired, unitRequired, minimumInvalid.
+  // Errores de validación: nameRequired, nameTooLong, categoryRequired, unitRequired, minimumInvalid.
   async execute({ inventoryId, name, category, unit, minimumStock }) {
     const cleanName = (name ?? '').trim();
     if (!cleanName) throw new Error('nameRequired');
+    if (cleanName.length > 150) throw new Error('nameTooLong');
     if (!category) throw new Error('categoryRequired');
-    const cleanUnit = (unit ?? '').trim();
-    if (!cleanUnit) throw new Error('unitRequired');
+    if (!unit) throw new Error('unitRequired');
+    // minimumStock es un entero (int32) igual o mayor que 0; vacío = 0.
     const raw = String(minimumStock ?? '').trim();
-    const minimum = raw === '' ? 0 : Number(raw.replace(',', '.'));
-    if (!Number.isFinite(minimum) || minimum < 0) throw new Error('minimumInvalid');
-    return this.inventoryRepository.registerResource(inventoryId, { name: cleanName, category, unit: cleanUnit, minimumStock: minimum });
+    const minimum = raw === '' ? 0 : Number(raw);
+    if (!Number.isInteger(minimum) || minimum < 0) throw new Error('minimumInvalid');
+    return this.inventoryRepository.registerResource(inventoryId, { name: cleanName, category, unit, minimumStock: minimum });
   }
 }
 `);
@@ -243,13 +252,14 @@ export class WithdrawStock {
   }
 
   // Una salida es un ajuste negativo con motivo. Errores de validación: resourceRequired, quantityInvalid,
-  // reasonRequired, exceedsAvailable (el backend también lo rechaza con 409 si no alcanza lo disponible).
+  // reasonRequired, reasonTooLong, exceedsAvailable (el backend también lo rechaza con 409 si no alcanza lo disponible).
   async execute({ inventoryId, resource, quantity, reason }) {
     if (!resource) throw new Error('resourceRequired');
     const amount = parsePositive(quantity);
     if (amount === null) throw new Error('quantityInvalid');
     const cleanReason = (reason ?? '').trim();
     if (!cleanReason) throw new Error('reasonRequired');
+    if (cleanReason.length > 300) throw new Error('reasonTooLong');
     if (amount > resource.available) throw new Error('exceedsAvailable');
     return this.inventoryRepository.adjust(inventoryId, resource.id, -amount, cleanReason);
   }
@@ -355,20 +365,21 @@ export class InventoryHttpRepository extends InventoryRepository {
     return data?.id ?? null;
   }
 
-  // Body supuesto: { name, category, unit, minimumStock }.
+  // RegisterResourceRequest: name (máx. 150), category (WATER, FOOD, SHELTER, HYGIENE, MEDICINE, OTHER),
+  // unit (UNIT, KG, LITER, KIT), minimumStock (entero >= 0).
   async registerResource(inventoryId, body) {
     const { data } = await call(() => httpClient.post(base(inventoryId) + '/resources', body));
     return data?.id ?? data?.resourceId ?? null;
   }
 
-  // Body supuesto: { quantity } (positiva).
+  // RestockRequest: { quantity } (entero > 0).
   async restock(inventoryId, resourceId, quantity) {
     await call(() => httpClient.post(base(inventoryId) + '/resources/' + resourceId + '/restock', { quantity }));
   }
 
-  // Body supuesto: { quantity, reason }; quantity con signo (negativa = salida).
-  async adjust(inventoryId, resourceId, quantity, reason) {
-    await call(() => httpClient.patch(base(inventoryId) + '/resources/' + resourceId + '/adjustment', { quantity, reason }));
+  // AdjustStockRequest: { quantityChange (entero con signo, nunca 0; negativo = salida), reason (máx. 300) }.
+  async adjust(inventoryId, resourceId, quantityChange, reason) {
+    await call(() => httpClient.patch(base(inventoryId) + '/resources/' + resourceId + '/adjustment', { quantityChange, reason }));
   }
 }
 `);
@@ -383,13 +394,14 @@ const iso = (hoursAgo) => new Date(Date.now() - hoursAgo * 3600000).toISOString(
 
 // Los 4 primeros repiten el mockup (agua crítica, raciones OK, kits bajos, carpas OK).
 let resources = [
-  { id: 'rs-01', name: 'Agua embotellada', category: 'SUPPLIES', unit: 'L', onHand: 2400, reserved: 1250, minimumStock: 2500 },
-  { id: 'rs-02', name: 'Raciones', category: 'SUPPLIES', unit: 'unid.', onHand: 7200, reserved: 400, minimumStock: 3000 },
-  { id: 'rs-03', name: 'Kits de Primeros Auxilios', category: 'MEDICAL', unit: 'kits', onHand: 900, reserved: 260, minimumStock: 750 },
-  { id: 'rs-04', name: 'Carpas', category: 'RESCUE', unit: 'unid.', onHand: 260, reserved: 50, minimumStock: 100 },
-  { id: 'rs-05', name: 'Mantas térmicas', category: 'SUPPLIES', unit: 'unid.', onHand: 1500, reserved: 0, minimumStock: 600 },
-  { id: 'rs-06', name: 'Cuerdas de rescate', category: 'RESCUE', unit: 'm', onHand: 800, reserved: 120, minimumStock: 300 },
-  { id: 'rs-07', name: 'Medicamentos básicos', category: 'MEDICAL', unit: 'cajas', onHand: 310, reserved: 40, minimumStock: 200 },
+  { id: 'rs-01', name: 'Agua embotellada', category: 'WATER', unit: 'LITER', onHand: 2400, reserved: 1250, minimumStock: 2500 },
+  { id: 'rs-02', name: 'Raciones', category: 'FOOD', unit: 'UNIT', onHand: 7200, reserved: 400, minimumStock: 3000 },
+  { id: 'rs-03', name: 'Kits de Primeros Auxilios', category: 'MEDICINE', unit: 'KIT', onHand: 900, reserved: 260, minimumStock: 750 },
+  { id: 'rs-04', name: 'Carpas', category: 'SHELTER', unit: 'UNIT', onHand: 260, reserved: 50, minimumStock: 100 },
+  { id: 'rs-05', name: 'Mantas térmicas', category: 'SHELTER', unit: 'UNIT', onHand: 1500, reserved: 0, minimumStock: 600 },
+  { id: 'rs-06', name: 'Cuerdas de rescate', category: 'OTHER', unit: 'UNIT', onHand: 800, reserved: 120, minimumStock: 300 },
+  { id: 'rs-08', name: 'Jabón y kits de higiene', category: 'HYGIENE', unit: 'KIT', onHand: 540, reserved: 0, minimumStock: 200 },
+  { id: 'rs-07', name: 'Medicamentos básicos', category: 'MEDICINE', unit: 'KIT', onHand: 310, reserved: 40, minimumStock: 200 },
 ];
 let alerts = [
   { id: 'al-01', resourceId: 'rs-01', status: 'OPEN', raisedAt: iso(5) },
@@ -397,7 +409,7 @@ let alerts = [
   { id: 'al-03', resourceId: 'rs-02', status: 'RESOLVED', raisedAt: iso(70), resolvedAt: iso(48) },
 ];
 let inventoryExists = true;
-let sequence = 7;
+let sequence = 8;
 
 const available = (resource) => resource.onHand - resource.reserved;
 // Igual que el backend: bajo el mínimo abre una alerta; repuesto por encima del mínimo la resuelve.
@@ -560,10 +572,15 @@ write(RM + 'presentation/utils/stockFormat.js', String.raw`
 import { formatNumber, humanize } from '@shared/utils/formatters.js';
 
 export const categoryLabel = (t, category) => (category ? t('inventory.categories.' + category, { defaultValue: humanize(category) }) : '—');
+export const unitLabel = (t, unit) => t('inventory.units.' + unit, { defaultValue: humanize(unit) });
 export const levelLabel = (t, level) => t('inventory.levels.' + level);
-export const quantity = (value, unit, lng) => formatNumber(value, lng) + (unit ? ' ' + unit : '');
 
-const VALIDATION = ['nameRequired', 'categoryRequired', 'unitRequired', 'minimumInvalid', 'resourceRequired', 'quantityInvalid', 'reasonRequired', 'exceedsAvailable'];
+// Símbolo corto de la unidad (UNIT, KG, LITER, KIT); una unidad desconocida se muestra tal cual.
+const UNIT_SYMBOLS = { KG: 'kg', LITER: 'L', KIT: 'kits' };
+export const unitSymbol = (unit, lng) => (unit === 'UNIT' ? (lng === 'en' ? 'units' : 'unid.') : UNIT_SYMBOLS[unit] ?? unit ?? '');
+export const quantity = (value, unit, lng) => formatNumber(value, lng) + (unit ? ' ' + unitSymbol(unit, lng) : '');
+
+const VALIDATION = ['nameRequired', 'nameTooLong', 'categoryRequired', 'unitRequired', 'minimumInvalid', 'resourceRequired', 'quantityInvalid', 'reasonRequired', 'reasonTooLong', 'exceedsAvailable'];
 
 // El backend responde application/problem+json: se muestra su "detail" tal cual; si no hay, un texto según el caso.
 export function inventoryErrorMessage(t, error) {
@@ -730,7 +747,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useRestockResource } from '../hooks/useRestockResource.js';
 import { useWithdrawStock } from '../hooks/useWithdrawStock.js';
-import { inventoryErrorMessage, quantity } from '../utils/stockFormat.js';
+import { inventoryErrorMessage, quantity, unitSymbol } from '../utils/stockFormat.js';
 
 // mode 'in': registrar entrada (ingreso). mode 'out': registrar salida (ajuste negativo con motivo).
 export default function StockDialog({ mode, inventoryId, resources, resourceId, onClose }) {
@@ -779,13 +796,13 @@ export default function StockDialog({ mode, inventoryId, resources, resourceId, 
           </p>
         )}
         <label className="iv-field">
-          <span>{t('inventory.form.quantity')}{resource?.unit ? ' (' + resource.unit + ')' : ''}</span>
-          <input value={amount} onChange={(event) => setAmount(event.target.value)} inputMode="decimal" placeholder="0" />
+          <span>{t('inventory.form.quantity')}{resource?.unit ? ' (' + unitSymbol(resource.unit, lng) + ')' : ''}</span>
+          <input value={amount} onChange={(event) => setAmount(event.target.value)} inputMode="numeric" placeholder="0" />
         </label>
         {isOut && (
           <label className="iv-field">
             <span>{t('inventory.form.reason')}</span>
-            <input value={reason} onChange={(event) => setReason(event.target.value)} placeholder={t('inventory.form.reasonPlaceholder')} />
+            <input value={reason} onChange={(event) => setReason(event.target.value)} placeholder={t('inventory.form.reasonPlaceholder')} maxLength={300} />
           </label>
         )}
 
@@ -805,9 +822,9 @@ export default function StockDialog({ mode, inventoryId, resources, resourceId, 
 write(RM + 'presentation/components/newResourceDialog.jsx', String.raw`
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { stockCategories } from '../../domain/enums/stockCategory.js';
+import { stockCategories, stockUnits } from '../../domain/enums/stockCategory.js';
 import { useRegisterResource } from '../hooks/useRegisterResource.js';
-import { categoryLabel, inventoryErrorMessage } from '../utils/stockFormat.js';
+import { categoryLabel, inventoryErrorMessage, unitLabel } from '../utils/stockFormat.js';
 
 export default function NewResourceDialog({ inventoryId, onClose }) {
   const { t } = useTranslation('resourceManagement');
@@ -835,7 +852,7 @@ export default function NewResourceDialog({ inventoryId, onClose }) {
       <form className="iv-dialog" role="dialog" aria-modal="true" aria-labelledby="iv-new-title" onSubmit={submit} noValidate>
         <h2 id="iv-new-title" className="iv-h2">{t('inventory.new.title')}</h2>
         <p className="iv-note">{t('inventory.new.hint')}</p>
-        <label className="iv-field"><span>{t('inventory.new.name')}</span><input ref={nameRef} value={values.name} onChange={change('name')} /></label>
+        <label className="iv-field"><span>{t('inventory.new.name')}</span><input ref={nameRef} value={values.name} onChange={change('name')} maxLength={150} /></label>
         <label className="iv-field">
           <span>{t('inventory.new.category')}</span>
           <select value={values.category} onChange={change('category')}>
@@ -844,8 +861,14 @@ export default function NewResourceDialog({ inventoryId, onClose }) {
           </select>
         </label>
         <div className="iv-field-row">
-          <label className="iv-field"><span>{t('inventory.new.unit')}</span><input value={values.unit} onChange={change('unit')} placeholder={t('inventory.new.unitPlaceholder')} /></label>
-          <label className="iv-field"><span>{t('inventory.new.minimum')}</span><input value={values.minimumStock} onChange={change('minimumStock')} inputMode="decimal" placeholder="0" /></label>
+          <label className="iv-field">
+            <span>{t('inventory.new.unit')}</span>
+            <select value={values.unit} onChange={change('unit')}>
+              <option value="">{t('inventory.new.unitPlaceholder')}</option>
+              {stockUnits.map((unit) => <option key={unit} value={unit}>{unitLabel(t, unit)}</option>)}
+            </select>
+          </label>
+          <label className="iv-field"><span>{t('inventory.new.minimum')}</span><input value={values.minimumStock} onChange={change('minimumStock')} inputMode="numeric" placeholder="0" /></label>
         </div>
         {message && <p className="iv-error" role="alert">{message}</p>}
         <div className="iv-dialog__actions">
@@ -978,9 +1001,9 @@ export default function InventoryPage() {
                 )}
               </header>
               <div className="iv-tabs" role="group" aria-label={t('inventory.table.filter')}>
-                {[CategoryFilter.ALL, CategoryFilter.MEDICAL, CategoryFilter.RESCUE, CategoryFilter.SUPPLIES].map((value) => (
+                {Object.values(CategoryFilter).map((value) => (
                   <button key={value} type="button" className="iv-tab" aria-pressed={category === value} onClick={() => setCategory(value)}>
-                    {t('inventory.tabs.' + value)} <span className="iv-tab__count">{counts[value] ?? 0}</span>
+                    {t('inventory.categories.' + value)} <span className="iv-tab__count">{counts[value] ?? 0}</span>
                   </button>
                 ))}
               </div>
@@ -1111,8 +1134,9 @@ mergeJson(RM + 'presentation/i18n/es.json', { inventory: {
   viewAlerts: 'Ver alertas',
   actions: { in: 'Registrar entrada', out: 'Registrar salida', newResource: 'Nuevo recurso' },
   levels: { OK: 'OK', LOW: 'Bajo', CRITICAL: 'Crítico' },
-  categories: { MEDICAL: 'Médico', RESCUE: 'Rescate', SUPPLIES: 'Suministros' },
-  tabs: { ALL: 'Todos', MEDICAL: 'Médico', RESCUE: 'Rescate', SUPPLIES: 'Suministros' },
+  categories: { ALL: 'Todos', WATER: 'Agua', FOOD: 'Alimentos', SHELTER: 'Refugio', HYGIENE: 'Higiene', MEDICINE: 'Medicinas', OTHER: 'Otros' },
+  units: { UNIT: 'Unidades', KG: 'Kilogramos (kg)', LITER: 'Litros (L)', KIT: 'Kits' },
+  tabs: { ALL: 'Todos' },
   cards: { label: 'Recursos', of: 'de {{total}} en almacén', available: 'Disponible', minimum: 'mínimo {{value}}', reserved: '{{value}} reservado' },
   table: {
     title: 'Existencias', filter: 'Filtrar por categoría', empty: 'No hay recursos en esta categoría.',
@@ -1130,7 +1154,7 @@ mergeJson(RM + 'presentation/i18n/es.json', { inventory: {
   out: { title: 'Registrar salida', hint: 'Resta del stock disponible. Queda registrada como ajuste con su motivo.', submit: 'Registrar salida' },
   new: {
     title: 'Nuevo recurso', hint: 'Se registra sin stock; después registra su primera entrada.', name: 'Nombre', category: 'Categoría',
-    categoryPlaceholder: 'Elige una categoría', unit: 'Unidad', unitPlaceholder: 'L, unid., kits', minimum: 'Stock mínimo', submit: 'Registrar recurso',
+    categoryPlaceholder: 'Elige una categoría', unit: 'Unidad', unitPlaceholder: 'Elige una unidad', minimum: 'Stock mínimo', submit: 'Registrar recurso',
   },
   form: {
     resource: 'Recurso', quantity: 'Cantidad', reason: 'Motivo', reasonPlaceholder: 'Ej.: entrega a albergue, merma',
@@ -1146,9 +1170,9 @@ mergeJson(RM + 'presentation/i18n/es.json', { inventory: {
     other: 'El administrador todavía no registró recursos.',
   },
   errors: {
-    nameRequired: 'Escribe el nombre del recurso.', categoryRequired: 'Elige una categoría.', unitRequired: 'Escribe la unidad (L, unid., kits...).',
-    minimumInvalid: 'El stock mínimo debe ser un número igual o mayor que 0.', resourceRequired: 'Elige un recurso.',
-    quantityInvalid: 'La cantidad debe ser un número mayor que 0.', reasonRequired: 'Escribe el motivo de la salida.',
+    nameRequired: 'Escribe el nombre del recurso.', nameTooLong: 'El nombre puede tener hasta 150 caracteres.', categoryRequired: 'Elige una categoría.', unitRequired: 'Elige la unidad.',
+    minimumInvalid: 'El stock mínimo debe ser un número entero igual o mayor que 0.', resourceRequired: 'Elige un recurso.',
+    quantityInvalid: 'La cantidad debe ser un número entero mayor que 0.', reasonRequired: 'Escribe el motivo de la salida.', reasonTooLong: 'El motivo puede tener hasta 300 caracteres.',
     exceedsAvailable: 'No hay tanto stock disponible: lo reservado para planes no se puede sacar.',
     forbidden: 'Solo el administrador de la organización puede modificar el inventario.', generic: 'No se pudo completar la operación.',
   },
@@ -1163,8 +1187,9 @@ mergeJson(RM + 'presentation/i18n/en.json', { inventory: {
   viewAlerts: 'View alerts',
   actions: { in: 'Register entry', out: 'Register exit', newResource: 'New resource' },
   levels: { OK: 'OK', LOW: 'Low', CRITICAL: 'Critical' },
-  categories: { MEDICAL: 'Medical', RESCUE: 'Rescue', SUPPLIES: 'Supplies' },
-  tabs: { ALL: 'All', MEDICAL: 'Medical', RESCUE: 'Rescue', SUPPLIES: 'Supplies' },
+  categories: { ALL: 'All', WATER: 'Water', FOOD: 'Food', SHELTER: 'Shelter', HYGIENE: 'Hygiene', MEDICINE: 'Medicine', OTHER: 'Other' },
+  units: { UNIT: 'Units', KG: 'Kilograms (kg)', LITER: 'Liters (L)', KIT: 'Kits' },
+  tabs: { ALL: 'All' },
   cards: { label: 'Resources', of: 'of {{total}} in the warehouse', available: 'Available', minimum: 'minimum {{value}}', reserved: '{{value}} reserved' },
   table: {
     title: 'Stock', filter: 'Filter by category', empty: 'There are no resources in this category.',
@@ -1182,7 +1207,7 @@ mergeJson(RM + 'presentation/i18n/en.json', { inventory: {
   out: { title: 'Register exit', hint: 'Subtracts from the available stock. It is recorded as an adjustment with its reason.', submit: 'Register exit' },
   new: {
     title: 'New resource', hint: 'It is registered without stock; then register its first entry.', name: 'Name', category: 'Category',
-    categoryPlaceholder: 'Choose a category', unit: 'Unit', unitPlaceholder: 'L, units, kits', minimum: 'Minimum stock', submit: 'Register resource',
+    categoryPlaceholder: 'Choose a category', unit: 'Unit', unitPlaceholder: 'Choose a unit', minimum: 'Minimum stock', submit: 'Register resource',
   },
   form: {
     resource: 'Resource', quantity: 'Quantity', reason: 'Reason', reasonPlaceholder: 'E.g.: delivered to shelter, loss',
@@ -1198,9 +1223,9 @@ mergeJson(RM + 'presentation/i18n/en.json', { inventory: {
     other: 'The administrator has not registered resources yet.',
   },
   errors: {
-    nameRequired: 'Enter the resource name.', categoryRequired: 'Choose a category.', unitRequired: 'Enter the unit (L, units, kits...).',
-    minimumInvalid: 'The minimum stock must be a number equal to or greater than 0.', resourceRequired: 'Choose a resource.',
-    quantityInvalid: 'The quantity must be a number greater than 0.', reasonRequired: 'Enter the reason for the exit.',
+    nameRequired: 'Enter the resource name.', nameTooLong: 'The name can have up to 150 characters.', categoryRequired: 'Choose a category.', unitRequired: 'Choose the unit.',
+    minimumInvalid: 'The minimum stock must be a whole number equal to or greater than 0.', resourceRequired: 'Choose a resource.',
+    quantityInvalid: 'The quantity must be a whole number greater than 0.', reasonRequired: 'Enter the reason for the exit.', reasonTooLong: 'The reason can have up to 300 characters.',
     exceedsAvailable: 'There is not that much available stock: what is reserved for plans cannot be taken out.',
     forbidden: "Only the organization's administrator can change the inventory.", generic: 'The operation could not be completed.',
   },

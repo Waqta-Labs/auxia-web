@@ -20,7 +20,14 @@
     "categories": {
       "MEDICAL": "Médico",
       "RESCUE": "Rescate",
-      "SUPPLIES": "Suministros"
+      "SUPPLIES": "Suministros",
+      "ALL": "Todos",
+      "WATER": "Agua",
+      "FOOD": "Alimentos",
+      "SHELTER": "Refugio",
+      "HYGIENE": "Higiene",
+      "MEDICINE": "Medicinas",
+      "OTHER": "Otros"
     },
     "tabs": {
       "ALL": "Todos",
@@ -84,7 +91,7 @@
       "category": "Categoría",
       "categoryPlaceholder": "Elige una categoría",
       "unit": "Unidad",
-      "unitPlaceholder": "L, unid., kits",
+      "unitPlaceholder": "Elige una unidad",
       "minimum": "Stock mínimo",
       "submit": "Registrar recurso"
     },
@@ -111,14 +118,22 @@
     "errors": {
       "nameRequired": "Escribe el nombre del recurso.",
       "categoryRequired": "Elige una categoría.",
-      "unitRequired": "Escribe la unidad (L, unid., kits...).",
-      "minimumInvalid": "El stock mínimo debe ser un número igual o mayor que 0.",
+      "unitRequired": "Elige la unidad.",
+      "minimumInvalid": "El stock mínimo debe ser un número entero igual o mayor que 0.",
       "resourceRequired": "Elige un recurso.",
-      "quantityInvalid": "La cantidad debe ser un número mayor que 0.",
+      "quantityInvalid": "La cantidad debe ser un número entero mayor que 0.",
       "reasonRequired": "Escribe el motivo de la salida.",
       "exceedsAvailable": "No hay tanto stock disponible: lo reservado para planes no se puede sacar.",
       "forbidden": "Solo el administrador de la organización puede modificar el inventario.",
-      "generic": "No se pudo completar la operación."
+      "generic": "No se pudo completar la operación.",
+      "nameTooLong": "El nombre puede tener hasta 150 caracteres.",
+      "reasonTooLong": "El motivo puede tener hasta 300 caracteres."
+    },
+    "units": {
+      "UNIT": "Unidades",
+      "KG": "Kilogramos (kg)",
+      "LITER": "Litros (L)",
+      "KIT": "Kits"
     }
   },
   "fieldLogistics": {

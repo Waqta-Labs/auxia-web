@@ -20,7 +20,14 @@
     "categories": {
       "MEDICAL": "Medical",
       "RESCUE": "Rescue",
-      "SUPPLIES": "Supplies"
+      "SUPPLIES": "Supplies",
+      "ALL": "All",
+      "WATER": "Water",
+      "FOOD": "Food",
+      "SHELTER": "Shelter",
+      "HYGIENE": "Hygiene",
+      "MEDICINE": "Medicine",
+      "OTHER": "Other"
     },
     "tabs": {
       "ALL": "All",
@@ -84,7 +91,7 @@
       "category": "Category",
       "categoryPlaceholder": "Choose a category",
       "unit": "Unit",
-      "unitPlaceholder": "L, units, kits",
+      "unitPlaceholder": "Choose a unit",
       "minimum": "Minimum stock",
       "submit": "Register resource"
     },
@@ -111,14 +118,22 @@
     "errors": {
       "nameRequired": "Enter the resource name.",
       "categoryRequired": "Choose a category.",
-      "unitRequired": "Enter the unit (L, units, kits...).",
-      "minimumInvalid": "The minimum stock must be a number equal to or greater than 0.",
+      "unitRequired": "Choose the unit.",
+      "minimumInvalid": "The minimum stock must be a whole number equal to or greater than 0.",
       "resourceRequired": "Choose a resource.",
-      "quantityInvalid": "The quantity must be a number greater than 0.",
+      "quantityInvalid": "The quantity must be a whole number greater than 0.",
       "reasonRequired": "Enter the reason for the exit.",
       "exceedsAvailable": "There is not that much available stock: what is reserved for plans cannot be taken out.",
       "forbidden": "Only the organization's administrator can change the inventory.",
-      "generic": "The operation could not be completed."
+      "generic": "The operation could not be completed.",
+      "nameTooLong": "The name can have up to 150 characters.",
+      "reasonTooLong": "The reason can have up to 300 characters."
+    },
+    "units": {
+      "UNIT": "Units",
+      "KG": "Kilograms (kg)",
+      "LITER": "Liters (L)",
+      "KIT": "Kits"
     }
   },
   "fieldLogistics": {

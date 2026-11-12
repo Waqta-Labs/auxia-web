@@ -7,13 +7,14 @@ const iso = (hoursAgo) => new Date(Date.now() - hoursAgo * 3600000).toISOString(
 
 // Los 4 primeros repiten el mockup (agua crítica, raciones OK, kits bajos, carpas OK).
 let resources = [
-  { id: 'rs-01', name: 'Agua embotellada', category: 'SUPPLIES', unit: 'L', onHand: 2400, reserved: 1250, minimumStock: 2500 },
-  { id: 'rs-02', name: 'Raciones', category: 'SUPPLIES', unit: 'unid.', onHand: 7200, reserved: 400, minimumStock: 3000 },
-  { id: 'rs-03', name: 'Kits de Primeros Auxilios', category: 'MEDICAL', unit: 'kits', onHand: 900, reserved: 260, minimumStock: 750 },
-  { id: 'rs-04', name: 'Carpas', category: 'RESCUE', unit: 'unid.', onHand: 260, reserved: 50, minimumStock: 100 },
-  { id: 'rs-05', name: 'Mantas térmicas', category: 'SUPPLIES', unit: 'unid.', onHand: 1500, reserved: 0, minimumStock: 600 },
-  { id: 'rs-06', name: 'Cuerdas de rescate', category: 'RESCUE', unit: 'm', onHand: 800, reserved: 120, minimumStock: 300 },
-  { id: 'rs-07', name: 'Medicamentos básicos', category: 'MEDICAL', unit: 'cajas', onHand: 310, reserved: 40, minimumStock: 200 },
+  { id: 'rs-01', name: 'Agua embotellada', category: 'WATER', unit: 'LITER', onHand: 2400, reserved: 1250, minimumStock: 2500 },
+  { id: 'rs-02', name: 'Raciones', category: 'FOOD', unit: 'UNIT', onHand: 7200, reserved: 400, minimumStock: 3000 },
+  { id: 'rs-03', name: 'Kits de Primeros Auxilios', category: 'MEDICINE', unit: 'KIT', onHand: 900, reserved: 260, minimumStock: 750 },
+  { id: 'rs-04', name: 'Carpas', category: 'SHELTER', unit: 'UNIT', onHand: 260, reserved: 50, minimumStock: 100 },
+  { id: 'rs-05', name: 'Mantas térmicas', category: 'SHELTER', unit: 'UNIT', onHand: 1500, reserved: 0, minimumStock: 600 },
+  { id: 'rs-06', name: 'Cuerdas de rescate', category: 'OTHER', unit: 'UNIT', onHand: 800, reserved: 120, minimumStock: 300 },
+  { id: 'rs-08', name: 'Jabón y kits de higiene', category: 'HYGIENE', unit: 'KIT', onHand: 540, reserved: 0, minimumStock: 200 },
+  { id: 'rs-07', name: 'Medicamentos básicos', category: 'MEDICINE', unit: 'KIT', onHand: 310, reserved: 40, minimumStock: 200 },
 ];
 let alerts = [
   { id: 'al-01', resourceId: 'rs-01', status: 'OPEN', raisedAt: iso(5) },
@@ -21,7 +22,7 @@ let alerts = [
   { id: 'al-03', resourceId: 'rs-02', status: 'RESOLVED', raisedAt: iso(70), resolvedAt: iso(48) },
 ];
 let inventoryExists = true;
-let sequence = 7;
+let sequence = 8;
 
 const available = (resource) => resource.onHand - resource.reserved;
 // Igual que el backend: bajo el mínimo abre una alerta; repuesto por encima del mínimo la resuelve.
