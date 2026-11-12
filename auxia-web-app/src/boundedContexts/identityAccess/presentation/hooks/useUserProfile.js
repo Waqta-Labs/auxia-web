@@ -8,7 +8,7 @@ import { useAuth } from './useAuth.js';
 export function useUserProfile() {
   const { session } = useAuth();
   const query = useQuery({
-    queryKey: ['userProfile'],
+    queryKey: ['userProfile', session.token],
     queryFn: () => userRepository.getMe(),
     enabled: !env.useMocks,
     retry: false,
@@ -16,7 +16,7 @@ export function useUserProfile() {
   });
   // Solo la cuenta de una brigada de campo tiene brigada y misiones.
   const brigadeQuery = useQuery({
-    queryKey: ['myBrigade'],
+    queryKey: ['myBrigade', session.token],
     queryFn: () => userRepository.getMyBrigade(),
     enabled: !env.useMocks && session.role === Role.FIELD_BRIGADE,
     retry: false,

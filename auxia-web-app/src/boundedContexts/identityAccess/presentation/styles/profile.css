@@ -4,12 +4,19 @@
 
 .pf-card { border: 1px solid var(--cc-line); border-radius: 16px; background: var(--cc-card); }
 .pf-hero { overflow: hidden; }
-.pf-banner { height: 96px; background: linear-gradient(110deg, rgba(71, 80, 221, 0.7), rgba(133, 213, 246, 0.28)); }
-.pf-who { display: flex; align-items: flex-end; gap: 20px; padding: 0 24px 24px; margin-top: -42px; }
-.pf-avatar { display: grid; place-items: center; flex: none; width: 84px; height: 84px; border: 4px solid var(--cc-card); border-radius: 50%; background: var(--color-royal); font-size: 1.75rem; font-weight: 700; }
-.pf-who h2 { margin: 0 0 6px; font-size: 1.375rem; font-weight: 700; }
-.pf-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; color: var(--night-100); font-size: 0.875rem; }
-.pf-role { padding: 3px 12px; border-radius: 999px; background: rgba(188, 251, 137, 0.16); color: var(--color-lime); font-size: 0.75rem; font-weight: 700; }
+.pf-banner { height: 112px; background: radial-gradient(520px 170px at 88% 0%, rgba(133, 213, 246, 0.42), transparent 70%), radial-gradient(460px 190px at 6% 130%, rgba(188, 251, 137, 0.2), transparent 70%), linear-gradient(110deg, #3138b8, var(--color-royal) 45%, #2b3196); }
+.pf-who { display: flex; align-items: flex-start; gap: 22px; padding: 0 28px 26px; }
+.pf-avatar { display: grid; place-items: center; flex: none; width: 92px; height: 92px; margin-top: -46px; border: 4px solid var(--cc-card); border-radius: 50%; background: linear-gradient(135deg, var(--color-royal), #7a83f5); box-shadow: 0 10px 26px rgba(0, 0, 0, 0.35); font-size: 1.875rem; font-weight: 700; }
+.pf-who > div { min-width: 0; padding-top: 16px; }
+.pf-who h2 { margin: 0 0 10px; font-size: 1.5rem; font-weight: 700; letter-spacing: -0.01em; }
+.pf-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font-size: 0.8125rem; }
+.pf-role, .pf-status, .pf-mail { display: inline-flex; align-items: center; gap: 6px; min-height: 26px; padding: 0 12px; border-radius: 999px; font-weight: 600; }
+.pf-role { background: rgba(188, 251, 137, 0.16); color: var(--color-lime); font-weight: 700; }
+.pf-status { background: rgba(255, 255, 255, 0.08); color: var(--night-50, #d4d6ee); }
+.pf-status::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--color-coral); }
+.pf-status.is-active::before { background: var(--color-emerald); }
+.pf-mail { background: rgba(255, 255, 255, 0.08); color: var(--night-50, #d4d6ee); font-weight: 500; }
+.pf-mail svg { color: var(--color-sky); }
 
 .pf-grid { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(280px, 1fr); gap: var(--space-3); align-items: start; }
 .pf-stack { display: grid; gap: var(--space-3); min-width: 0; }

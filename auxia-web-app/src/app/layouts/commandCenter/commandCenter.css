@@ -91,3 +91,7 @@
 .cc-user__link:hover { background: rgba(255, 255, 255, 0.05); }
 .cc-user__link.active { box-shadow: inset 0 0 0 1.5px var(--color-royal); }
 .cc-user__link:focus-visible { outline: 2px solid var(--color-sky); outline-offset: 2px; }
+
+/* user-profile-link-2 */
+.cc .cc-user__link { color: #fff; }
+.cc .cc-user__link:hover { color: #fff; }
