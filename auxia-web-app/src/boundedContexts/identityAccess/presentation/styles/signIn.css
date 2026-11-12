@@ -172,3 +172,15 @@
 
 .si-logo { display: block; height: 88px; width: auto; }
 .si-logo--mobile { height: 64px; }
+
+/* signin-fit */
+@media (min-width: 961px) {
+  .si { height: 100vh; height: 100dvh; min-height: 600px; grid-template-rows: minmax(0, 1fr); }
+  .si-hero { min-height: 0; }
+  .si-hero__stage { position: relative; }
+  .si-hero__stage .aid-net {
+    position: absolute; top: var(--space-3); left: 0; right: 0; margin: 0 auto;
+    width: min(100%, 560px); height: calc(100% - 2 * var(--space-3)); max-height: none;
+  }
+  .si-panel { min-height: 0; overflow-y: auto; }
+}
