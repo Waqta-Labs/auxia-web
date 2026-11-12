@@ -66,11 +66,13 @@ export default function Sidebar() {
       </nav>
 
       <div className="cc-user">
-        <span className="cc-user__avatar" aria-hidden="true">{initials(userName)}</span>
-        <div className="cc-user__info">
-          <strong>{userName}</strong>
-          <span>{session.organizationName ?? t('roles.' + session.role)}</span>
-        </div>
+        <NavLink to={routes.profile} className="cc-user__link" aria-label={t('sidebar.profile')} title={t('sidebar.profile')}>
+          <span className="cc-user__avatar" aria-hidden="true">{initials(userName)}</span>
+          <div className="cc-user__info">
+            <strong>{userName}</strong>
+            <span>{session.organizationName ?? t('roles.' + session.role)}</span>
+          </div>
+        </NavLink>
         <button type="button" className="cc-user__out" onClick={signOut} aria-label={t('actions.signOut')} title={t('actions.signOut')}>
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"
             strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">

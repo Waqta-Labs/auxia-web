@@ -49,6 +49,10 @@ const router = createBrowserRouter([
             ...page(() => import('@app/pages/dashboard/dashboardPage.jsx')),
           },
           {
+            path: routes.profile,
+            ...page(() => import('@bc/identityAccess/presentation/pages/profilePage.jsx')),
+          },
+          {
             element: <ProtectedRoute allowedRoles={routeRoles.gisMap} />,
             children: [
               {

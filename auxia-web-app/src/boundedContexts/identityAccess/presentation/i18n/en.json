@@ -27,5 +27,31 @@
       "traceability": "Traceability"
     }
   },
-  "footer": "© Waqta Labs · AuxIA"
+  "footer": "© Waqta Labs · AuxIA",
+  "profile": {
+    "title": "My profile",
+    "subtitle": "Your account and preferences",
+    "account": "Account details",
+    "fullName": "Full name",
+    "email": "Email",
+    "role": "Role",
+    "organization": "Organization",
+    "status": "Status",
+    "statuses": {
+      "ACTIVE": "Active",
+      "LOCKED": "Locked",
+      "DISABLED": "Disabled"
+    },
+    "managedNote": "Your organization manages these details; to change them, talk to the administrator.",
+    "brigade": "My brigade",
+    "brigadeName": "Brigade",
+    "missions": "Missions",
+    "missionsValue": "{{assigned}} assigned · {{completed}} completed",
+    "preferences": "Preferences",
+    "language": "Language",
+    "timeZone": "Time zone",
+    "lastLogin": "Last sign-in",
+    "sessionExpires": "Session expires",
+    "signOut": "Sign out"
+  }
 }

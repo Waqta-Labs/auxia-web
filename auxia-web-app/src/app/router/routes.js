@@ -3,6 +3,7 @@ import { Role } from '@bc/identityAccess/domain/enums/role.js';
 export const routes = Object.freeze({
   signIn: '/sign-in',
   dashboard: '/',
+  profile: '/profile',
   gisMap: '/map',
   prioritization: '/prioritization',
   inventory: '/inventory',

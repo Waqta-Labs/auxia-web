@@ -85,3 +85,9 @@
 }
 
 .cc-mock { padding: 4px 12px; border: 1px solid rgba(255, 176, 32, 0.5); border-radius: 999px; background: rgba(255, 176, 32, 0.12); color: #ffb020; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; white-space: nowrap; }
+
+/* user-profile-link */
+.cc-user__link { display: flex; align-items: center; gap: 12px; flex: 1; min-width: 0; padding: 4px; margin: -4px; border-radius: 10px; color: #fff; text-decoration: none; }
+.cc-user__link:hover { background: rgba(255, 255, 255, 0.05); }
+.cc-user__link.active { box-shadow: inset 0 0 0 1.5px var(--color-royal); }
+.cc-user__link:focus-visible { outline: 2px solid var(--color-sky); outline-offset: 2px; }

@@ -8,3 +8,8 @@ const httpRepository = new AuthHttpRepository();
 const authRepository = import.meta.env.DEV && env.useMocks ? new DevAuthRepository(httpRepository) : httpRepository;
 
 export const signInUseCase = new SignIn(authRepository);
+
+// user-profile
+import { UserHttpRepository } from './http/userHttpRepository.js';
+
+export const userRepository = new UserHttpRepository();

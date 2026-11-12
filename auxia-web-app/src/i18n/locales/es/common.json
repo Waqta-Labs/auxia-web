@@ -40,7 +40,8 @@
     "activeCrisis": "Crisis activa",
     "live": "En vivo",
     "noCrisis": "Sin crisis activa",
-    "navLabel": "Navegación principal"
+    "navLabel": "Navegación principal",
+    "profile": "Mi perfil"
   },
   "topbar": {
     "searchPlaceholder": "Buscar GPS, ID de reporte, brigada",
