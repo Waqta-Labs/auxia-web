@@ -12,7 +12,7 @@
 }
 .cc .muted { color: var(--night-100); }
 .cc a { color: var(--color-sky); }
-.cc__main { display: flex; flex-direction: column; min-width: 0; }
+.cc__main { display: flex; flex-direction: column; min-width: 0; overflow-y: hidden; }
 .cc__content { flex: 1; padding: var(--space-3) var(--space-4) var(--space-5); }
 
 /* Sidebar */

@@ -1,0 +1,7 @@
+.bc ol { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 0; padding: 0; list-style: none; font-size: 0.875rem; }
+.bc li { display: inline-flex; align-items: center; gap: 8px; }
+.bc a { color: var(--color-sky); text-decoration: none; font-weight: 600; }
+.bc a:hover { text-decoration: underline; }
+.bc a:focus-visible { outline: 2px solid var(--color-sky); outline-offset: 2px; border-radius: 4px; }
+.bc [aria-current='page'] { color: #fff; font-weight: 600; }
+.bc__sep { color: var(--night-100); }

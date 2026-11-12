@@ -108,3 +108,10 @@ h1 { margin: 0 0 var(--space-3); font-size: 1.5rem; font-weight: 700; }
 }
 .centered { min-height: 100%; display: grid; place-items: center; padding: var(--space-3); }
 .centered .card { width: 100%; max-width: 400px; }
+
+/* Hints de los inputs */
+input::placeholder,
+textarea::placeholder {
+  color: var(--night-100);
+  opacity: 1;
+}

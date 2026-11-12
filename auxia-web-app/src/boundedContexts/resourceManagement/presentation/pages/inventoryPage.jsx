@@ -1,7 +1,9 @@
-import { useMemo, useRef, useState } from 'react';
+import { useMemo, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { routes } from '@app/router/routes.js';
 import { usePermissions } from '@bc/identityAccess/presentation/hooks/usePermissions.js';
-import { CategoryFilter, byUrgency, countByCategory, filterByCategory, mostUrgentAlert } from '../../domain/services/stockSummary.js';
+import { CategoryFilter, byUrgency, countByCategory, filterByCategory, mostUrgentAlert, sortAlertsByUrgency } from '../../domain/services/stockSummary.js';
 import { useInventory } from '../hooks/useInventory.js';
 import { useStockAlerts } from '../hooks/useStockAlerts.js';
 import { useCreateInventory } from '../hooks/useCreateInventory.js';
@@ -13,6 +15,8 @@ import NewResourceDialog from '../components/newResourceDialog.jsx';
 import { inventoryErrorMessage, quantity } from '../utils/stockFormat.js';
 import '../styles/inventory.css';
 
+const MAX_CARDS = 5;
+
 export default function InventoryPage() {
   const { t, i18n } = useTranslation('resourceManagement');
   const lng = i18n.resolvedLanguage;
@@ -20,28 +24,21 @@ export default function InventoryPage() {
 
   const inventoryQuery = useInventory();
   const inventory = inventoryQuery.data ?? null;
-  const [alertStatus, setAlertStatus] = useState('OPEN');
   const openAlerts = useStockAlerts(inventory?.id, 'OPEN');
-  const shownAlerts = useStockAlerts(inventory?.id, alertStatus);
   const createInventory = useCreateInventory();
 
   const [category, setCategory] = useState(CategoryFilter.ALL);
   const [dialog, setDialog] = useState(null);      // { type: 'in' | 'out' | 'new', resourceId? }
-  const alertsRef = useRef(null);
 
   const resources = useMemo(() => [...(inventory?.resources ?? [])].sort(byUrgency), [inventory]);
   const counts = useMemo(() => countByCategory(resources), [resources]);
   const visible = useMemo(() => filterByCategory(resources, category), [resources, category]);
+  const alerts = useMemo(() => sortAlertsByUrgency(openAlerts.data ?? [], resources), [openAlerts.data, resources]);
   const urgent = useMemo(() => mostUrgentAlert(openAlerts.data ?? [], resources), [openAlerts.data, resources]);
   const urgentResource = urgent ? resources.find((resource) => resource.id === urgent.resourceId) : null;
 
   const loading = inventoryQuery.isLoading;
   const close = () => setDialog(null);
-  const showAlerts = () => {
-    setAlertStatus('OPEN');
-    alertsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    alertsRef.current?.focus({ preventScroll: true });
-  };
   const disabled = !inventory || resources.length === 0;
 
   return (
@@ -74,11 +71,11 @@ export default function InventoryPage() {
           <span>
             {t('inventory.banner', {
               name: urgent.resourceName ?? urgentResource?.name ?? '—',
-              available: quantity(urgent.available ?? urgentResource?.available ?? 0, urgentResource?.unit ?? '', lng),
-              minimum: quantity(urgent.minimumStock ?? urgentResource?.minimumStock ?? 0, '', lng),
+              available: quantity(urgentResource?.available ?? urgent.available ?? 0, urgentResource?.unit ?? '', lng),
+              minimum: quantity(urgentResource?.minimumStock ?? urgent.minimumStock ?? 0, '', lng),
             })}
           </span>
-          <button type="button" className="iv-link-btn" onClick={showAlerts}>{t('inventory.viewAlerts')}</button>
+          <Link to={routes.inventoryAlerts} className="iv-link-btn">{t('inventory.viewAlerts')}</Link>
         </p>
       )}
 
@@ -99,7 +96,7 @@ export default function InventoryPage() {
 
       {(loading || inventory) && (
         <>
-          <StockCards resources={resources.slice(0, 8)} loading={loading} />
+          <StockCards resources={resources} loading={loading} limit={MAX_CARDS} moreTo={routes.inventoryResources} />
           {!loading && resources.length === 0 && (
             <section className="iv-card-panel iv-setup">
               <h2 className="iv-h2">{t('inventory.noResources.title')}</h2>
@@ -130,9 +127,9 @@ export default function InventoryPage() {
             </section>
 
             <AlertsPanel
-              status={alertStatus} onStatus={setAlertStatus} alerts={shownAlerts.data ?? []} resources={resources}
-              loading={shownAlerts.isLoading} error={shownAlerts.error} canManage={isAdmin}
-              onRestock={(resourceId) => setDialog({ type: 'in', resourceId })} panelRef={alertsRef}
+              alerts={alerts} total={alerts.length} resources={resources}
+              loading={openAlerts.isLoading} error={openAlerts.error} canManage={isAdmin}
+              onRestock={(resourceId) => setDialog({ type: 'in', resourceId })} viewAllTo={routes.inventoryAlerts}
             />
           </div>
         </>

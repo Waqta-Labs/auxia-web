@@ -115,7 +115,7 @@
 }
 .si-input:focus-within { border-color: var(--color-royal); background: var(--color-white); color: var(--color-royal); box-shadow: 0 0 0 4px rgba(71, 80, 221, 0.14); }
 .si-input input { flex: 1; min-width: 0; height: 100%; min-height: calc(var(--touch-min) - 4px); border: 0; outline: 0; background: transparent; font: inherit; color: var(--color-gray-900); }
-.si-input input::placeholder { color: var(--gray-200); }
+.si-input input::placeholder { color: var(--night-100); }
 .si-input__toggle { display: grid; place-items: center; width: 32px; height: 32px; margin-right: -8px; border: 0; border-radius: 8px; background: transparent; color: inherit; cursor: pointer; }
 .si-input__toggle:hover { background: var(--royal-100); }
 .si-input__toggle:focus-visible { outline: 2px solid var(--color-sky); }

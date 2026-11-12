@@ -19,15 +19,18 @@ const levelWeight = { [StockLevel.CRITICAL]: 0, [StockLevel.LOW]: 1, [StockLevel
 // Los recursos más urgentes primero (críticos, luego bajos), y por nombre dentro de cada nivel.
 export const byUrgency = (a, b) => levelWeight[a.level] - levelWeight[b.level] || a.name.localeCompare(b.name);
 
-// La alerta abierta del recurso más escaso: va en el aviso rojo de arriba.
-export function mostUrgentAlert(alerts, resources) {
+// Alertas abiertas, la del recurso más escaso primero (disponible / mínimo).
+export function sortAlertsByUrgency(alerts, resources) {
   const byId = new Map(resources.map((resource) => [resource.id, resource]));
-  const open = alerts.filter((alert) => alert.isOpen);
   const ratio = (alert) => {
     const resource = byId.get(alert.resourceId);
-    const min = alert.minimumStock ?? resource?.minimumStock ?? 0;
-    const available = alert.available ?? resource?.available ?? 0;
+    const min = resource?.minimumStock ?? alert.minimumStock ?? 0;
+    const available = resource?.available ?? alert.available ?? 0;
     return min > 0 ? available / min : 0;
   };
-  return open.sort((a, b) => ratio(a) - ratio(b))[0] ?? null;
+  return [...alerts].sort((a, b) => ratio(a) - ratio(b));
 }
+
+// La alerta abierta del recurso más escaso: va en el aviso rojo de arriba.
+export const mostUrgentAlert = (alerts, resources) => sortAlertsByUrgency(alerts.filter((alert) => alert.isOpen), resources)[0] ?? null;
+

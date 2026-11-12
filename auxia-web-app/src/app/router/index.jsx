@@ -73,6 +73,14 @@ const router = createBrowserRouter([
                 path: routes.inventory,
                 ...page(() => import('@bc/resourceManagement/presentation/pages/inventoryPage.jsx')),
               },
+              {
+                path: routes.inventoryAlerts,
+                ...page(() => import('@bc/resourceManagement/presentation/pages/inventoryAlertsPage.jsx')),
+              },
+              {
+                path: routes.inventoryResources,
+                ...page(() => import('@bc/resourceManagement/presentation/pages/inventoryResourcesPage.jsx')),
+              },
             ],
           },
           {

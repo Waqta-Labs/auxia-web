@@ -40,7 +40,9 @@
       "of": "de {{total}} en almacén",
       "available": "Disponible",
       "minimum": "mínimo {{value}}",
-      "reserved": "{{value}} reservado"
+      "reserved": "{{value}} reservado",
+      "more": "Ver todos",
+      "moreLabel": "Ver los {{count}} recursos restantes"
     },
     "table": {
       "title": "Existencias",
@@ -55,7 +57,9 @@
       "status": "Estado",
       "actions": "Acciones",
       "in": "Entrada",
-      "out": "Salida"
+      "out": "Salida",
+      "inFor": "Registrar entrada de {{name}}",
+      "outFor": "Registrar salida de {{name}}"
     },
     "alerts": {
       "title": "Alertas de desabastecimiento",
@@ -72,7 +76,9 @@
       "detail": "Disponible {{available}} · mínimo {{minimum}}",
       "raised": "Alerta desde {{date}}",
       "resolved": "Resuelta el {{date}}",
-      "restock": "Reabastecer"
+      "restock": "Reabastecer",
+      "viewAll": "Ver las {{count}} alertas",
+      "viewDetail": "Ver detalle de alertas"
     },
     "in": {
       "title": "Registrar entrada",
@@ -134,6 +140,24 @@
       "KG": "Kilogramos (kg)",
       "LITER": "Litros (L)",
       "KIT": "Kits"
+    },
+    "breadcrumb": {
+      "label": "Ruta de navegación"
+    },
+    "alertsPage": {
+      "title": "Alertas de desabastecimiento",
+      "subtitle": "Recursos que bajaron de su stock mínimo, de lo más urgente a lo menos urgente.",
+      "summary": "Resumen de alertas",
+      "open": "Abiertas",
+      "critical": "Críticas",
+      "resolved": "Resueltas",
+      "missing": "Faltan",
+      "raisedOn": "Alerta desde {{date}}"
+    },
+    "resourcesPage": {
+      "title": "Recursos del inventario",
+      "subtitle": "{{count}} recursos registrados, los más urgentes primero",
+      "search": "Buscar recurso"
     }
   },
   "fieldLogistics": {

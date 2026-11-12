@@ -6,6 +6,8 @@ export const routes = Object.freeze({
   gisMap: '/map',
   prioritization: '/prioritization',
   inventory: '/inventory',
+  inventoryAlerts: '/inventory/alerts',
+  inventoryResources: '/inventory/resources',
   logistics: '/logistics',
   audit: '/audit',
   publicPortal: '/public',

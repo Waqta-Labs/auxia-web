@@ -40,7 +40,9 @@
       "of": "of {{total}} in the warehouse",
       "available": "Available",
       "minimum": "minimum {{value}}",
-      "reserved": "{{value}} reserved"
+      "reserved": "{{value}} reserved",
+      "more": "See all",
+      "moreLabel": "See the other {{count}} resources"
     },
     "table": {
       "title": "Stock",
@@ -55,7 +57,9 @@
       "status": "Status",
       "actions": "Actions",
       "in": "Entry",
-      "out": "Exit"
+      "out": "Exit",
+      "inFor": "Register entry for {{name}}",
+      "outFor": "Register exit for {{name}}"
     },
     "alerts": {
       "title": "Stock-out alerts",
@@ -72,7 +76,9 @@
       "detail": "Available {{available}} · minimum {{minimum}}",
       "raised": "Alert since {{date}}",
       "resolved": "Resolved on {{date}}",
-      "restock": "Restock"
+      "restock": "Restock",
+      "viewAll": "View all {{count}} alerts",
+      "viewDetail": "View alert details"
     },
     "in": {
       "title": "Register entry",
@@ -134,6 +140,24 @@
       "KG": "Kilograms (kg)",
       "LITER": "Liters (L)",
       "KIT": "Kits"
+    },
+    "breadcrumb": {
+      "label": "Breadcrumb"
+    },
+    "alertsPage": {
+      "title": "Stock-out alerts",
+      "subtitle": "Resources that fell below their minimum stock, most urgent first.",
+      "summary": "Alert summary",
+      "open": "Open",
+      "critical": "Critical",
+      "resolved": "Resolved",
+      "missing": "Missing",
+      "raisedOn": "Alert since {{date}}"
+    },
+    "resourcesPage": {
+      "title": "Inventory resources",
+      "subtitle": "{{count}} registered resources, most urgent first",
+      "search": "Search resource"
     }
   },
   "fieldLogistics": {
