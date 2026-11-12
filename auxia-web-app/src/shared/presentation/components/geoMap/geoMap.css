@@ -29,3 +29,6 @@
 /* geomap-preview */
 .gm[data-interactive='false'] { cursor: pointer; touch-action: auto; }
 .gm[data-interactive='false'] .gm__zoom, .gm[data-interactive='false'] .gm__recenter { display: none; }
+
+/* geomap-wheel-hint */
+.gm__hint { position: absolute; inset: 0; z-index: 40; display: grid; place-items: center; margin: 0; background: rgba(11, 11, 46, 0.55); color: #fff; font-weight: 600; text-align: center; pointer-events: none; }

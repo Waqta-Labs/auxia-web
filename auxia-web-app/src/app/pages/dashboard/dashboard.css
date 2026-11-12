@@ -99,3 +99,7 @@
 .dm-open { position: absolute; top: 16px; right: 16px; z-index: 1000; height: 32px; padding: 0 14px; border: 1px solid var(--cc-line); border-radius: 999px; background: rgba(16, 16, 58, 0.88); color: #fff; font: inherit; font-size: 0.8125rem; font-weight: 600; cursor: pointer; backdrop-filter: blur(6px); }
 .dm-open:hover { background: rgba(33, 33, 97, 0.95); }
 .dm-open:focus-visible { outline: 2px solid var(--color-sky); outline-offset: 2px; }
+
+/* dashboard-map-preview-2 */
+.map-panel .gm { touch-action: pan-y; }
+.map-panel .gm__corner { bottom: 36px; }

@@ -13,13 +13,14 @@ const PERU_BOUNDS = [{ lat: -0.04, lng: -81.4 }, { lat: -18.4, lng: -68.6 }];
 const INITIAL_VIEW = { lat: -9.2, lng: -75.0, zoom: 4.6 };
 const COVERAGE_METERS = 450;
 
-// Vista previa del Mapa GIS en el dashboard: el mismo mapa propio (límites + calor + marcadores), sin interacción.
-// Un clic en el mapa o en "Abrir mapa completo" lleva al Mapa GIS.
+// Vista previa del Mapa GIS en el dashboard: el mismo mapa propio (límites + calor + marcadores). Se arrastra y se acerca
+// (la rueda solo con Ctrl / ⌘, para no bloquear el scroll de la página). "Abrir mapa completo" lleva al Mapa GIS.
 export default function UrgencyHeatMap({ zones = [], brigades = [], loading = false }) {
   const { t } = useTranslation('emergencyManagement');
   const navigate = useNavigate();
   const boundaries = useBoundaries();
   const [view, setView] = useState(INITIAL_VIEW);
+  const [recenter, setRecenter] = useState(0);
   const [layers, setLayers] = useState({ zones: true, coverage: true, brigades: true });
   const toggle = (key) => setLayers((current) => ({ ...current, [key]: !current[key] }));
   const open = () => navigate(routes.gisMap);
@@ -32,9 +33,9 @@ export default function UrgencyHeatMap({ zones = [], brigades = [], loading = fa
   const fit = useMemo(() => {
     const points = [...placedZones, ...placedBrigades].map((item) => ({ lat: item.latitude, lng: item.longitude }));
     return points.length > 0
-      ? { key: 'data:' + placedZones.length + ':' + placedBrigades.length, points, padding: 70, maxZoom: 15 }
-      : { key: 'peru', points: PERU_BOUNDS, padding: 30, maxZoom: 7 };
-  }, [placedZones, placedBrigades]);
+      ? { key: 'data:' + placedZones.length + ':' + placedBrigades.length + ':' + recenter, points, padding: 70, maxZoom: 15 }
+      : { key: 'peru:' + recenter, points: PERU_BOUNDS, padding: 30, maxZoom: 7 };
+  }, [placedZones, placedBrigades, recenter]);
 
   const chips = [
     { key: 'zones', color: 'var(--color-coral)', label: t('map.layers.zones') },
@@ -47,8 +48,19 @@ export default function UrgencyHeatMap({ zones = [], brigades = [], loading = fa
       {loading ? (
         <div className="skeleton heatmap" />
       ) : (
-        <div className="heatmap" onClick={open}>
-          <GeoMap view={view} onViewChange={setView} fit={fit} interactive={false} label={t('gisMap.map.label')}>
+        <div className="heatmap">
+          <GeoMap
+            view={view}
+            onViewChange={setView}
+            fit={fit}
+            wheelZoom="modifier"
+            wheelHintLabel={t('map.wheelHint')}
+            onRecenter={() => setRecenter((n) => n + 1)}
+            recenterLabel={t('gisMap.tools.recenter')}
+            zoomInLabel={t('gisMap.map.zoomIn')}
+            zoomOutLabel={t('gisMap.map.zoomOut')}
+            label={t('gisMap.map.label')}
+          >
             {(ctx) => (
               <>
                 <BaseLayer boundaries={boundaries} view={ctx.view} size={ctx.size} lines fill={!env.mapTilesUrl} />

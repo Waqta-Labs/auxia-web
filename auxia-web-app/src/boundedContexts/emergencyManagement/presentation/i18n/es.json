@@ -173,7 +173,8 @@
       "brigades": "Bases de brigadas"
     },
     "caption": "Mapa de calor de auxilio · intensidad creciente →",
-    "open": "Abrir mapa completo"
+    "open": "Abrir mapa completo",
+    "wheelHint": "Usa Ctrl (⌘) + rueda para acercar o alejar"
   },
   "priority": {
     "title": "Priorización IA",

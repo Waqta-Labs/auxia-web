@@ -19,7 +19,7 @@ function scaleBar(lat, zoom) {
 //  - fit = { key, points, padding }: encuadra los puntos cada vez que cambia "key".
 //  - children recibe { view, size, toScreen, metersPerPixel } para dibujar capas encima.
 //  - Los elementos interactivos que se dibujen encima deben llevar data-map-ui para no arrastrar el mapa.
-export default function GeoMap({ view, onViewChange, fit = null, mode = 'move', interactive = true, onMapClick, onRecenter, label, zoomInLabel, zoomOutLabel, recenterLabel, children }) {
+export default function GeoMap({ view, onViewChange, fit = null, mode = 'move', interactive = true, wheelZoom = 'always', wheelHintLabel, onMapClick, onRecenter, label, zoomInLabel, zoomOutLabel, recenterLabel, children }) {
   const rootRef = useRef(null);
   const [size, setSize] = useState({ w: 0, h: 0 });
   const viewRef = useRef(view);
@@ -32,6 +32,9 @@ export default function GeoMap({ view, onViewChange, fit = null, mode = 'move', 
   clickRef.current = onMapClick;
   const pointers = useRef(new Map());
   const gesture = useRef(null);
+  const [wheelHint, setWheelHint] = useState(false);
+  const hintTimer = useRef(null);
+  useEffect(() => () => clearTimeout(hintTimer.current), []);
 
   useEffect(() => {
     const el = rootRef.current;
@@ -80,6 +83,13 @@ export default function GeoMap({ view, onViewChange, fit = null, mode = 'move', 
   useEffect(() => {
     const el = rootRef.current;
     const onWheel = (event) => {
+      // Con wheelZoom='modifier' (vista previa en una página con scroll) la rueda solo hace zoom con Ctrl / ⌘.
+      if (wheelZoom === 'modifier' && !event.ctrlKey && !event.metaKey) {
+        setWheelHint(true);
+        clearTimeout(hintTimer.current);
+        hintTimer.current = setTimeout(() => setWheelHint(false), 1200);
+        return;
+      }
       event.preventDefault();
       const rect = el.getBoundingClientRect();
       const step = Math.max(-0.75, Math.min(0.75, -event.deltaY * 0.0025));
@@ -88,7 +98,7 @@ export default function GeoMap({ view, onViewChange, fit = null, mode = 'move', 
     if (!interactive) return undefined;
     el.addEventListener('wheel', onWheel, { passive: false });
     return () => el.removeEventListener('wheel', onWheel);
-  }, [zoomAround, interactive]);
+  }, [zoomAround, interactive, wheelZoom]);
 
   const local = (event) => {
     const rect = rootRef.current.getBoundingClientRect();
@@ -218,6 +228,8 @@ export default function GeoMap({ view, onViewChange, fit = null, mode = 'move', 
     >
       <div className="gm__tiles" aria-hidden="true">{tiles}</div>
       {ready && (typeof children === 'function' ? children({ view, size, toScreen, metersPerPixel: mpp }) : children)}
+
+      {wheelHint && wheelHintLabel && <p className="gm__hint" role="status">{wheelHintLabel}</p>}
 
       <div className="gm__corner" data-map-ui>
         <div className="gm__zoom">

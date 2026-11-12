@@ -173,7 +173,8 @@
       "brigades": "Brigade bases"
     },
     "caption": "Aid heat map · increasing intensity →",
-    "open": "Open full map"
+    "open": "Open full map",
+    "wheelHint": "Use Ctrl (⌘) + scroll to zoom"
   },
   "priority": {
     "title": "AI Prioritization",
