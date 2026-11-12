@@ -1,10 +1,10 @@
 import { useTranslation } from 'react-i18next';
 import { categoryLabel, levelLabel, quantity } from '../utils/stockFormat.js';
 
-// Entrada: bandeja con flecha hacia adentro. Salida: bandeja con flecha hacia afuera.
+// Entrada: círculo con más (añadir). Salida: círculo con menos (restar).
 const ICONS = {
-  in: <path d="M12 3v12m0 0l-4-4m4 4l4-4M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2" />,
-  out: <path d="M12 15V3m0 0L8 7m4-4l4 4M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2" />,
+  in: <><circle cx="12" cy="12" r="9" /><path d="M12 8v8M8 12h8" /></>,
+  out: <><circle cx="12" cy="12" r="9" /><path d="M8 12h8" /></>,
 };
 
 function ActionIcon({ kind, label, onClick }) {
