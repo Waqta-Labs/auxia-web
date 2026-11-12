@@ -1,6 +1,6 @@
 {
   "auditLedger": {
-    "title": "Auditoría y trazabilidad"
+    "title": "Trazabilidad Blockchain"
   },
   "ledger": {
     "title": "Trazabilidad Blockchain e Inventario",
@@ -19,6 +19,76 @@
       "CERTIFIED": "Validado",
       "FAILED": "Reintentando"
     },
-    "empty": "Todavía no hay entregas registradas."
+    "empty": "Todavía no hay entregas registradas.",
+    "noHash": "Sin enviar"
+  },
+  "page": {
+    "title": "Trazabilidad e Historial Blockchain",
+    "subtitle": "Auditoría inmutable de la cadena de suministro humanitario",
+    "export": "Exportar informe de auditoría",
+    "exporting": "Generando informe...",
+    "ledger": "Ledger de entregas",
+    "count": "{{count}} entregas",
+    "range": "{{from}}–{{to}} de {{total}} entregas",
+    "prev": "Anterior",
+    "next": "Siguiente",
+    "loadError": "No se pudieron cargar las entregas.",
+    "retry": "Reintentar"
+  },
+  "toolbar": {
+    "search": "Buscar por hash, código público o zona",
+    "period": "Período",
+    "periods": {
+      "7d": "Últimos 7 días",
+      "30d": "Últimos 30 días",
+      "all": "Todo el período"
+    },
+    "statusFilter": "Filtrar por estado",
+    "tabs": {
+      "all": "Todas",
+      "inTransit": "En camino",
+      "anchoring": "Anclando",
+      "verified": "Validadas",
+      "retrying": "Reintentando"
+    }
+  },
+  "card": {
+    "title": "Ficha de trazabilidad",
+    "close": "Cerrar ficha",
+    "loadError": "No se pudo cargar la entrega.",
+    "steps": {
+      "opened": "Misión abierta",
+      "registered": "Entrega registrada",
+      "anchored": "Anclada en la blockchain",
+      "onTheWay": "La brigada va en camino",
+      "anchoring": "Esperando la confirmación de la transacción",
+      "retrying": "El anclaje falló; se reintenta cada 5 minutos",
+      "pending": "Pendiente de la entrega",
+      "confirmed": "Confirmada"
+    },
+    "viewTx": "Ver transacción",
+    "items": "Recursos entregados",
+    "itemsHint": "Entregado / planificado. Se puede entregar menos de lo planificado, nunca más.",
+    "integrity": "Integridad",
+    "publicCode": "Código público",
+    "recordHash": "Hash del registro",
+    "evidences": "Evidencias",
+    "verify": {
+      "title": "Verificación de entrega",
+      "hint": "Recalcula el hash con los datos y archivos actuales y lo compara con el de la blockchain.",
+      "action": "Verificar integridad",
+      "checking": "Verificando...",
+      "ok": "Íntegra: el registro coincide con la blockchain.",
+      "mismatch": "No coincide: el registro cambió después de anclarse.",
+      "notFound": "La entrega todavía no está registrada.",
+      "unavailable": "La blockchain no responde en este momento. Inténtalo de nuevo en unos minutos.",
+      "error": "No se pudo verificar la entrega."
+    },
+    "copy": "Copiar",
+    "copied": "Copiado",
+    "publicHint": "Enlace público de verificación: cualquiera puede comprobar la entrega sin iniciar sesión.",
+    "download": "Descargar informe PDF de la zona",
+    "downloading": "Generando informe...",
+    "downloadError": "No se pudo generar el informe."
   }
 }

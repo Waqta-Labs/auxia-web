@@ -1,6 +1,6 @@
 {
   "auditLedger": {
-    "title": "Audit and traceability"
+    "title": "Blockchain Traceability"
   },
   "ledger": {
     "title": "Blockchain Traceability and Inventory",
@@ -19,6 +19,76 @@
       "CERTIFIED": "Validated",
       "FAILED": "Retrying"
     },
-    "empty": "No deliveries registered yet."
+    "empty": "No deliveries registered yet.",
+    "noHash": "Not sent"
+  },
+  "page": {
+    "title": "Blockchain Traceability and History",
+    "subtitle": "Immutable audit of the humanitarian supply chain",
+    "export": "Export audit report",
+    "exporting": "Generating report...",
+    "ledger": "Delivery ledger",
+    "count": "{{count}} deliveries",
+    "range": "{{from}}–{{to}} of {{total}} deliveries",
+    "prev": "Previous",
+    "next": "Next",
+    "loadError": "Could not load the deliveries.",
+    "retry": "Retry"
+  },
+  "toolbar": {
+    "search": "Search by hash, public code or zone",
+    "period": "Period",
+    "periods": {
+      "7d": "Last 7 days",
+      "30d": "Last 30 days",
+      "all": "Whole period"
+    },
+    "statusFilter": "Filter by status",
+    "tabs": {
+      "all": "All",
+      "inTransit": "On the way",
+      "anchoring": "Anchoring",
+      "verified": "Validated",
+      "retrying": "Retrying"
+    }
+  },
+  "card": {
+    "title": "Traceability record",
+    "close": "Close record",
+    "loadError": "Could not load the delivery.",
+    "steps": {
+      "opened": "Mission opened",
+      "registered": "Delivery registered",
+      "anchored": "Anchored on the blockchain",
+      "onTheWay": "The brigade is on the way",
+      "anchoring": "Waiting for the transaction to confirm",
+      "retrying": "Anchoring failed; retried every 5 minutes",
+      "pending": "Waiting for the delivery",
+      "confirmed": "Confirmed"
+    },
+    "viewTx": "View transaction",
+    "items": "Delivered resources",
+    "itemsHint": "Delivered / planned. Less than planned can be delivered, never more.",
+    "integrity": "Integrity",
+    "publicCode": "Public code",
+    "recordHash": "Record hash",
+    "evidences": "Evidence files",
+    "verify": {
+      "title": "Delivery verification",
+      "hint": "Recomputes the hash from the current data and files and compares it with the one on the blockchain.",
+      "action": "Verify integrity",
+      "checking": "Verifying...",
+      "ok": "Intact: the record matches the blockchain.",
+      "mismatch": "Mismatch: the record changed after it was anchored.",
+      "notFound": "The delivery is not registered yet.",
+      "unavailable": "The blockchain is not answering right now. Try again in a few minutes.",
+      "error": "Could not verify the delivery."
+    },
+    "copy": "Copy",
+    "copied": "Copied",
+    "publicHint": "Public verification link: anyone can check the delivery without signing in.",
+    "download": "Download zone PDF report",
+    "downloading": "Generating report...",
+    "downloadError": "Could not generate the report."
   }
 }
