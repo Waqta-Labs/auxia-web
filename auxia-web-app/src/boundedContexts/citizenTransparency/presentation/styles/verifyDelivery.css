@@ -1,0 +1,31 @@
+.vd { max-width: 720px; margin: 0 auto; padding: 40px 16px 64px; }
+.vd-title { margin: 0 0 8px; font-size: 2rem; letter-spacing: -0.02em; }
+.vd-lead { margin: 0 0 24px; color: #4a4f6a; }
+
+.vd-card { display: grid; gap: 20px; padding: 24px; border: 1px solid #d9dcec; border-radius: 16px; background: #fff; box-shadow: 0 6px 24px rgba(32, 33, 100, 0.06); }
+.vd-card--verified { border-color: #2fa36f; }
+.vd-card--mismatch { border-color: #d4453b; }
+.vd-banner { display: flex; align-items: flex-start; gap: 16px; }
+.vd-banner h2 { margin: 0 0 4px; font-size: 1.25rem; }
+.vd-banner p { margin: 0; color: #4a4f6a; }
+.vd-icon { display: grid; place-items: center; flex: none; width: 48px; height: 48px; border-radius: 50%; background: #e8e9f4; color: #202164; font-size: 1.5rem; font-weight: 700; }
+.vd-card--verified .vd-icon { background: #d9f4e7; color: #0f7a4d; }
+.vd-card--mismatch .vd-icon { background: #fde0dd; color: #b3261e; }
+.vd-card--unavailable .vd-icon, .vd-card--error .vd-icon { background: #fff1d6; color: #8a5a00; }
+
+.vd-facts { display: grid; gap: 14px; margin: 0; padding-top: 4px; border-top: 1px solid #e6e8f3; }
+.vd-facts div { display: grid; gap: 4px; padding-top: 14px; }
+.vd-facts dt { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5b6086; }
+.vd-facts dd { margin: 0; font-family: ui-monospace, 'SFMono-Regular', Menlo, monospace; font-size: 0.8125rem; overflow-wrap: anywhere; }
+.vd-facts a { color: #202164; font-family: inherit; }
+.vd-code { margin: 0; font-size: 0.875rem; color: #4a4f6a; }
+.vd-code code { overflow-wrap: anywhere; }
+.vd-privacy { margin: 20px 4px 0; font-size: 0.8125rem; color: #5b6086; }
+
+.vd-btn { justify-self: start; min-height: 44px; padding: 0 20px; border: 0; border-radius: 10px; background: #202164; color: #fff; font: inherit; font-weight: 700; cursor: pointer; }
+.vd-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+.vd-btn:focus-visible { outline: 3px solid #85d5f6; outline-offset: 2px; }
+
+.vd-skel { display: block; height: 18px; border-radius: 8px; background: linear-gradient(90deg, #eceef7, #f7f8fc, #eceef7); background-size: 200% 100%; animation: vd-shimmer 1.4s linear infinite; }
+.vd-skel--title { height: 28px; width: 60%; }
+@keyframes vd-shimmer { to { background-position: -200% 0; } }

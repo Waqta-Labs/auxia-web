@@ -36,23 +36,33 @@ const generated = Array.from({ length: 496 }, (_, i) =>
 );
 const deliveryDtos = [...specials, ...generated];
 
-// Detalle con la forma probable del backend (recursos, evidencias por hash, hash del registro).
+// Detalle con la forma real del backend: items solo con resourceId y quantity.
 const detailOf = (dto) => {
   const registered = dto.status !== 'INITIATED';
+  const at = (minutes) => new Date(Date.parse(dto.deliveredAt + 'Z') + minutes * 60000).toISOString().slice(0, 19);
   return {
-    ...dto,
-    initiatedAt: dto.deliveredAt ? new Date(Date.parse(dto.deliveredAt + 'Z') - 3 * 3600000).toISOString().slice(0, 19) : iso(40),
+    id: dto.id,
+    distributionPlanId: 'pl-' + dto.id.slice(-4),
+    zoneId: dto.zoneId,
+    brigadeId: 'br-01',
+    status: dto.status,
+    registeredBy: 'us-01',
+    deliveredAt: dto.deliveredAt,
+    receivedAt: registered ? at(3) : null,
     items: [
-      { resourceName: 'Agua embotellada', plannedQuantity: 24, deliveredQuantity: registered ? 24 : null, unit: 'bidones' },
-      { resourceName: 'Kits de alimentos', plannedQuantity: 60, deliveredQuantity: registered ? 58 : null, unit: 'kits' },
+      { resourceId: 'a1c16f79-9417-433c-9161-d3a1e8faa4a2', quantity: 50 },
+      { resourceId: '7be20a41-3f55-47c0-8a6e-5d1c9e0f6b12', quantity: 120 },
     ],
-    evidences: registered
-      ? [{ sha256: fakeHash('e1d3', dto.id.slice(-4)).slice(2), contentType: 'image/jpeg' }, { sha256: fakeHash('b7a9', dto.id.slice(-4)).slice(2), contentType: 'application/pdf' }]
-      : [],
+    evidences: registered ? [
+      { id: 'ev-1', type: 'PHOTO', contentHash: fakeHash('c31f', dto.id.slice(-4)).slice(2), capturedAt: dto.deliveredAt, location: { latitude: -11.9436, longitude: -76.7078 } },
+      { id: 'ev-2', type: 'PHOTO', contentHash: fakeHash('9ab2', dto.id.slice(-4)).slice(2), capturedAt: dto.deliveredAt, location: { latitude: -11.9437, longitude: -76.7079 } },
+    ] : [],
     integrity: {
-      ...dto.integrity,
-      recordHash: registered ? fakeHash('5d2c', dto.id.slice(-4)).slice(2) : null,
-      anchoredAt: dto.status === 'CERTIFIED' ? dto.deliveredAt : null,
+      recordHash: registered ? fakeHash('852b', dto.id.slice(-4)).slice(2) : null,
+      anchorStatus: dto.integrity.anchorStatus === 'ANCHORED' ? 'ANCHORED' : dto.integrity.anchorStatus,
+      transactionHash: dto.integrity.transactionHash,
+      anchoredAt: dto.status === 'CERTIFIED' ? at(4) : null,
+      attempts: registered ? 1 : 0,
     },
   };
 };
@@ -76,9 +86,12 @@ export class DeliveryMockRepository extends DeliveryRepository {
     const dto = deliveryDtos.find((item) => item.id === deliveryId);
     if (!dto || dto.status === 'INITIATED') throw problem(404, 'La entrega todavía no está registrada.');
     if (dto.status !== 'CERTIFIED') throw problem(503, 'La blockchain no responde en este momento. Inténtalo en unos minutos.');
-    const record = fakeHash('5d2c', dto.id.slice(-4)).slice(2);
+    const record = fakeHash('852b', dto.id.slice(-4)).slice(2);
     const tampered = deliveryId === 'dl-0003';
-    return toVerificationResult({ verified: !tampered, recordHash: record, blockchainHash: tampered ? fakeHash('0bad', 'f00d').slice(2) : record });
+    return toVerificationResult({
+      deliveryId, recordHash: record, anchoredHash: tampered ? fakeHash('0bad', 'f00d').slice(2) : record,
+      transactionHash: dto.integrity.transactionHash, verified: !tampered,
+    });
   }
 
   async downloadReport({ zoneId }) {

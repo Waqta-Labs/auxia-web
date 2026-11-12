@@ -3,13 +3,13 @@ import { useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useActiveEmergency } from '@bc/emergencyManagement/presentation/hooks/useActiveEmergency.js';
 import { useZoneRanking } from '@bc/emergencyManagement/presentation/hooks/useZoneRanking.js';
-import { DeliveryTab, Period, countByTab, filterDeliveries, periodStart } from '../../domain/services/filterDeliveries.js';
+import { DeliveryTab, Period, countByTab, filterDeliveries } from '../../domain/services/filterDeliveries.js';
 import { useDeliveryLedger } from '../hooks/useDeliveryLedger.js';
 import { useDeliveryDetail } from '../hooks/useDeliveryDetail.js';
-import { useDownloadDeliveryReport } from '../hooks/useDownloadDeliveryReport.js';
 import LedgerToolbar from '../components/ledgerToolbar.jsx';
 import LedgerTable from '../components/ledgerTable.jsx';
 import TraceabilityCard from '../components/traceabilityCard.jsx';
+import DownloadReportDialog from '../components/downloadReportDialog.jsx';
 import '../styles/auditLedger.css';
 
 const PAGE_SIZE = 10;
@@ -21,12 +21,12 @@ export default function AuditLedgerPage() {
   const emergency = useActiveEmergency();
   const ranking = useZoneRanking(emergency.data?.id, { explainTop: 0, withPosition: false });
   const ledger = useDeliveryLedger({ zones: ranking.data });
-  const exportReport = useDownloadDeliveryReport();
 
   const [tab, setTab] = useState(DeliveryTab.ALL);
   const [period, setPeriod] = useState(Period.ALL);
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(1);
+  const [exporting, setExporting] = useState(null); // null | 'table' | 'delivery'
 
   const deliveries = useMemo(() => ledger.data ?? [], [ledger.data]);
   const counts = useMemo(() => countByTab(deliveries), [deliveries]);
@@ -60,15 +60,9 @@ export default function AuditLedgerPage() {
           <h1>{t('page.title')}</h1>
           <p>{t('page.subtitle')}</p>
         </div>
-        <div className="tl-head__actions">
-          <button
-            type="button" className="tl-btn-lime" disabled={exportReport.isPending}
-            onClick={() => exportReport.mutate({ from: periodStart(period) })}
-          >
-            {exportReport.isPending ? t('page.exporting') : t('page.export')}
-          </button>
-          {exportReport.error && <p className="tl-error" role="alert">{exportReport.error.detail ?? t('card.downloadError')}</p>}
-        </div>
+        <button type="button" className="tl-btn-lime" disabled={loading || deliveries.length === 0} onClick={() => setExporting('table')}>
+          {t('page.export')}
+        </button>
       </header>
 
       {hasError && (
@@ -100,9 +94,19 @@ export default function AuditLedgerPage() {
         </section>
 
         {selectedId && (
-          <TraceabilityCard key={selectedId} detail={detail} zoneName={selected?.zoneName} onClose={() => select(null)} />
+          <TraceabilityCard
+            key={selectedId} detail={detail} zoneName={selected?.zoneName}
+            onClose={() => select(null)} onDownload={() => setExporting('delivery')}
+          />
         )}
       </div>
+
+      {exporting && (
+        <DownloadReportDialog
+          scope={exporting} deliveries={deliveries} detail={detail.data ?? null} zoneName={selected?.zoneName ?? null}
+          onClose={() => setExporting(null)}
+        />
+      )}
     </div>
   );
 }

@@ -18,40 +18,44 @@ export function toDelivery(dto) {
   });
 }
 
-// El detalle (recursos, evidencias, hash del registro) aún no se vio con datos reales: se leen los
-// nombres más probables de cada campo. Si el backend usa otros, solo hay que ajustar este archivo.
-const toItem = (item) => ({
-  name: item.resourceName ?? item.name ?? item.resource?.name ?? '—',
-  planned: item.plannedQuantity ?? null,
-  quantity: item.deliveredQuantity ?? item.quantity ?? null,
-  unit: item.unit ?? item.resource?.unit ?? null,
-});
-
-const toEvidence = (evidence) =>
-  typeof evidence === 'string'
-    ? { hash: evidence, type: null }
-    : { hash: evidence.sha256 ?? evidence.hash ?? null, type: evidence.contentType ?? evidence.type ?? null };
-
+// GET /deliveries/{id}: items [{ resourceId, quantity }], evidences [{ id, type, contentHash, capturedAt, location }],
+// integrity { recordHash, anchorStatus, transactionHash, anchoredAt, attempts }. El nombre del recurso no viene
+// (solo su id): se muestra cuando exista la pantalla de Inventario o si el backend lo agrega.
 export function toDeliveryDetail(dto) {
   const integrity = dto.integrity ?? {};
   return new DeliveryDetail({
     id: dto.id,
-    zoneId: dto.zoneId ?? dto.zone?.id ?? null,
+    zoneId: dto.zoneId ?? null,
+    planId: dto.distributionPlanId ?? null,
     status: statusOf(dto),
     deliveredAt: parseUtc(dto.deliveredAt),
-    openedAt: parseUtc(dto.initiatedAt ?? dto.openedAt ?? dto.createdAt ?? null),
-    recordHash: integrity.recordHash ?? integrity.hash ?? dto.recordHash ?? dto.hash ?? null,
+    receivedAt: parseUtc(dto.receivedAt),
+    recordHash: integrity.recordHash ?? null,
     transactionHash: integrity.transactionHash ?? null,
-    anchoredAt: parseUtc(integrity.anchoredAt ?? integrity.confirmedAt ?? null),
-    items: (dto.items ?? []).map(toItem),
-    evidences: (dto.evidences ?? dto.evidence ?? []).map(toEvidence),
+    anchoredAt: parseUtc(integrity.anchoredAt),
+    attempts: integrity.attempts ?? null,
+    items: (dto.items ?? []).map((item) => ({
+      resourceId: item.resourceId ?? null,
+      name: item.resourceName ?? item.name ?? null,
+      quantity: item.quantity ?? null,
+    })),
+    evidences: (dto.evidences ?? []).map((evidence) => ({
+      id: evidence.id ?? null,
+      type: evidence.type ?? null,
+      hash: evidence.contentHash ?? null,
+      capturedAt: parseUtc(evidence.capturedAt),
+      location: evidence.location ? { latitude: evidence.location.latitude, longitude: evidence.location.longitude } : null,
+    })),
   });
 }
 
+// GET /deliveries/{id}/verify: { deliveryId, recordHash, anchoredHash, transactionHash, verified }
 export function toVerificationResult(dto) {
   return new VerificationResult({
+    deliveryId: dto.deliveryId,
     verified: dto.verified === true,
-    recordHash: dto.recordHash ?? dto.computedHash ?? dto.currentHash ?? null,
-    chainHash: dto.blockchainHash ?? dto.onChainHash ?? dto.chainHash ?? null,
+    recordHash: dto.recordHash ?? null,
+    anchoredHash: dto.anchoredHash ?? null,
+    transactionHash: dto.transactionHash ?? null,
   });
 }

@@ -6,6 +6,37 @@
     "title": "Estado de la zona"
   },
   "verifyDelivery": {
-    "title": "Verificar entrega"
+    "title": "Verificar entrega",
+    "lead": "Comprueba que el registro de una entrega de ayuda no fue alterado desde que se anotó en la blockchain.",
+    "code": "Código de la entrega",
+    "recomputed": "Hash recalculado hoy",
+    "anchored": "Hash anclado en la blockchain",
+    "transaction": "Transacción",
+    "viewTx": "Ver en Etherscan",
+    "checking": "Verificando...",
+    "retry": "Volver a intentar",
+    "privacy": "Esta verificación no muestra datos personales: solo compara huellas digitales del registro de la entrega.",
+    "states": {
+      "verified": {
+        "title": "Entrega verificada",
+        "text": "El registro actual coincide con el que se anotó en la blockchain: no fue alterado."
+      },
+      "mismatch": {
+        "title": "El registro no coincide",
+        "text": "El registro actual es distinto al que se anotó en la blockchain. Los datos pudieron cambiar después de la entrega."
+      },
+      "notFound": {
+        "title": "No encontramos esta entrega",
+        "text": "No hay una entrega registrada con este código. Revisa que el enlace esté completo."
+      },
+      "unavailable": {
+        "title": "No pudimos consultar la blockchain",
+        "text": "La red no responde en este momento. Inténtalo de nuevo en unos minutos."
+      },
+      "error": {
+        "title": "No se pudo verificar",
+        "text": "Ocurrió un problema al consultar la entrega. Inténtalo nuevamente."
+      }
+    }
   }
 }

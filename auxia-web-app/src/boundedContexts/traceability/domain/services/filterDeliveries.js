@@ -46,3 +46,15 @@ export function periodStart(period, now = Date.now()) {
   const days = PERIOD_DAYS[period];
   return days ? new Date(now - days * 86400000).toISOString().slice(0, 10) : null;
 }
+
+// ── Rango de fechas ──
+// Un rango es válido si no termina antes de empezar; cualquiera de los dos extremos puede faltar.
+export const isRangeValid = (from, to) => !from || !to || from <= to;
+
+// Entregas con fecha de entrega dentro del rango (ambos días incluidos). Sin rango, todas.
+export function filterByRange(deliveries, from, to) {
+  if (!from && !to) return deliveries;
+  const start = from ? Date.parse(from + 'T00:00:00Z') : -Infinity;
+  const end = to ? Date.parse(to + 'T23:59:59.999Z') : Infinity;
+  return deliveries.filter((d) => d.deliveredAt !== null && d.deliveredAt >= start && d.deliveredAt <= end);
+}

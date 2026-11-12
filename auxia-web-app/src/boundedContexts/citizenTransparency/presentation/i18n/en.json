@@ -6,6 +6,37 @@
     "title": "Zone status"
   },
   "verifyDelivery": {
-    "title": "Verify delivery"
+    "title": "Verify delivery",
+    "lead": "Check that the record of an aid delivery has not been altered since it was written to the blockchain.",
+    "code": "Delivery code",
+    "recomputed": "Hash recomputed today",
+    "anchored": "Hash anchored on the blockchain",
+    "transaction": "Transaction",
+    "viewTx": "View on Etherscan",
+    "checking": "Verifying...",
+    "retry": "Try again",
+    "privacy": "This check shows no personal data: it only compares digital fingerprints of the delivery record.",
+    "states": {
+      "verified": {
+        "title": "Delivery verified",
+        "text": "The current record matches the one written to the blockchain: it was not altered."
+      },
+      "mismatch": {
+        "title": "The record does not match",
+        "text": "The current record differs from the one written to the blockchain. The data may have changed after the delivery."
+      },
+      "notFound": {
+        "title": "We could not find this delivery",
+        "text": "There is no delivery registered with this code. Check that the link is complete."
+      },
+      "unavailable": {
+        "title": "We could not reach the blockchain",
+        "text": "The network is not answering right now. Try again in a few minutes."
+      },
+      "error": {
+        "title": "Could not verify",
+        "text": "There was a problem checking the delivery. Please try again."
+      }
+    }
   }
 }

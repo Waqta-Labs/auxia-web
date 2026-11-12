@@ -25,7 +25,7 @@
   "page": {
     "title": "Blockchain Traceability and History",
     "subtitle": "Immutable audit of the humanitarian supply chain",
-    "export": "Export audit report",
+    "export": "Export report",
     "exporting": "Generating report...",
     "ledger": "Delivery ledger",
     "count": "{{count}} deliveries",
@@ -62,9 +62,11 @@
       "anchored": "Anchored on the blockchain",
       "onTheWay": "The brigade is on the way",
       "anchoring": "Waiting for the transaction to confirm",
-      "retrying": "Anchoring failed; retried every 5 minutes",
+      "retrying": "Anchoring failed; retried every 5 minutes (attempts: {{count}})",
       "pending": "Waiting for the delivery",
-      "confirmed": "Confirmed"
+      "confirmed": "Confirmed",
+      "delivered": "Delivered in the field",
+      "sealed": "Registered and sealed with a hash"
     },
     "viewTx": "View transaction",
     "items": "Delivered resources",
@@ -82,13 +84,79 @@
       "mismatch": "Mismatch: the record changed after it was anchored.",
       "notFound": "The delivery is not registered yet.",
       "unavailable": "The blockchain is not answering right now. Try again in a few minutes.",
-      "error": "Could not verify the delivery."
+      "error": "Could not verify the delivery.",
+      "recomputed": "Recomputed",
+      "onChain": "On blockchain"
     },
     "copy": "Copy",
     "copied": "Copied",
     "publicHint": "Public verification link: anyone can check the delivery without signing in.",
-    "download": "Download zone PDF report",
+    "download": "Download",
     "downloading": "Generating report...",
-    "downloadError": "Could not generate the report."
+    "downloadError": "Could not generate the report.",
+    "resource": "Resource {{id}}",
+    "gps": "Location (GPS)",
+    "evidence": "Evidence",
+    "evidenceTypes": {
+      "PHOTO": "Photo",
+      "PDF": "PDF",
+      "AUDIO": "Audio"
+    },
+    "open": "Open"
+  },
+  "export": {
+    "titleTable": "Download audit report",
+    "titleDelivery": "Download delivery report",
+    "format": "Format",
+    "formats": {
+      "pdf": "PDF",
+      "pdfHint": "Backend report with each delivery's hash, transaction and verification status.",
+      "pdfDeliveryHint": "Report of the delivery's zone on the delivery day: if there were several deliveries that day, all are included.",
+      "xlsx": "Excel (.xlsx)",
+      "xlsxHint": "One row per delivery, ready to filter and sort.",
+      "xlsxDeliveryHint": "Only this delivery: summary, resources and evidence in separate sheets."
+    },
+    "range": "Date range (optional)",
+    "from": "From",
+    "to": "To",
+    "rangeHint": "Both days are included. Leave it empty to export the whole period.",
+    "download": "Download",
+    "generating": "Generating...",
+    "cancel": "Cancel",
+    "sheets": {
+      "table": "Deliveries",
+      "summary": "Delivery",
+      "items": "Resources",
+      "evidence": "Evidence"
+    },
+    "columns": {
+      "code": "Public code",
+      "zone": "Zone",
+      "status": "Status",
+      "delivered": "Delivery date",
+      "transaction": "Transaction hash",
+      "verifyUrl": "Verification link"
+    },
+    "fields": {
+      "field": "Field",
+      "value": "Value",
+      "delivered": "Delivered",
+      "received": "Registered",
+      "anchored": "Anchored",
+      "resource": "Resource (id)",
+      "quantity": "Quantity",
+      "type": "Type",
+      "hash": "File hash",
+      "captured": "Captured",
+      "latitude": "Latitude",
+      "longitude": "Longitude"
+    },
+    "errors": {
+      "rangeInvalid": "The end date cannot be before the start date.",
+      "noDeliveries": "There are no deliveries in that date range.",
+      "deliveryRequired": "The delivery has not loaded yet. Try again.",
+      "notRegistered": "The delivery is not registered yet: the PDF will be available once it is delivered.",
+      "generic": "Could not generate the report."
+    }
   }
 }
