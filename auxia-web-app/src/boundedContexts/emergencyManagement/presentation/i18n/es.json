@@ -143,7 +143,16 @@
       "max": "Máx.",
       "need": "Tipo de necesidad",
       "allNeeds": "Todas las necesidades",
-      "clear": "Limpiar filtros"
+      "clear": "Limpiar filtros",
+      "scoreLabel": "Score",
+      "scoreMin": "Score mínimo",
+      "scoreMax": "Score máximo",
+      "sort": {
+        "label": "Ordenar zonas",
+        "priority": "Orden: por prioridad",
+        "nameAsc": "Orden: nombre A → Z",
+        "nameDesc": "Orden: nombre Z → A"
+      }
     },
     "tabs": {
       "all": "Todas",

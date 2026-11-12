@@ -33,7 +33,7 @@ export default function PrioritizationPage() {
   const pageCount = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
   const currentPage = Math.min(page, pageCount);
   const start = (currentPage - 1) * PAGE_SIZE;
-  const visible = filtered.slice(start, start + PAGE_SIZE);
+  const visible = filtered.slice(start, start + PAGE_SIZE + 2);
 
   // La zona abierta vive en la URL (?zone=): el tablero enlaza aquí y la página se puede recargar.
   const selectedId = searchParams.get('zone');

@@ -9,7 +9,7 @@ const tabPredicates = {
   [ZoneTab.SERVED]: (zone) => zone.status === ZoneStatus.SERVED,
 };
 
-export const EMPTY_ZONE_FILTERS = Object.freeze({ query: '', minScore: '', maxScore: '', need: '' });
+export const EMPTY_ZONE_FILTERS = Object.freeze({ query: '', minScore: '', maxScore: '', need: '', sort: '' });
 
 // Sin tildes ni mayúsculas, para que "nana" encuentre "Ñaña".
 const fold = (text) => String(text).normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
@@ -21,14 +21,23 @@ export function countByTab(zones) {
   return Object.fromEntries(Object.entries(tabPredicates).map(([tab, test]) => [tab, zones.filter(test).length]));
 }
 
-// Filtra el ranking (ya ordenado) sin cambiar su orden.
-export function filterZones(zones, { tab = ZoneTab.ALL, query = '', minScore = '', maxScore = '', need = '' } = {}) {
+const collator = new Intl.Collator('es', { sensitivity: 'base', numeric: true });
+
+// sort '' = orden del ranking (por urgencia); 'nameAsc' = A → Z; 'nameDesc' = Z → A.
+function sortZones(zones, sort) {
+  if (sort !== 'nameAsc' && sort !== 'nameDesc') return zones;
+  const direction = sort === 'nameDesc' ? -1 : 1;
+  return [...zones].sort((a, b) => direction * collator.compare(a.name, b.name));
+}
+
+// Filtra el ranking (ya ordenado por urgencia) y, si se pide, lo ordena por nombre.
+export function filterZones(zones, { tab = ZoneTab.ALL, query = '', minScore = '', maxScore = '', need = '', sort = '' } = {}) {
   const inTab = tabPredicates[tab] ?? tabPredicates[ZoneTab.ALL];
   const text = fold(query.trim());
   const min = toBound(minScore);
   const max = toBound(maxScore);
 
-  return zones.filter((zone) => {
+  const result = zones.filter((zone) => {
     if (!inTab(zone)) return false;
     if (text && !fold(zone.name).includes(text) && !zone.id.toLowerCase().startsWith(text)) return false;
     if (need && !zone.needs.includes(need)) return false;
@@ -39,4 +48,5 @@ export function filterZones(zones, { tab = ZoneTab.ALL, query = '', minScore = '
     }
     return true;
   });
+  return sortZones(result, sort);
 }

@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { formatNumber, humanize } from '@shared/utils/formatters.js';
 
 const MAX_NEEDS = 2;
-const SKELETON_ROWS = 6;
+const SKELETON_ROWS = 8;
 
 export default function ZoneTable({ zones = [], loading = false, selectedId, onSelect }) {
   const { t, i18n } = useTranslation('emergencyManagement');
@@ -24,11 +24,11 @@ export default function ZoneTable({ zones = [], loading = false, selectedId, onS
         </thead>
         <tbody>
           {loading && Array.from({ length: SKELETON_ROWS }, (_, i) => (
-            <tr key={i}><td colSpan={6}><span className="pz-skel" /></td></tr>
+            <tr key={i}><td colSpan={8}><span className="pz-skel" /></td></tr>
           ))}
 
           {!loading && zones.length === 0 && (
-            <tr><td colSpan={6} className="pz-empty">{t('prioritization.empty')}</td></tr>
+            <tr><td colSpan={8} className="pz-empty">{t('prioritization.empty')}</td></tr>
           )}
 
           {!loading && zones.map((zone) => {
