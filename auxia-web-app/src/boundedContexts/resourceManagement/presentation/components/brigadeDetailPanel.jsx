@@ -65,7 +65,6 @@ export default function BrigadeDetailPanel({ detail, canManage }) {
                   <span className="fl-avatar fl-avatar--sm" aria-hidden="true">{initials(member.name)}</span>
                   <span className="fl-members__name">
                     {member.name}
-                    {member.phone && <small>{member.phone}</small>}
                   </span>
                   <span className="fl-members__role">{roleLabel(t, member.role)}</span>
                   {canManage && (

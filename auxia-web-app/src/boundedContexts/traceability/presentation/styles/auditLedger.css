@@ -1,5 +1,6 @@
 .tl { display: grid; gap: var(--space-3); }
-.tl-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.tl-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap;}
+.tl-search input::placeholder {color: var(--night-100); opacity: 1;}
 
 .tl-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
 .tl-head h1 { margin: 0 0 4px; font-size: 1.75rem; font-weight: 700; letter-spacing: -0.02em; }
@@ -35,12 +36,12 @@
 
 .tl-toolbar { display: grid; gap: 12px; padding: 16px 20px; }
 .tl-toolbar__row { display: flex; flex-wrap: wrap; gap: 12px; }
-.tl-search { flex: 1 1 260px; }
+.tl-search { flex: 1 1 260px; margin: 0 0 12px;}
 .tl-search input, .tl-select select { width: 100%; height: 44px; padding: 0 14px; border: 1px solid var(--cc-line); border-radius: 10px; background: var(--cc-card-inner); color: #fff; font: inherit; }
 .tl-select select { cursor: pointer; }
 .tl-select option { background: var(--cc-card); }
 .tl-search input:focus-visible, .tl-select select:focus-visible { outline: 2px solid var(--color-royal); }
-.tl-tabs { display: flex; flex-wrap: wrap; gap: 8px; }
+.tl-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 12px;}
 .tl-tab { display: inline-flex; align-items: center; gap: 6px; min-height: 34px; padding: 0 12px; border: 1px solid var(--cc-line); border-radius: 999px; background: transparent; color: var(--night-100); font: inherit; font-size: 0.8125rem; cursor: pointer; }
 .tl-tab[aria-pressed='true'] { border-color: var(--color-lime); color: var(--color-lime); background: rgba(190, 242, 100, 0.08); font-weight: 700; }
 .tl-tab__count { opacity: 0.8; font-variant-numeric: tabular-nums; }
@@ -62,7 +63,7 @@
 .tl-chip--failed { background: rgba(255, 107, 107, 0.16); color: #ff9b9b; }
 
 .tl-pagination { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; padding: 14px 20px; font-size: 0.8125rem; color: var(--night-100); }
-.tl-pagination div { display: flex; gap: 8px; }
+.tl-pagination div { display: flex; gap: 8px; margin: 12px 0 0;}
 
 .tl-skel { display: block; height: 20px; border-radius: 8px; background: linear-gradient(90deg, rgba(255,255,255,0.04), rgba(255,255,255,0.1), rgba(255,255,255,0.04)); background-size: 200% 100%; animation: cc-shimmer 1.4s linear infinite; }
 .tl-skel--block { height: 160px; }
