@@ -6,7 +6,7 @@
     "title": "Zone status"
   },
   "verifyDelivery": {
-    "title": "Verify delivery",
+    "title": "Public verification",
     "lead": "Check that the record of an aid delivery has not been altered since it was written to the blockchain.",
     "code": "Delivery code",
     "recomputed": "Hash recomputed today",
@@ -37,6 +37,14 @@
         "title": "Could not verify",
         "text": "There was a problem checking the delivery. Please try again."
       }
-    }
+    },
+    "navLabel": "Navigation",
+    "goToSite": "Go to site",
+    "learnMore": "Learn more about AuxIA",
+    "checkingText": "Comparing the record with the blockchain.",
+    "copy": "Copy",
+    "copied": "Copied",
+    "match": "Match",
+    "noMatch": "Do not match"
   }
 }

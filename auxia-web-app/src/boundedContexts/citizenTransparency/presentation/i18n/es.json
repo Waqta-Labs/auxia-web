@@ -6,7 +6,7 @@
     "title": "Estado de la zona"
   },
   "verifyDelivery": {
-    "title": "Verificar entrega",
+    "title": "Verificación pública",
     "lead": "Comprueba que el registro de una entrega de ayuda no fue alterado desde que se anotó en la blockchain.",
     "code": "Código de la entrega",
     "recomputed": "Hash recalculado hoy",
@@ -37,6 +37,14 @@
         "title": "No se pudo verificar",
         "text": "Ocurrió un problema al consultar la entrega. Inténtalo nuevamente."
       }
-    }
+    },
+    "navLabel": "Navegación",
+    "goToSite": "Ir al sitio",
+    "learnMore": "Conoce más sobre AuxIA",
+    "checkingText": "Comparando el registro con la blockchain.",
+    "copy": "Copiar",
+    "copied": "Copiado",
+    "match": "Coinciden",
+    "noMatch": "No coinciden"
   }
 }

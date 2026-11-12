@@ -18,6 +18,11 @@ const router = createBrowserRouter([
         path: routes.signIn,
         ...page(() => import('@bc/identityAccess/presentation/pages/signInPage.jsx')),
       },
+      // Verificación pública: pantalla propia, sin el encabezado del portal.
+      {
+        path: routes.verifyDelivery,
+        ...page(() => import('@bc/citizenTransparency/presentation/pages/verifyDeliveryPage.jsx')),
+      },
     ],
   },
   {
@@ -30,10 +35,6 @@ const router = createBrowserRouter([
       {
         path: routes.publicZone,
         ...page(() => import('@bc/citizenTransparency/presentation/pages/zoneStatusPage.jsx')),
-      },
-      {
-        path: routes.verifyDelivery,
-        ...page(() => import('@bc/citizenTransparency/presentation/pages/verifyDeliveryPage.jsx')),
       },
     ],
   },
