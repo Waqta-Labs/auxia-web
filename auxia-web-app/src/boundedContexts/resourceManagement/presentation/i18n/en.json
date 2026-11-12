@@ -1,6 +1,125 @@
 {
   "inventory": {
-    "title": "Inventory and warehouses"
+    "title": "Inventory and Warehouses",
+    "subtitle": "Supply availability by relief center",
+    "warehouse": "Warehouse",
+    "loadError": "Could not load the inventory.",
+    "retry": "Retry",
+    "banner": "Stock-out ahead: {{name}} is below its minimum (available {{available}}, minimum {{minimum}})",
+    "viewAlerts": "View alerts",
+    "actions": {
+      "in": "Register entry",
+      "out": "Register exit",
+      "newResource": "New resource"
+    },
+    "levels": {
+      "OK": "OK",
+      "LOW": "Low",
+      "CRITICAL": "Critical"
+    },
+    "categories": {
+      "MEDICAL": "Medical",
+      "RESCUE": "Rescue",
+      "SUPPLIES": "Supplies"
+    },
+    "tabs": {
+      "ALL": "All",
+      "MEDICAL": "Medical",
+      "RESCUE": "Rescue",
+      "SUPPLIES": "Supplies"
+    },
+    "cards": {
+      "label": "Resources",
+      "of": "of {{total}} in the warehouse",
+      "available": "Available",
+      "minimum": "minimum {{value}}",
+      "reserved": "{{value}} reserved"
+    },
+    "table": {
+      "title": "Stock",
+      "filter": "Filter by category",
+      "empty": "There are no resources in this category.",
+      "resource": "Resource",
+      "category": "Category",
+      "onHand": "On hand",
+      "reserved": "Reserved",
+      "available": "Available",
+      "minimum": "Minimum",
+      "status": "Status",
+      "actions": "Actions",
+      "in": "Entry",
+      "out": "Exit"
+    },
+    "alerts": {
+      "title": "Stock-out alerts",
+      "filter": "Filter alerts",
+      "loadError": "Could not load the alerts.",
+      "status": {
+        "OPEN": "Open",
+        "RESOLVED": "Resolved"
+      },
+      "empty": {
+        "OPEN": "There are no open alerts. All stock is above its minimum.",
+        "RESOLVED": "There are no resolved alerts yet."
+      },
+      "detail": "Available {{available}} · minimum {{minimum}}",
+      "raised": "Alert since {{date}}",
+      "resolved": "Resolved on {{date}}",
+      "restock": "Restock"
+    },
+    "in": {
+      "title": "Register entry",
+      "hint": "Adds what was received to the warehouse stock.",
+      "submit": "Register entry"
+    },
+    "out": {
+      "title": "Register exit",
+      "hint": "Subtracts from the available stock. It is recorded as an adjustment with its reason.",
+      "submit": "Register exit"
+    },
+    "new": {
+      "title": "New resource",
+      "hint": "It is registered without stock; then register its first entry.",
+      "name": "Name",
+      "category": "Category",
+      "categoryPlaceholder": "Choose a category",
+      "unit": "Unit",
+      "unitPlaceholder": "L, units, kits",
+      "minimum": "Minimum stock",
+      "submit": "Register resource"
+    },
+    "form": {
+      "resource": "Resource",
+      "quantity": "Quantity",
+      "reason": "Reason",
+      "reasonPlaceholder": "E.g.: delivered to shelter, loss",
+      "current": "On hand: {{onHand}} · available: {{available}}",
+      "saving": "Saving...",
+      "cancel": "Cancel"
+    },
+    "setup": {
+      "title": "There is no inventory yet",
+      "create": "Create inventory",
+      "admin": "Create your organization's inventory to start registering resources.",
+      "other": "The organization's administrator has not created the inventory yet."
+    },
+    "noResources": {
+      "title": "No resources yet",
+      "admin": "Register the first one with \"New resource\" and then its first entry.",
+      "other": "The administrator has not registered resources yet."
+    },
+    "errors": {
+      "nameRequired": "Enter the resource name.",
+      "categoryRequired": "Choose a category.",
+      "unitRequired": "Enter the unit (L, units, kits...).",
+      "minimumInvalid": "The minimum stock must be a number equal to or greater than 0.",
+      "resourceRequired": "Choose a resource.",
+      "quantityInvalid": "The quantity must be a number greater than 0.",
+      "reasonRequired": "Enter the reason for the exit.",
+      "exceedsAvailable": "There is not that much available stock: what is reserved for plans cannot be taken out.",
+      "forbidden": "Only the organization's administrator can change the inventory.",
+      "generic": "The operation could not be completed."
+    }
   },
   "fieldLogistics": {
     "title": "Field logistics"

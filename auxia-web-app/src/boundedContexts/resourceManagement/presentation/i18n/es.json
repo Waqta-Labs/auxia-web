@@ -1,6 +1,125 @@
 {
   "inventory": {
-    "title": "Inventario y almacenes"
+    "title": "Inventario y Almacenes",
+    "subtitle": "Disponibilidad de suministros por centro de acopio",
+    "warehouse": "Almacén",
+    "loadError": "No se pudo cargar el inventario.",
+    "retry": "Reintentar",
+    "banner": "Desabastecimiento próximo: {{name}} bajo el mínimo (disponible {{available}}, mínimo {{minimum}})",
+    "viewAlerts": "Ver alertas",
+    "actions": {
+      "in": "Registrar entrada",
+      "out": "Registrar salida",
+      "newResource": "Nuevo recurso"
+    },
+    "levels": {
+      "OK": "OK",
+      "LOW": "Bajo",
+      "CRITICAL": "Crítico"
+    },
+    "categories": {
+      "MEDICAL": "Médico",
+      "RESCUE": "Rescate",
+      "SUPPLIES": "Suministros"
+    },
+    "tabs": {
+      "ALL": "Todos",
+      "MEDICAL": "Médico",
+      "RESCUE": "Rescate",
+      "SUPPLIES": "Suministros"
+    },
+    "cards": {
+      "label": "Recursos",
+      "of": "de {{total}} en almacén",
+      "available": "Disponible",
+      "minimum": "mínimo {{value}}",
+      "reserved": "{{value}} reservado"
+    },
+    "table": {
+      "title": "Existencias",
+      "filter": "Filtrar por categoría",
+      "empty": "No hay recursos en esta categoría.",
+      "resource": "Recurso",
+      "category": "Categoría",
+      "onHand": "En almacén",
+      "reserved": "Reservado",
+      "available": "Disponible",
+      "minimum": "Mínimo",
+      "status": "Estado",
+      "actions": "Acciones",
+      "in": "Entrada",
+      "out": "Salida"
+    },
+    "alerts": {
+      "title": "Alertas de desabastecimiento",
+      "filter": "Filtrar alertas",
+      "loadError": "No se pudieron cargar las alertas.",
+      "status": {
+        "OPEN": "Abiertas",
+        "RESOLVED": "Resueltas"
+      },
+      "empty": {
+        "OPEN": "No hay alertas abiertas. Todo el stock está sobre su mínimo.",
+        "RESOLVED": "Todavía no hay alertas resueltas."
+      },
+      "detail": "Disponible {{available}} · mínimo {{minimum}}",
+      "raised": "Alerta desde {{date}}",
+      "resolved": "Resuelta el {{date}}",
+      "restock": "Reabastecer"
+    },
+    "in": {
+      "title": "Registrar entrada",
+      "hint": "Suma lo recibido al stock en almacén.",
+      "submit": "Registrar entrada"
+    },
+    "out": {
+      "title": "Registrar salida",
+      "hint": "Resta del stock disponible. Queda registrada como ajuste con su motivo.",
+      "submit": "Registrar salida"
+    },
+    "new": {
+      "title": "Nuevo recurso",
+      "hint": "Se registra sin stock; después registra su primera entrada.",
+      "name": "Nombre",
+      "category": "Categoría",
+      "categoryPlaceholder": "Elige una categoría",
+      "unit": "Unidad",
+      "unitPlaceholder": "L, unid., kits",
+      "minimum": "Stock mínimo",
+      "submit": "Registrar recurso"
+    },
+    "form": {
+      "resource": "Recurso",
+      "quantity": "Cantidad",
+      "reason": "Motivo",
+      "reasonPlaceholder": "Ej.: entrega a albergue, merma",
+      "current": "En almacén: {{onHand}} · disponible: {{available}}",
+      "saving": "Guardando...",
+      "cancel": "Cancelar"
+    },
+    "setup": {
+      "title": "Todavía no hay inventario",
+      "create": "Crear inventario",
+      "admin": "Crea el inventario de tu organización para empezar a registrar recursos.",
+      "other": "El administrador de la organización aún no creó el inventario."
+    },
+    "noResources": {
+      "title": "Aún no hay recursos",
+      "admin": "Registra el primero con \"Nuevo recurso\" y luego su primera entrada.",
+      "other": "El administrador todavía no registró recursos."
+    },
+    "errors": {
+      "nameRequired": "Escribe el nombre del recurso.",
+      "categoryRequired": "Elige una categoría.",
+      "unitRequired": "Escribe la unidad (L, unid., kits...).",
+      "minimumInvalid": "El stock mínimo debe ser un número igual o mayor que 0.",
+      "resourceRequired": "Elige un recurso.",
+      "quantityInvalid": "La cantidad debe ser un número mayor que 0.",
+      "reasonRequired": "Escribe el motivo de la salida.",
+      "exceedsAvailable": "No hay tanto stock disponible: lo reservado para planes no se puede sacar.",
+      "forbidden": "Solo el administrador de la organización puede modificar el inventario.",
+      "generic": "No se pudo completar la operación."
+    }
   },
   "fieldLogistics": {
     "title": "Logística de campo"
