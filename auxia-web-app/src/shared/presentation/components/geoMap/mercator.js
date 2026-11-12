@@ -1,7 +1,7 @@
 // Matemática del mapa: proyección Web Mercator (la misma de OpenStreetMap), teselas de 256 px.
 export const TILE = 256;
 export const MIN_ZOOM = 3;
-export const MAX_ZOOM = 19;
+export const MAX_ZOOM = 17;
 const MAX_LAT = 85.05112878;
 
 export const clampZoom = (zoom) => Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, zoom));

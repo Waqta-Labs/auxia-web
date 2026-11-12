@@ -7,7 +7,7 @@ import { featureLabel, formatContribution } from '../utils/featureLabel.js';
 import { LEVEL_COLORS } from '../utils/gisColors.js';
 
 // Tarjeta de la zona elegida en el mapa: por qué está priorizada y salto al detalle / asignación.
-export default function ZonePopup({ zone, canManage, onEditImpact, onClose }) {
+export default function ZonePopup({ zone, placeLabel, canManage, onEditImpact, onClose }) {
   const { t, i18n } = useTranslation('emergencyManagement');
   const lng = i18n.resolvedLanguage;
   const detail = useZonePriorityDetail(zone.id);
@@ -20,6 +20,7 @@ export default function ZonePopup({ zone, canManage, onEditImpact, onClose }) {
     [t('gisMap.popup.damage'), zone.damageLevel ? t('damage.' + zone.damageLevel) : '—'],
     [t('gisMap.popup.people'), zone.peopleAffected === null ? '—' : formatNumber(zone.peopleAffected, lng)],
     [t('gisMap.popup.status'), zone.status ? t('zoneStatus.' + zone.status) : '—'],
+    ...(placeLabel ? [[t('gisMap.popup.place'), placeLabel]] : []),
     [t('gisMap.popup.gps'), zone.latitude.toFixed(4) + ', ' + zone.longitude.toFixed(4)],
   ];
 

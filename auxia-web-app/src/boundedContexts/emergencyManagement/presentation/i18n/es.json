@@ -15,7 +15,7 @@
       "zoomOut": "Alejar"
     },
     "search": {
-      "placeholder": "Buscar zona, lugar o coordenadas",
+      "placeholder": "Buscar zona, distrito, provincia o coordenadas",
       "label": "Buscar en el mapa",
       "zone": "Zona",
       "place": "Lugar",
@@ -23,7 +23,11 @@
       "searching": "Buscando…",
       "noResults": "Sin resultados.",
       "hint": "Pulsa Enter para buscar también lugares.",
-      "error": "No se pudo buscar el lugar. Intenta de nuevo."
+      "error": "No se pudo buscar el lugar. Intenta de nuevo.",
+      "department": "Departamento",
+      "province": "Provincia",
+      "district": "Distrito",
+      "loadingPlaces": "Cargando lugares…"
     },
     "tools": {
       "label": "Herramientas del mapa",
@@ -31,7 +35,8 @@
       "measure": "Medir",
       "newZone": "Nueva zona",
       "clear": "Borrar",
-      "recenter": "Recentrar"
+      "recenter": "Recentrar",
+      "peru": "Todo el Perú"
     },
     "hints": {
       "measureEmpty": "Haz clic en el mapa para marcar puntos y medir distancias.",
@@ -46,7 +51,8 @@
       "zones": "Zonas (marcadores)",
       "brigades": "Brigadas (base GPS)",
       "opacity": "Opacidad del calor",
-      "unavailable": "Las zonas inundadas y la cobertura celular aún no las entrega el servicio."
+      "unavailable": "Las zonas inundadas y la cobertura celular aún no las entrega el servicio.",
+      "boundaries": "Límites administrativos"
     },
     "legend": {
       "title": "Leyenda",
@@ -75,7 +81,8 @@
         "HIGH": "Prioridad alta",
         "MEDIUM": "Prioridad media",
         "LOW": "Prioridad baja"
-      }
+      },
+      "place": "Ubicación"
     },
     "dialog": {
       "title": "Nueva zona",
@@ -92,7 +99,9 @@
       "impactTitle": "Población afectada de {{name}}",
       "impactIntro": "Solo cambian los datos que escribas; el puntaje de urgencia se recalcula.",
       "save": "Guardar",
-      "saving": "Guardando…"
+      "saving": "Guardando…",
+      "place": "Ubicación: {{name}}",
+      "outside": "Estas coordenadas están fuera de los límites del Perú."
     },
     "impact": {
       "title": "Población afectada (opcional)",
@@ -113,6 +122,10 @@
       "noEmergency": "No hay una emergencia activa donde registrar la zona.",
       "forbidden": "Solo una autoridad puede registrar zonas.",
       "generic": "No se pudo registrar la zona."
+    },
+    "place": {
+      "outside": "Fuera de los límites del Perú",
+      "clear": "Quitar"
     }
   },
   "prioritization": {

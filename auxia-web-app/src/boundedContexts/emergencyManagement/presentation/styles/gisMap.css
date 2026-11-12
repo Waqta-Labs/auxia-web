@@ -43,6 +43,10 @@
 .gm-tools button[aria-pressed='true'] { background: var(--color-lime); color: var(--night-600); }
 .gm-tools button:disabled { opacity: 0.4; cursor: not-allowed; }
 .gm-tools button:focus-visible { outline: 2px solid var(--color-sky); outline-offset: 1px; }
+.gm-place { display: flex; align-items: center; gap: 8px; }
+.gm-place button { display: grid; place-items: center; width: 20px; height: 20px; padding: 0; border: 0; border-radius: 50%; background: rgba(255, 255, 255, 0.1); color: #fff; font: inherit; line-height: 1; cursor: pointer; }
+.gm-place button:hover { background: rgba(255, 255, 255, 0.2); }
+.gm-note.is-warn { color: #ffb020; }
 .gm-hint { margin: 0; padding: 6px 14px; border-radius: 999px; background: rgba(33, 33, 97, 0.94); border: 1px solid var(--cc-line); font-size: 0.8125rem; text-align: center; }
 
 /* Tarjeta de la zona */

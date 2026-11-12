@@ -1,5 +1,6 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { describe, locate } from '@shared/presentation/components/geoMap/boundaries.js';
 import { DAMAGE_LEVELS } from '../../domain/enums/damageLevel.js';
 import { useRegisterZone } from '../hooks/useRegisterZone.js';
 import ImpactFields from './impactFields.jsx';
@@ -7,7 +8,7 @@ import ImpactFields from './impactFields.jsx';
 const EMPTY_IMPACT = { population: '', familiesAffected: '', peopleAffected: '', children: '', elderlyPeople: '', disabledPeople: '' };
 
 // Registra una zona en el punto marcado en el mapa. La ubicación se puede ajustar a mano.
-export default function NewZoneDialog({ emergencyId, point, onClose, onCreated }) {
+export default function NewZoneDialog({ emergencyId, point, boundaries, onClose, onCreated }) {
   const { t } = useTranslation('emergencyManagement');
   const register = useRegisterZone();
   const [name, setName] = useState('');
@@ -17,6 +18,15 @@ export default function NewZoneDialog({ emergencyId, point, onClose, onCreated }
   const [impact, setImpact] = useState(EMPTY_IMPACT);
   const [error, setError] = useState(null);
   const nameRef = useRef(null);
+
+  // En qué distrito cae la ubicación escrita (aviso si queda fuera del Perú; no bloquea el registro).
+  const place = useMemo(() => {
+    const lat = Number(latitude);
+    const lng = Number(longitude);
+    if (!boundaries.departments || latitude.trim() === '' || longitude.trim() === '' || !Number.isFinite(lat) || !Number.isFinite(lng)) return null;
+    const feature = locate(boundaries, lat, lng);
+    return feature ? { name: describe(feature) } : { outside: true };
+  }, [boundaries, latitude, longitude]);
 
   useEffect(() => { nameRef.current?.focus(); }, []);
   useEffect(() => {
@@ -54,6 +64,7 @@ export default function NewZoneDialog({ emergencyId, point, onClose, onCreated }
             <input inputMode="decimal" value={longitude} onChange={(event) => setLongitude(event.target.value)} />
           </label>
         </div>
+        {place && <p className={'gm-note' + (place.outside ? ' is-warn' : '')}>{place.outside ? t('gisMap.dialog.outside') : t('gisMap.dialog.place', { name: place.name })}</p>}
         <label className="gm-field">{t('gisMap.dialog.damage')}
           <select value={damageLevel} onChange={(event) => setDamageLevel(event.target.value)}>
             <option value="">{t('gisMap.dialog.damageNone')}</option>

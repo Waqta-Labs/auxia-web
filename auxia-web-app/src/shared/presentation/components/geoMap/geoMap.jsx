@@ -13,7 +13,8 @@ function scaleBar(lat, zoom) {
   return { width: nice / mpp, label: nice >= 1000 ? nice / 1000 + ' km' : nice + ' m' };
 }
 
-// Mapa propio: teselas de OpenStreetMap + arrastrar, rueda, pellizco, doble clic y teclado.
+// Mapa propio: arrastrar, rueda, pellizco, doble clic y teclado. Las teselas son opcionales (env.mapTilesUrl); sin ellas
+// el mapa base lo dibuja BaseLayer con los límites del Perú.
 //  - view = { lat, lng, zoom } lo maneja quien lo usa (onViewChange).
 //  - fit = { key, points, padding }: encuadra los puntos cada vez que cambia "key".
 //  - children recibe { view, size, toScreen, metersPerPixel } para dibujar capas encima.
@@ -159,7 +160,7 @@ export default function GeoMap({ view, onViewChange, fit = null, mode = 'move', 
 
   // Teselas visibles.
   const tiles = [];
-  if (ready) {
+  if (ready && env.mapTilesUrl) {
     const tz = Math.min(MAX_TILE_ZOOM, Math.max(0, Math.round(view.zoom)));
     const scale = 2 ** (view.zoom - tz);
     const c = project(view.lat, view.lng, tz);
@@ -227,7 +228,7 @@ export default function GeoMap({ view, onViewChange, fit = null, mode = 'move', 
           </button>
         )}
         <div className="gm__scale" aria-hidden="true"><span style={{ width: bar.width }} />{bar.label}</div>
-        <p className="gm__attr">{env.mapAttribution}</p>
+        {env.mapAttribution && <p className="gm__attr">{env.mapAttribution}</p>}
       </div>
     </div>
   );

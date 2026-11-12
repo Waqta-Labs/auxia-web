@@ -15,7 +15,7 @@
       "zoomOut": "Zoom out"
     },
     "search": {
-      "placeholder": "Search zone, place or coordinates",
+      "placeholder": "Search zone, district, province or coordinates",
       "label": "Search the map",
       "zone": "Zone",
       "place": "Place",
@@ -23,7 +23,11 @@
       "searching": "Searching…",
       "noResults": "No results.",
       "hint": "Press Enter to search places too.",
-      "error": "The place could not be searched. Try again."
+      "error": "The place could not be searched. Try again.",
+      "department": "Department",
+      "province": "Province",
+      "district": "District",
+      "loadingPlaces": "Loading places…"
     },
     "tools": {
       "label": "Map tools",
@@ -31,7 +35,8 @@
       "measure": "Measure",
       "newZone": "New zone",
       "clear": "Clear",
-      "recenter": "Recenter"
+      "recenter": "Recenter",
+      "peru": "All of Peru"
     },
     "hints": {
       "measureEmpty": "Click on the map to mark points and measure distances.",
@@ -46,7 +51,8 @@
       "zones": "Zones (markers)",
       "brigades": "Brigades (GPS base)",
       "opacity": "Heat opacity",
-      "unavailable": "Flooded zones and cell coverage are not provided by the service yet."
+      "unavailable": "Flooded zones and cell coverage are not provided by the service yet.",
+      "boundaries": "Administrative boundaries"
     },
     "legend": {
       "title": "Legend",
@@ -75,7 +81,8 @@
         "HIGH": "High priority",
         "MEDIUM": "Medium priority",
         "LOW": "Low priority"
-      }
+      },
+      "place": "Location"
     },
     "dialog": {
       "title": "New zone",
@@ -92,7 +99,9 @@
       "impactTitle": "Affected population of {{name}}",
       "impactIntro": "Only the data you enter changes; the urgency score is recalculated.",
       "save": "Save",
-      "saving": "Saving…"
+      "saving": "Saving…",
+      "place": "Location: {{name}}",
+      "outside": "These coordinates are outside Peru's borders."
     },
     "impact": {
       "title": "Affected population (optional)",
@@ -113,6 +122,10 @@
       "noEmergency": "There is no active emergency to register the zone in.",
       "forbidden": "Only an authority can register zones.",
       "generic": "The zone could not be registered."
+    },
+    "place": {
+      "outside": "Outside Peru's borders",
+      "clear": "Clear"
     }
   },
   "prioritization": {

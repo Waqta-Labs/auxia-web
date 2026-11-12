@@ -1,8 +1,6 @@
 .gm {
   position: relative; width: 100%; height: 100%; overflow: hidden; touch-action: none; user-select: none; outline: none;
   background-color: #0b0b2e;
-  background-image: linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
-  background-size: 64px 64px;
   cursor: grab;
 }
 .gm:active { cursor: grabbing; }
@@ -11,6 +9,7 @@
 .gm__tiles { position: absolute; inset: 0; overflow: hidden; }
 .gm__tile { position: absolute; left: 0; top: 0; max-width: none; pointer-events: none; filter: saturate(0.85) brightness(0.95); }
 .gm__tiles::after { content: ''; position: absolute; inset: 0; background: rgba(16, 16, 58, 0.28); pointer-events: none; }
+.gm__base { position: absolute; left: 0; top: 0; pointer-events: none; }
 .gm__heat { position: absolute; left: 0; top: 0; pointer-events: none; mix-blend-mode: screen; transition: opacity 0.2s; }
 
 .gm__corner { position: absolute; right: 12px; bottom: 12px; display: grid; justify-items: end; gap: 8px; z-index: 30; cursor: default; }
