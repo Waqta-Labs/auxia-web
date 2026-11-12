@@ -172,7 +172,8 @@
       "coverage": "Cobertura",
       "brigades": "Bases de brigadas"
     },
-    "caption": "Mapa de calor de auxilio · intensidad creciente →"
+    "caption": "Mapa de calor de auxilio · intensidad creciente →",
+    "open": "Abrir mapa completo"
   },
   "priority": {
     "title": "Priorización IA",

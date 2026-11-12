@@ -172,7 +172,8 @@
       "coverage": "Coverage",
       "brigades": "Brigade bases"
     },
-    "caption": "Aid heat map · increasing intensity →"
+    "caption": "Aid heat map · increasing intensity →",
+    "open": "Open full map"
   },
   "priority": {
     "title": "AI Prioritization",

@@ -19,7 +19,7 @@ function scaleBar(lat, zoom) {
 //  - fit = { key, points, padding }: encuadra los puntos cada vez que cambia "key".
 //  - children recibe { view, size, toScreen, metersPerPixel } para dibujar capas encima.
 //  - Los elementos interactivos que se dibujen encima deben llevar data-map-ui para no arrastrar el mapa.
-export default function GeoMap({ view, onViewChange, fit = null, mode = 'move', onMapClick, onRecenter, label, zoomInLabel, zoomOutLabel, recenterLabel, children }) {
+export default function GeoMap({ view, onViewChange, fit = null, mode = 'move', interactive = true, onMapClick, onRecenter, label, zoomInLabel, zoomOutLabel, recenterLabel, children }) {
   const rootRef = useRef(null);
   const [size, setSize] = useState({ w: 0, h: 0 });
   const viewRef = useRef(view);
@@ -46,7 +46,7 @@ export default function GeoMap({ view, onViewChange, fit = null, mode = 'move', 
   const ready = size.w > 0 && size.h > 0;
   useEffect(() => {
     if (!fit || !ready) return;
-    const next = boundsView(fit.points, sizeRef.current.w, sizeRef.current.h, { padding: fit.padding });
+    const next = boundsView(fit.points, sizeRef.current.w, sizeRef.current.h, { padding: fit.padding, maxZoom: fit.maxZoom });
     if (next) changeRef.current(next);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fit?.key, ready]);
@@ -85,9 +85,10 @@ export default function GeoMap({ view, onViewChange, fit = null, mode = 'move', 
       const step = Math.max(-0.75, Math.min(0.75, -event.deltaY * 0.0025));
       zoomAround(event.clientX - rect.left, event.clientY - rect.top, viewRef.current.zoom + step);
     };
+    if (!interactive) return undefined;
     el.addEventListener('wheel', onWheel, { passive: false });
     return () => el.removeEventListener('wheel', onWheel);
-  }, [zoomAround]);
+  }, [zoomAround, interactive]);
 
   const local = (event) => {
     const rect = rootRef.current.getBoundingClientRect();
@@ -206,13 +207,14 @@ export default function GeoMap({ view, onViewChange, fit = null, mode = 'move', 
       data-mode={mode}
       role="application"
       aria-label={label}
-      tabIndex={0}
-      onPointerDown={onPointerDown}
-      onPointerMove={onPointerMove}
-      onPointerUp={onPointerUp}
-      onPointerCancel={onPointerUp}
-      onDoubleClick={onDoubleClick}
-      onKeyDown={onKeyDown}
+      data-interactive={interactive ? 'true' : 'false'}
+      tabIndex={interactive ? 0 : -1}
+      onPointerDown={interactive ? onPointerDown : undefined}
+      onPointerMove={interactive ? onPointerMove : undefined}
+      onPointerUp={interactive ? onPointerUp : undefined}
+      onPointerCancel={interactive ? onPointerUp : undefined}
+      onDoubleClick={interactive ? onDoubleClick : undefined}
+      onKeyDown={interactive ? onKeyDown : undefined}
     >
       <div className="gm__tiles" aria-hidden="true">{tiles}</div>
       {ready && (typeof children === 'function' ? children({ view, size, toScreen, metersPerPixel: mpp }) : children)}

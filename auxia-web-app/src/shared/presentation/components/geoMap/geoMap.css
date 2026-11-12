@@ -25,3 +25,7 @@
 .gm__scale { display: flex; align-items: center; gap: 8px; padding: 2px 8px; border-radius: 6px; background: rgba(11, 11, 46, 0.7); color: var(--night-100); font-size: 0.6875rem; font-weight: 600; }
 .gm__scale span { display: block; height: 6px; border: 1.5px solid var(--night-100); border-top: 0; }
 .gm__attr { margin: 0; padding: 2px 8px; border-radius: 6px; background: rgba(11, 11, 46, 0.7); color: var(--night-100); font-size: 0.625rem; }
+
+/* geomap-preview */
+.gm[data-interactive='false'] { cursor: pointer; touch-action: auto; }
+.gm[data-interactive='false'] .gm__zoom, .gm[data-interactive='false'] .gm__recenter { display: none; }

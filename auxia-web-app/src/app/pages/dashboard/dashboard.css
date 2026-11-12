@@ -87,3 +87,15 @@
 
 /* Mapa base oscuro a partir de las teselas claras de OpenStreetMap */
 .map-tiles { filter: invert(1) hue-rotate(180deg) brightness(0.78) contrast(0.92) saturate(0.45); }
+
+/* dashboard-map-preview */
+
+.map-panel .gm { background-color: #0b0b2e; }
+.dm-pin, .dm-brigade, .dm-cover { position: absolute; left: 0; top: 0; pointer-events: none; }
+.dm-pin { width: 12px; height: 12px; margin: -6px 0 0 -6px; border: 1.5px solid #fff; border-radius: 50%; box-shadow: 0 0 0 1px rgba(11, 11, 46, 0.6); }
+.dm-pin.is-critical { width: 16px; height: 16px; margin: -8px 0 0 -8px; }
+.dm-brigade { width: 10px; height: 10px; margin: -5px 0 0 -5px; border: 1.5px solid #10103a; }
+.dm-cover { border: 1px dashed #05c274; border-radius: 50%; background: rgba(5, 194, 116, 0.06); }
+.dm-open { position: absolute; top: 16px; right: 16px; z-index: 1000; height: 32px; padding: 0 14px; border: 1px solid var(--cc-line); border-radius: 999px; background: rgba(16, 16, 58, 0.88); color: #fff; font: inherit; font-size: 0.8125rem; font-weight: 600; cursor: pointer; backdrop-filter: blur(6px); }
+.dm-open:hover { background: rgba(33, 33, 97, 0.95); }
+.dm-open:focus-visible { outline: 2px solid var(--color-sky); outline-offset: 2px; }
