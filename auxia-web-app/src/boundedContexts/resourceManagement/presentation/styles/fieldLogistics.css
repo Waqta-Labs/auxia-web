@@ -75,6 +75,7 @@
 .fl-add { display: grid; gap: 10px; }
 .fl-add__row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; }
 .fl-add input { min-width: 0; }
+.fl-add input::placeholder { color: var(--night-100); }
 .fl-add input, .fl-add select, .fl-field input { height: 40px; padding: 0 12px; border: 1px solid var(--cc-line); border-radius: 10px; background: var(--cc-card-inner); color: #fff; font: inherit; }
 .fl-add select option { background: var(--cc-card); }
 .fl-add input:focus-visible, .fl-add select:focus-visible, .fl-field input:focus-visible { outline: 2px solid var(--color-royal); }
