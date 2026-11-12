@@ -3,6 +3,8 @@
 //  - findDetail: GET /zones/{id}
 //  - findScoreExplanation: GET /zones/{id}/score
 //  - setManualPriority / clearManualPriority: PUT / DELETE /zones/{id}/manual-priority (solo AUTHORITY)
+//  - register: POST /emergencies/{id}/zones (solo AUTHORITY)
+//  - updatePopulationImpact: PATCH /zones/{id}/population-impact (solo AUTHORITY)
 export class ZoneRepository {
   // eslint-disable-next-line no-unused-vars
   async findRanking(emergencyId, { withPosition } = {}) {
@@ -27,5 +29,15 @@ export class ZoneRepository {
   // eslint-disable-next-line no-unused-vars
   async clearManualPriority(zoneId) {
     throw new Error('ZoneRepository.clearManualPriority no implementado');
+  }
+
+  // eslint-disable-next-line no-unused-vars
+  async register(emergencyId, { name, latitude, longitude, damageLevel, impact }) {
+    throw new Error('ZoneRepository.register no implementado');
+  }
+
+  // eslint-disable-next-line no-unused-vars
+  async updatePopulationImpact(zoneId, impact) {
+    throw new Error('ZoneRepository.updatePopulationImpact no implementado');
   }
 }

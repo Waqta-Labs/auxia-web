@@ -8,6 +8,8 @@ import { FieldReportHttpRepository } from './http/fieldReportHttpRepository.js';
 import { DistributionPlanHttpRepository } from './http/distributionPlanHttpRepository.js';
 import { GetActiveEmergency } from '../application/useCases/getActiveEmergency.js';
 import { GetZoneRanking } from '../application/useCases/getZoneRanking.js';
+import { RegisterZone } from '../application/useCases/registerZone.js';
+import { UpdatePopulationImpact } from '../application/useCases/updatePopulationImpact.js';
 import { GetFieldReportSummary } from '../application/useCases/getFieldReportSummary.js';
 import { GetZonePriorityDetail } from '../application/useCases/getZonePriorityDetail.js';
 import { OverrideZoneScore } from '../application/useCases/overrideZoneScore.js';
@@ -26,6 +28,8 @@ const distributionPlanRepository = env.useMocks ? new DistributionPlanMockReposi
 
 export const getActiveEmergencyUseCase = new GetActiveEmergency(emergencyRepository);
 export const getZoneRankingUseCase = new GetZoneRanking(zoneRepository);
+export const registerZoneUseCase = new RegisterZone(zoneRepository);
+export const updatePopulationImpactUseCase = new UpdatePopulationImpact(zoneRepository);
 export const getFieldReportSummaryUseCase = new GetFieldReportSummary(fieldReportRepository);
 export const getZonePriorityDetailUseCase = new GetZonePriorityDetail(zoneRepository);
 export const overrideZoneScoreUseCase = new OverrideZoneScore(zoneRepository);

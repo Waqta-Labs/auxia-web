@@ -8,20 +8,20 @@ import { featureLabel, formatContribution } from '../utils/featureLabel.js';
 import OverrideScoreForm from './overrideScoreForm.jsx';
 import AssignBrigadePanel from './assignBrigadePanel.jsx';
 
-export default function ScoreDrawer({ zoneId, row, canManage, onClose }) {
+export default function ScoreDrawer({ zoneId, row, canManage, initialView = 'detail', onClose }) {
   const { t, i18n } = useTranslation('emergencyManagement');
   const lng = i18n.resolvedLanguage;
   const detail = useZonePriorityDetail(zoneId);
   const removeManual = useRemoveManualPriority();
   const [overriding, setOverriding] = useState(false);
-  const [view, setView] = useState('detail'); // 'detail' | 'assign'
+  const [view, setView] = useState(initialView); // 'detail' | 'assign'
   const closeRef = useRef(null);
 
   // Al abrir (o cambiar de zona) el foco va al botón de cerrar y se descarta cualquier formulario abierto.
   useEffect(() => {
     closeRef.current?.focus();
     setOverriding(false);
-    setView('detail');
+    setView(initialView);
   }, [zoneId]);
 
   useEffect(() => {

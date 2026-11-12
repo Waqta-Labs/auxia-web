@@ -40,6 +40,7 @@ export default function PrioritizationPage() {
   const selectedRow = zones.find((zone) => zone.id === selectedId) ?? null;
   const select = (id) => {
     const next = new URLSearchParams(searchParams);
+    next.delete('view');
     if (id) next.set('zone', id);
     else next.delete('zone');
     setSearchParams(next, { replace: true });
@@ -103,6 +104,7 @@ export default function PrioritizationPage() {
           zoneId={selectedId}
           row={selectedRow}
           canManage={isAuthority}
+          initialView={searchParams.get('view') === 'assign' ? 'assign' : 'detail'}
           onClose={() => select(null)}
         />
       )}

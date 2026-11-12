@@ -1,6 +1,119 @@
 {
   "gisMap": {
-    "title": "Multivariable GIS map"
+    "title": "Multivariable GIS map",
+    "subtitle": "{{zones}} zones with a location · {{critical}} critical",
+    "noEmergency": "There is no active emergency.",
+    "loading": "Loading zones…",
+    "loadError": "The zones could not be loaded.",
+    "empty": "There are no zones with coordinates in this emergency yet.",
+    "emptyHint": "Use \"New zone\" and click on the map to register the first one.",
+    "cluster": "{{count}} zones grouped: zoom in",
+    "brigade": "Brigade {{name}}",
+    "map": {
+      "label": "Zone priority heat map",
+      "zoomIn": "Zoom in",
+      "zoomOut": "Zoom out"
+    },
+    "search": {
+      "placeholder": "Search zone, place or coordinates",
+      "label": "Search the map",
+      "zone": "Zone",
+      "place": "Place",
+      "coordinates": "Go to {{value}}",
+      "searching": "Searching…",
+      "noResults": "No results.",
+      "hint": "Press Enter to search places too.",
+      "error": "The place could not be searched. Try again."
+    },
+    "tools": {
+      "label": "Map tools",
+      "move": "Move",
+      "measure": "Measure",
+      "newZone": "New zone",
+      "clear": "Clear",
+      "recenter": "Recenter"
+    },
+    "hints": {
+      "measureEmpty": "Click on the map to mark points and measure distances.",
+      "measure": "Total distance: {{distance}}",
+      "create": "Click where the affected zone is to register it.",
+      "created": "Zone registered: {{name}}.",
+      "updated": "Population updated: {{name}}."
+    },
+    "layers": {
+      "title": "Layers",
+      "heat": "Priority heat map",
+      "zones": "Zones (markers)",
+      "brigades": "Brigades (GPS base)",
+      "opacity": "Heat opacity",
+      "unavailable": "Flooded zones and cell coverage are not provided by the service yet."
+    },
+    "legend": {
+      "title": "Legend",
+      "low": "Low demand",
+      "critical": "Critical",
+      "needs": "Need",
+      "all": "All"
+    },
+    "popup": {
+      "reasons": "Why this priority",
+      "noScore": "No urgency score",
+      "noScoreHint": "It has no score yet: the population or field reports are missing.",
+      "noReasons": "No score detail is available.",
+      "manual": "Manual priority",
+      "needs": "Needs",
+      "damage": "Damage",
+      "people": "People affected",
+      "status": "Status",
+      "gps": "GPS",
+      "assign": "Assign brigade",
+      "detail": "View detail",
+      "close": "Close",
+      "editImpact": "Edit affected population",
+      "level": {
+        "CRITICAL": "Critical priority",
+        "HIGH": "High priority",
+        "MEDIUM": "Medium priority",
+        "LOW": "Low priority"
+      }
+    },
+    "dialog": {
+      "title": "New zone",
+      "intro": "It is registered in the active emergency. With the affected population, the urgency score is calculated right away.",
+      "name": "Zone name",
+      "namePlaceholder": "E.g. Santa Rosa sector",
+      "latitude": "Latitude",
+      "longitude": "Longitude",
+      "damage": "Damage level",
+      "damageNone": "Not specified",
+      "cancel": "Cancel",
+      "create": "Register zone",
+      "creating": "Registering…",
+      "impactTitle": "Affected population of {{name}}",
+      "impactIntro": "Only the data you enter changes; the urgency score is recalculated.",
+      "save": "Save",
+      "saving": "Saving…"
+    },
+    "impact": {
+      "title": "Affected population (optional)",
+      "population": "Total population",
+      "familiesAffected": "Families affected",
+      "peopleAffected": "People affected",
+      "children": "Children",
+      "elderlyPeople": "Elderly people",
+      "disabledPeople": "People with disabilities"
+    },
+    "errors": {
+      "nameRequired": "Enter the zone name.",
+      "nameTooLong": "The name can have up to 150 characters.",
+      "latitudeInvalid": "Latitude must be between -90 and 90.",
+      "longitudeInvalid": "Longitude must be between -180 and 180.",
+      "countInvalid": "The population data must be whole numbers equal to or greater than 0.",
+      "impactEmpty": "Enter at least one population figure.",
+      "noEmergency": "There is no active emergency to register the zone in.",
+      "forbidden": "Only an authority can register zones.",
+      "generic": "The zone could not be registered."
+    }
   },
   "prioritization": {
     "title": "AI Prioritization",

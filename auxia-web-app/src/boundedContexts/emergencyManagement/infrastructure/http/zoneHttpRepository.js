@@ -42,4 +42,20 @@ export class ZoneHttpRepository extends ZoneRepository {
   async clearManualPriority(zoneId) {
     await call(() => httpClient.delete('/zones/' + zoneId + '/manual-priority'));
   }
+
+  // POST /emergencies/{id}/zones
+  // Cuerpo: { name, geolocation: { latitude, longitude }, populationImpact?: { population, familiesAffected, peopleAffected,
+  // children, elderlyPeople, disabledPeople }, damageLevel? }. Con población el backend calcula el puntaje al instante.
+  async register(emergencyId, { name, latitude, longitude, damageLevel, impact }) {
+    const body = { name, geolocation: { latitude, longitude } };
+    if (impact && Object.keys(impact).length > 0) body.populationImpact = impact;
+    if (damageLevel) body.damageLevel = damageLevel;
+    const { data } = await call(() => httpClient.post('/emergencies/' + emergencyId + '/zones', body));
+    return { id: data?.id ?? null, name: data?.name ?? name };
+  }
+
+  // PATCH /zones/{id}/population-impact: solo cambian los conteos enviados y se recalcula el puntaje.
+  async updatePopulationImpact(zoneId, impact) {
+    await call(() => httpClient.patch('/zones/' + zoneId + '/population-impact', impact));
+  }
 }
