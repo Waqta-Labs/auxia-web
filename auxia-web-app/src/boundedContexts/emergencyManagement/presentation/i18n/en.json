@@ -261,7 +261,8 @@
       "children": "Minors",
       "elderly": "Elderly people",
       "disabled": "People with disabilities",
-      "lastAid": "Last aid received"
+      "lastAid": "Last aid received",
+      "needs": "Needs"
     },
     "noLocation": "No location",
     "noAid": "No aid received yet",
@@ -270,7 +271,8 @@
     "removeManual": "Remove manual priority",
     "assign": "Assign brigade",
     "override": "Override score",
-    "readOnly": "Your role can only view this."
+    "readOnly": "Your role can only view this.",
+    "noNeeds": "No needs reported"
   },
   "override": {
     "title": "Override score with manual priority",

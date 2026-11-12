@@ -38,7 +38,8 @@ export default function ScoreDrawer({ zoneId, row, canManage, initialView = 'det
   const name = zone?.name ?? row?.name ?? '';
   const score = zone?.urgencyScore ?? row?.urgencyScore ?? null;
   const level = zone ? levelOf(zone.priorityLevel) : row?.level ?? 'unscored';
-  const needs = (row?.needs ?? []).map((need) => t('needs.' + need, { defaultValue: humanize(need) }));
+  const needKeys = row?.needs ?? zone?.needs ?? [];
+  const needs = needKeys.map((need) => t('needs.' + need, { defaultValue: humanize(need) }));
   const damage = zone?.damageLevel ?? row?.damageLevel;
   const subtitle = [needs.join(', '), damage ? t('damage.' + damage) : null].filter(Boolean).join(' · ');
 
@@ -46,6 +47,7 @@ export default function ScoreDrawer({ zoneId, row, canManage, initialView = 'det
   const facts = zone && [
     ['status', zone.status ? t('zoneStatus.' + zone.status) : '—'],
     ['damage', zone.damageLevel ? t('damage.' + zone.damageLevel) : '—'],
+    ['needs', needs.length > 0 ? <span className="pz-needs">{needKeys.map((need, index) => <span key={need} className="pz-tag">{needs[index]}</span>)}</span> : t('drawer.noNeeds')],
     ['location', zone.hasPosition ? zone.latitude.toFixed(4) + ', ' + zone.longitude.toFixed(4) : t('drawer.noLocation')],
     ['population', number(zone.population)],
     ['families', number(zone.familiesAffected)],

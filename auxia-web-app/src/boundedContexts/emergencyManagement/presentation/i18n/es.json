@@ -261,7 +261,8 @@
       "children": "Menores",
       "elderly": "Adultos mayores",
       "disabled": "Personas con discapacidad",
-      "lastAid": "Última ayuda recibida"
+      "lastAid": "Última ayuda recibida",
+      "needs": "Necesidades"
     },
     "noLocation": "Sin ubicación",
     "noAid": "Aún no recibe ayuda",
@@ -270,7 +271,8 @@
     "removeManual": "Quitar prioridad manual",
     "assign": "Asignar brigada",
     "override": "Anular score",
-    "readOnly": "Tu rol solo permite consultar."
+    "readOnly": "Tu rol solo permite consultar.",
+    "noNeeds": "Sin necesidades reportadas"
   },
   "override": {
     "title": "Anular score con prioridad manual",
