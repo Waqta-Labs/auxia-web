@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import KpiCard from '@shared/presentation/components/kpiCard.jsx';
 import { formatNumber, formatPercent } from '@shared/utils/formatters.js';
 import { routes } from '@app/router/routes.js';
+import { usePermissions } from '@bc/identityAccess/presentation/hooks/usePermissions.js';
 import { useActiveEmergency } from '@bc/emergencyManagement/presentation/hooks/useActiveEmergency.js';
 import { useZoneRanking } from '@bc/emergencyManagement/presentation/hooks/useZoneRanking.js';
 import { useFieldReportSummary } from '@bc/emergencyManagement/presentation/hooks/useFieldReportSummary.js';
@@ -20,6 +21,7 @@ export default function DashboardPage() {
   const { t, i18n } = useTranslation();
   const lng = i18n.resolvedLanguage;
   const navigate = useNavigate();
+  const { isAuthority } = usePermissions(); // solo la autoridad asigna brigadas
 
   const emergency = useActiveEmergency();
   const emergencyId = emergency.data?.id;
@@ -78,7 +80,7 @@ export default function DashboardPage() {
           brigades={brigades.data?.brigades}
           loading={loading(ranking) || loading(brigades)}
         />
-        <PriorityList zones={zones.slice(0, TOP_PRIORITIES)} loading={loading(ranking)} onAssign={handleAssign} />
+        <PriorityList zones={zones.slice(0, TOP_PRIORITIES)} loading={loading(ranking)} onAssign={isAuthority ? handleAssign : undefined} />
       </div>
 
       <DeliveriesTable deliveries={deliveries.data?.recent} loading={loading(deliveries)} />

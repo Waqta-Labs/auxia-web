@@ -6,6 +6,7 @@ import { useZoneDistributionPlan } from '../hooks/useZoneDistributionPlan.js';
 import { useRecommendDistribution } from '../hooks/useRecommendDistribution.js';
 import { useApproveDistributionPlan } from '../hooks/useApproveDistributionPlan.js';
 import { useAssignBrigadeToPlan } from '../hooks/useAssignBrigadeToPlan.js';
+import { useBrigadeOverview } from '@bc/resourceManagement/presentation/hooks/useBrigadeOverview.js';
 import { useInventory } from '@bc/resourceManagement/presentation/hooks/useInventory.js';
 import { coverageLabel, planErrorMessage, statusLabel } from '../utils/planFormat.js';
 import RejectPlanForm from './rejectPlanForm.jsx';
@@ -23,11 +24,15 @@ export default function AssignBrigadePanel({ zoneId, zone, onBack }) {
   const [rejecting, setRejecting] = useState(false);
   const [generated, setGenerated] = useState(false);
   const [failure, setFailure] = useState(null); // último error de recomendar / aprobar / asignar
+  const [alreadyAssigned, setAlreadyAssigned] = useState(null); // { id } cuando el backend dice 409 "ya asignado"
+  const brigades = useBrigadeOverview();
+  const [settling, setSettling] = useState(false); // aprobado, comprobando si el backend ya le asignó brigada
 
   useEffect(() => {
     setRejecting(false);
     setGenerated(false);
     setFailure(null);
+    setAlreadyAssigned(null);
   }, [zoneId]);
 
   const plan = planQuery.data ?? null;
@@ -53,8 +58,36 @@ export default function AssignBrigadePanel({ zoneId, zone, onBack }) {
     run(recommend, emergency.data?.id, () => setGenerated(true));
   };
 
+  // 409: el plan ya tiene brigada (la asignó el backend al aprobar). Se toma el id del mensaje, se recarga el plan y se muestra.
+  const retryAssign = (onDone) => {
+    setFailure(null);
+    assign.mutate(plan.id, {
+      onSettled: () => { if (typeof onDone === 'function') onDone(); },
+      onError: (err) => {
+        if (err?.status === 409) {
+          const id = String(err.detail ?? '').match(/[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}/gi)?.slice(-1)[0] ?? null;
+          setAlreadyAssigned({ id });
+          planQuery.refetch();
+        } else setFailure(err);
+      },
+    });
+  };
+  const brigadeId = plan?.brigade?.id ?? alreadyAssigned?.id ?? null;
+  const brigadeName = plan?.brigade?.name ?? (brigades.data?.brigades ?? []).find((b) => b.id === brigadeId)?.name ?? null;
+  const hasBrigade = Boolean(plan?.hasBrigade || alreadyAssigned);
+  // La brigada la asigna el backend justo después de aprobar. Se confirma enseguida con brigade-assignment
+  // (409: ya la tiene; 422: no hay brigada libre) para no mostrar el aviso "sin brigada" por una lectura anterior.
+  const approveAndAssign = () => {
+    setFailure(null);
+    setAlreadyAssigned(null);
+    setSettling(true);
+    approve.mutate(plan.id, {
+      onSuccess: () => retryAssign(() => setSettling(false)),
+      onError: (err) => { setSettling(false); setFailure(err); },
+    });
+  };
   const error = planErrorMessage(t, failure);
-  const busy = recommend.isPending || approve.isPending || assign.isPending;
+  const busy = recommend.isPending || approve.isPending || assign.isPending || settling;
 
   return (
     <>
@@ -114,7 +147,7 @@ export default function AssignBrigadePanel({ zoneId, zone, onBack }) {
         <div className="pz-stack">
           <p className="pz-note">{t('plan.approveHint')}</p>
           <div className="pz-actions">
-            <button type="button" className="pz-btn-lime" disabled={busy} onClick={() => run(approve, plan.id)}>
+            <button type="button" className="pz-btn-lime" disabled={busy} onClick={approveAndAssign}>
               {approve.isPending ? t('plan.approving') : t('plan.approve')}
             </button>
             <button type="button" className="pz-btn-outline" disabled={busy} onClick={() => { setFailure(null); setRejecting(true); }}>
@@ -128,20 +161,22 @@ export default function AssignBrigadePanel({ zoneId, zone, onBack }) {
         <RejectPlanForm planId={plan.id} onDone={() => setRejecting(false)} onCancel={() => setRejecting(false)} />
       )}
 
-      {plan?.needsBrigade && (
+      {settling && <p className="pz-note">{t('plan.noBrigade.assigning')}</p>}
+
+      {plan?.needsBrigade && !hasBrigade && !settling && (
         <section className="pz-box pz-box--manual">
           <span className="pz-label">{t('plan.noBrigade.title')}</span>
           <p>{t('plan.noBrigade.text')}</p>
-          <button type="button" className="pz-btn-lime pz-stack-gap" disabled={busy} onClick={() => run(assign, plan.id)}>
+          <button type="button" className="pz-btn-lime pz-stack-gap" disabled={busy} onClick={retryAssign}>
             {assign.isPending ? t('plan.noBrigade.assigning') : t('plan.noBrigade.retry')}
           </button>
         </section>
       )}
 
-      {plan?.isApproved && plan.hasBrigade && (
+      {plan?.isApproved && hasBrigade && (
         <section className="pz-box pz-box--ok">
           <span className="pz-label">{t('plan.assigned.title')}</span>
-          <p className="pz-brigade">{plan.brigade.name ?? t('plan.assigned.unnamed')}</p>
+          <p className="pz-brigade">{brigadeName ?? t('plan.assigned.unnamed')}</p>
           <p className="pz-note">{t('plan.assigned.text')}</p>
         </section>
       )}

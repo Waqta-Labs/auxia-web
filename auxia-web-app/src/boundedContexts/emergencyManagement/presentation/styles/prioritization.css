@@ -111,7 +111,8 @@
 .pz-icon-btn { display: grid; place-items: center; width: 36px; height: 36px; border: 0; border-radius: 8px; background: transparent; color: var(--night-100); cursor: pointer; }
 .pz-icon-btn:hover { background: rgba(255, 255, 255, 0.08); color: #fff; }
 .pz-drawer__body { flex: 1; display: grid; align-content: start; gap: 20px; padding: 20px 24px; overflow-y: auto; }
-.pz-drawer__foot { padding: 16px 24px 20px; border-top: 1px solid var(--cc-line); }
+.pz-drawer__body:has(+ .pz-drawer__foot[hidden]) { padding-bottom: 68px; }
+.pz-drawer__foot { padding: 16px 24px 68px; border-top: 1px solid var(--cc-line); }
 .pz-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 
 .pz-box { padding: 14px 16px; border-radius: 12px; background: rgba(0, 0, 0, 0.28); }
