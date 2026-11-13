@@ -5,7 +5,7 @@ import { humanize, parseUtc } from '@shared/utils/formatters.js';
 // más probables de cada campo. Si el backend usa otro, solo hay que ajustar este archivo.
 const toItem = (dto) => ({
   resourceId: dto.resourceId ?? dto.resource?.id ?? null,
-  name: dto.resourceName ?? dto.name ?? dto.resource?.name ?? humanize(dto.category ?? dto.resource?.category ?? 'resource'),
+  name: dto.resourceName ?? dto.name ?? dto.resource?.name ?? (dto.category ?? dto.resource?.category ? humanize(dto.category ?? dto.resource?.category) : null),
   unit: dto.unit ?? dto.resource?.unit ?? null,
   recommended: dto.recommendedQuantity ?? null,
   quantity: dto.quantity ?? dto.currentQuantity ?? dto.recommendedQuantity ?? null,

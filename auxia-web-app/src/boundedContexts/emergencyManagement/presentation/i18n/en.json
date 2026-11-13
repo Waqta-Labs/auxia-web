@@ -307,7 +307,8 @@
     "items": {
       "resource": "Resource",
       "recommended": "Recommended",
-      "quantity": "To deliver"
+      "quantity": "To deliver",
+      "unknown": "Unknown resource"
     },
     "justification": "AI justification",
     "approve": "Approve and assign brigade",

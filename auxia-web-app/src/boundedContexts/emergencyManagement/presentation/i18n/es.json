@@ -307,7 +307,8 @@
     "items": {
       "resource": "Recurso",
       "recommended": "Recomendado",
-      "quantity": "A entregar"
+      "quantity": "A entregar",
+      "unknown": "Recurso desconocido"
     },
     "justification": "Justificación de la IA",
     "approve": "Aprobar y asignar brigada",

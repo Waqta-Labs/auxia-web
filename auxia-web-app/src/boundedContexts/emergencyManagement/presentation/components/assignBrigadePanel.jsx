@@ -6,6 +6,7 @@ import { useZoneDistributionPlan } from '../hooks/useZoneDistributionPlan.js';
 import { useRecommendDistribution } from '../hooks/useRecommendDistribution.js';
 import { useApproveDistributionPlan } from '../hooks/useApproveDistributionPlan.js';
 import { useAssignBrigadeToPlan } from '../hooks/useAssignBrigadeToPlan.js';
+import { useInventory } from '@bc/resourceManagement/presentation/hooks/useInventory.js';
 import { coverageLabel, planErrorMessage, statusLabel } from '../utils/planFormat.js';
 import RejectPlanForm from './rejectPlanForm.jsx';
 
@@ -30,6 +31,13 @@ export default function AssignBrigadePanel({ zoneId, zone, onBack }) {
   }, [zoneId]);
 
   const plan = planQuery.data ?? null;
+  // El plan solo trae el id del recurso: el nombre y la unidad salen del inventario de la organización.
+  const inventory = useInventory();
+  const stockById = new Map((inventory.data?.resources ?? []).map((resource) => [resource.id, resource]));
+  const planItems = (plan?.items ?? []).map((item) => {
+    const stock = stockById.get(item.resourceId);
+    return { ...item, name: stock?.name ?? item.name ?? (inventory.isLoading ? '…' : t('plan.items.unknown')), unit: item.unit ?? stock?.unit ?? null };
+  });
   const hasScore = zone?.urgencyScore !== null && zone?.urgencyScore !== undefined;
   const canGenerate = !plan || plan.status === 'REJECTED' || plan.status === 'EXECUTED';
   const coverage = plan ? coverageLabel(t, plan.coverage) : null;
@@ -72,7 +80,7 @@ export default function AssignBrigadePanel({ zoneId, zone, onBack }) {
             {coverage && <span className="pz-note">{t('plan.coverage.label')}: {coverage}</span>}
           </div>
 
-          {plan.items.length > 0 && (
+          {planItems.length > 0 && (
             <table className="pz-items">
               <thead>
                 <tr>
@@ -82,7 +90,7 @@ export default function AssignBrigadePanel({ zoneId, zone, onBack }) {
                 </tr>
               </thead>
               <tbody>
-                {plan.items.map((item) => (
+                {planItems.map((item) => (
                   <tr key={item.resourceId ?? item.name}>
                     <td>{item.name}</td>
                     <td>{number(item.recommended)}{item.unit ? ' ' + item.unit : ''}</td>
