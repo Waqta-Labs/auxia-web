@@ -11,11 +11,31 @@ const toItem = (dto) => ({
   quantity: dto.quantity ?? dto.currentQuantity ?? dto.recommendedQuantity ?? null,
 });
 
+// El backend no documenta dónde devuelve la brigada del plan: se busca en el plan y en sus objetos anidados
+// (brigade, assignedBrigade, assignment, delivery…) cualquier campo que se llame *brigade*.
+const isId = (value) => typeof value === 'string' && value.length > 0;
+const findBrigade = (dto, depth = 0) => {
+  if (!dto || typeof dto !== 'object' || depth > 2) return null;
+  for (const [key, value] of Object.entries(dto)) {
+    if (!/brigade/i.test(key)) continue;
+    if (isId(value)) { if (/name/i.test(key)) continue; return { id: value, name: null }; }
+    if (value && typeof value === 'object' && !Array.isArray(value)) {
+      const id = value.id ?? value.brigadeId ?? null;
+      if (isId(id)) return { id, name: value.name ?? value.brigadeName ?? null };
+    }
+  }
+  for (const value of Object.values(dto)) {
+    if (value && typeof value === 'object' && !Array.isArray(value)) {
+      const nested = findBrigade(value, depth + 1);
+      if (nested) return nested;
+    }
+  }
+  return null;
+};
 const toBrigadeRef = (dto) => {
-  const brigade = dto.brigade ?? dto.assignedBrigade ?? null;
-  const id = brigade?.id ?? dto.brigadeId ?? null;
-  if (!brigade && !id) return null;
-  return { id, name: brigade?.name ?? dto.brigadeName ?? null };
+  const found = findBrigade(dto);
+  if (!found) return null;
+  return { id: found.id, name: found.name ?? dto.brigadeName ?? null };
 };
 
 export function toDistributionPlan(dto) {
