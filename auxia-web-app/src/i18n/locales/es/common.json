@@ -29,7 +29,10 @@
       "pendingZone_one": "{{count}} reporte sin zona",
       "pendingZone_other": "{{count}} reportes sin zona"
     },
-    "error": "No se pudieron cargar algunos datos. Revisa tu conexión o vuelve a iniciar sesión."
+    "error": "No se pudieron cargar algunos datos. Revisa tu conexión o vuelve a iniciar sesión.",
+    "awaitingBrigade_one": "{{count}} plan aprobado espera una brigada: la ayuda de esa zona está detenida.",
+    "awaitingBrigade_other": "{{count}} planes aprobados esperan una brigada: la ayuda de esas zonas está detenida.",
+    "awaitingBrigadeAction": "Revisar"
   },
   "notFound": {
     "title": "Página no encontrada",

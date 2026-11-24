@@ -29,7 +29,10 @@
       "pendingZone_one": "{{count}} report without a zone",
       "pendingZone_other": "{{count}} reports without a zone"
     },
-    "error": "Some data could not be loaded. Check your connection or sign in again."
+    "error": "Some data could not be loaded. Check your connection or sign in again.",
+    "awaitingBrigade_one": "{{count}} approved plan is waiting for a brigade: the aid for that zone is on hold.",
+    "awaitingBrigade_other": "{{count}} approved plans are waiting for a brigade: the aid for those zones is on hold.",
+    "awaitingBrigadeAction": "Review"
   },
   "notFound": {
     "title": "Page not found",

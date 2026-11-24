@@ -7,7 +7,9 @@ import { useRecommendDistribution } from '../hooks/useRecommendDistribution.js';
 import { useApproveDistributionPlan } from '../hooks/useApproveDistributionPlan.js';
 import { useAssignBrigadeToPlan } from '../hooks/useAssignBrigadeToPlan.js';
 import { useInventory } from '@bc/resourceManagement/presentation/hooks/useInventory.js';
-import { coverageLabel, planErrorMessage, statusLabel } from '../utils/planFormat.js';
+import { useBrigadeList } from '@bc/resourceManagement/presentation/hooks/useBrigadeList.js';
+import { availabilitySummary, brigadeOfPlan } from '@bc/resourceManagement/domain/services/brigadeAvailability.js';
+import { coverageLabel, noBrigadeReason, planErrorMessage, statusLabel } from '../utils/planFormat.js';
 import RejectPlanForm from './rejectPlanForm.jsx';
 
 // Vista "Asignar brigada" del drawer. El despacho no es un botón suelto: la IA propone un plan de
@@ -31,6 +33,11 @@ export default function AssignBrigadePanel({ zoneId, zone, onBack }) {
   }, [zoneId]);
 
   const plan = planQuery.data ?? null;
+  // El plan del backend no trae su brigada: se busca la brigada que lo está entregando.
+  const brigadeList = useBrigadeList();
+  const brigades = brigadeList.data ?? [];
+  const brigade = plan?.brigade ?? (plan ? brigadeOfPlan(brigades, plan.id) : null);
+  const awaitingBrigade = Boolean(plan?.isApproved) && !brigade && brigadeList.isSuccess;
   // El plan solo trae el id del recurso: el nombre y la unidad salen del inventario de la organización.
   const inventory = useInventory();
   const stockById = new Map((inventory.data?.resources ?? []).map((resource) => [resource.id, resource]));
@@ -128,20 +135,21 @@ export default function AssignBrigadePanel({ zoneId, zone, onBack }) {
         <RejectPlanForm planId={plan.id} onDone={() => setRejecting(false)} onCancel={() => setRejecting(false)} />
       )}
 
-      {plan?.needsBrigade && (
-        <section className="pz-box pz-box--manual">
+      {awaitingBrigade && (
+        <section className="pz-box pz-box--manual" role="status">
           <span className="pz-label">{t('plan.noBrigade.title')}</span>
-          <p>{t('plan.noBrigade.text')}</p>
+          <p>{noBrigadeReason(t, availabilitySummary(brigades))}</p>
+          <p className="pz-note">{t('plan.noBrigade.blocked')}</p>
           <button type="button" className="pz-btn-lime pz-stack-gap" disabled={busy} onClick={() => run(assign, plan.id)}>
             {assign.isPending ? t('plan.noBrigade.assigning') : t('plan.noBrigade.retry')}
           </button>
         </section>
       )}
 
-      {plan?.isApproved && plan.hasBrigade && (
+      {plan?.isApproved && brigade && (
         <section className="pz-box pz-box--ok">
           <span className="pz-label">{t('plan.assigned.title')}</span>
-          <p className="pz-brigade">{plan.brigade.name ?? t('plan.assigned.unnamed')}</p>
+          <p className="pz-brigade">{brigade.name ?? t('plan.assigned.unnamed')}</p>
           <p className="pz-note">{t('plan.assigned.text')}</p>
         </section>
       )}

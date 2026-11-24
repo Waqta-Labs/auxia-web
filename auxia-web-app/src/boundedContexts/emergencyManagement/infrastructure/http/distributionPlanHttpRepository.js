@@ -13,6 +13,11 @@ const call = async (request) => {
 };
 
 export class DistributionPlanHttpRepository extends DistributionPlanRepository {
+  async findByEmergency(emergencyId) {
+    const { data } = await call(() => httpClient.get('/emergencies/' + emergencyId + '/distribution-plans'));
+    return asList(data).map(toDistributionPlan);
+  }
+
   async findByZone(zoneId) {
     const { data } = await call(() => httpClient.get('/zones/' + zoneId + '/distribution-plans'));
     return asList(data).map(toDistributionPlan);

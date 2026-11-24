@@ -326,9 +326,15 @@
     },
     "noBrigade": {
       "title": "Aprobado sin brigada",
-      "text": "No había una brigada libre con líder al aprobar. Cuando haya una disponible, vuelve a intentarlo.",
       "retry": "Asignar brigada",
-      "assigning": "Asignando..."
+      "assigning": "Asignando...",
+      "reasons": {
+        "none": "Tu organización todavía no tiene brigadas. El administrador puede crearlas en Logística de campo.",
+        "ready_one": "Ya hay {{count}} brigada libre con líder. Pide la asignación.",
+        "ready_other": "Ya hay {{count}} brigadas libres con líder. Pide la asignación.",
+        "busy": "Ninguna brigada está libre y con líder: {{onMission}} en misión, {{offDuty}} fuera de servicio y {{withoutLeader}} libres sin líder. Cuando una termine su misión o tenga líder, vuelve a pedir la asignación."
+      },
+      "blocked": "Mientras el plan no tenga brigada no se abre la misión ni la entrega de esta zona."
     },
     "assigned": {
       "title": "Brigada asignada",
