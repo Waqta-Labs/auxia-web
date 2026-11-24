@@ -34,7 +34,8 @@
 .fl-tab[aria-pressed='true'] { border-color: var(--color-lime); color: var(--color-lime); background: rgba(190, 242, 100, 0.08); font-weight: 700; }
 .fl-tab__count { opacity: 0.8; font-variant-numeric: tabular-nums; }
 
-.fl-list { display: grid; gap: 10px; max-height: 560px; margin: 0; padding: 0 4px 0 0; overflow-y: auto; list-style: none; }
+.fl-list { display: grid; gap: 10px; max-height: 560px; margin: 0; padding: 0 4px 0 0; overflow-y: auto; list-style: none; scrollbar-width: none; -ms-overflow-style: none; }
+.fl-list::-webkit-scrollbar { display: none; }
 .fl-brigade { display: grid; gap: 6px; width: 100%; padding: 14px 16px; border: 1px solid transparent; border-radius: 12px; background: var(--cc-card-inner); color: #fff; font: inherit; text-align: left; cursor: pointer; transition: border-color 0.15s, background 0.15s; }
 .fl-brigade:hover { background: rgba(255, 255, 255, 0.06); }
 .fl-brigade.is-selected { border-color: var(--color-lime); }

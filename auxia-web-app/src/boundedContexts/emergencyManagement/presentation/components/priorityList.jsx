@@ -39,9 +39,11 @@ export default function PriorityList({ zones = [], loading = false, onAssign }) 
               <span className="prio-why__label">{t('priority.why')}</span>
               <p>{zone.reasons.length > 0 ? zone.reasons.map((r) => reasonText(t, r)).join(', ') : '—'}</p>
             </div>
-            <button type="button" className="btn-lime" onClick={() => onAssign?.(zone)}>
-              {t('priority.assign')}
-            </button>
+            {onAssign && (
+              <button type="button" className="btn-lime" onClick={() => onAssign(zone)}>
+                {t('priority.assign')}
+              </button>
+            )}
           </article>
         ))}
       </div>

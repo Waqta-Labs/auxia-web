@@ -1,5 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { formatNumber } from '@shared/utils/formatters.js';
+import { useActiveEmergency } from '@bc/emergencyManagement/presentation/hooks/useActiveEmergency.js';
+import { useZoneRanking } from '@bc/emergencyManagement/presentation/hooks/useZoneRanking.js';
 
 // Centro de la pantalla: la misión en curso de la brigada seleccionada. Las misiones no se crean aquí:
 // nacen al aprobar un plan de distribución (Priorización IA → zona → Asignar brigada).
@@ -9,6 +11,13 @@ export default function BrigadeMission({ detail, onOpenZone, onOpenPrioritizatio
   const lng = i18n.resolvedLanguage;
   const brigade = detail.data;
   const assignment = brigade?.assignment ?? null;
+  // Si el backend solo manda el id de la zona, el nombre y el score salen del ranking de zonas de la emergencia activa.
+  const emergency = useActiveEmergency();
+  const needsZone = Boolean(assignment?.zoneId) && (!assignment.zoneName || assignment.score === null);
+  const ranking = useZoneRanking(needsZone ? emergency.data?.id : null, { explainTop: 0, withPosition: false });
+  const rankedZone = needsZone ? (ranking.data ?? []).find((zone) => zone.id === assignment.zoneId) : null;
+  const zoneName = assignment?.zoneName ?? rankedZone?.name ?? null;
+  const zoneScore = assignment?.score ?? rankedZone?.urgencyScore ?? null;
 
   return (
     <section className="fl-card" aria-labelledby="fl-mission-title">
@@ -22,18 +31,18 @@ export default function BrigadeMission({ detail, onOpenZone, onOpenPrioritizatio
           <div className="fl-mission__head">
             <div>
               <span className="fl-label">{t('brigades.mission.zone')}</span>
-              <p className="fl-mission__zone">{assignment.zoneName ?? '—'}</p>
+              <p className="fl-mission__zone">{zoneName ?? '—'}</p>
             </div>
-            {assignment.score !== null && assignment.score !== undefined && (
-              <span className="fl-score">{Math.round(assignment.score)}</span>
+            {zoneScore !== null && zoneScore !== undefined && (
+              <span className="fl-score">{Math.round(zoneScore)}</span>
             )}
           </div>
 
           <dl className="fl-facts">
-            {assignment.etaMinutes !== null && (
+            {assignment.etaMinutes !== null && assignment.etaMinutes !== undefined && (
               <div><dt>{t('brigades.mission.eta')}</dt><dd>{t('brigades.mission.minutes', { count: assignment.etaMinutes })}</dd></div>
             )}
-            {assignment.distanceKm !== null && (
+            {assignment.distanceKm !== null && assignment.distanceKm !== undefined && (
               <div><dt>{t('brigades.mission.distance')}</dt><dd>{formatNumber(assignment.distanceKm, lng)} km</dd></div>
             )}
           </dl>
