@@ -41,6 +41,8 @@ export default function ScoreDrawer({ zoneId, row, canManage, initialView = 'det
   const needKeys = row?.needs ?? zone?.needs ?? [];
   const needs = needKeys.map((need) => t('needs.' + need, { defaultValue: humanize(need) }));
   const damage = zone?.damageLevel ?? row?.damageLevel;
+  // Lo que reportan los ciudadanos sobre el acceso a la zona (vía bloqueada, sin agua, ...).
+  const access = row?.reportedAccessConditions ?? [];
   const subtitle = [needs.join(', '), damage ? t('damage.' + damage) : null].filter(Boolean).join(' · ');
 
   const number = (value) => (value === null || value === undefined ? '—' : formatNumber(value, lng));
@@ -48,6 +50,9 @@ export default function ScoreDrawer({ zoneId, row, canManage, initialView = 'det
     ['status', zone.status ? t('zoneStatus.' + zone.status) : '—'],
     ['damage', zone.damageLevel ? t('damage.' + zone.damageLevel) : '—'],
     ['needs', needs.length > 0 ? <span className="pz-needs">{needKeys.map((need, index) => <span key={need} className="pz-tag">{needs[index]}</span>)}</span> : t('drawer.noNeeds')],
+    ['access', access.length > 0
+      ? <span className="pz-needs">{access.map(({ condition, reports }) => <span key={condition} className={'pz-tag' + (condition === 'ROAD_BLOCKED' ? ' pz-tag--alert' : '')}>{t('access.' + condition)} · {t('access.reports', { count: reports })}</span>)}</span>
+      : t('drawer.noAccessIssues')],
     ['location', zone.hasPosition ? zone.latitude.toFixed(4) + ', ' + zone.longitude.toFixed(4) : t('drawer.noLocation')],
     ['population', number(zone.population)],
     ['families', number(zone.familiesAffected)],

@@ -9,6 +9,8 @@
     "emptyHint": "Use \"New zone\" and click on the map to register the first one.",
     "cluster": "{{count}} zones grouped: zoom in",
     "brigade": "Brigade {{name}}",
+    "blockedRoad_one": "{{name}}: {{count}} blocked road report",
+    "blockedRoad_other": "{{name}}: {{count}} blocked road reports",
     "map": {
       "label": "Zone priority heat map",
       "zoomIn": "Zoom in",
@@ -49,6 +51,7 @@
       "title": "Layers",
       "heat": "Priority heat map",
       "zones": "Zones (markers)",
+      "roads": "Blocked roads (citizen reports)",
       "brigades": "Brigades (GPS base)",
       "opacity": "Heat opacity",
       "unavailable": "Flooded zones and cell coverage are not provided by the service yet.",
@@ -262,7 +265,8 @@
       "elderly": "Elderly people",
       "disabled": "People with disabilities",
       "lastAid": "Last aid received",
-      "needs": "Needs"
+      "needs": "Needs",
+      "access": "Reported access"
     },
     "noLocation": "No location",
     "noAid": "No aid received yet",
@@ -272,7 +276,8 @@
     "assign": "Assign brigade",
     "override": "Override score",
     "readOnly": "Your role can only view this.",
-    "noNeeds": "No needs reported"
+    "noNeeds": "No needs reported",
+    "noAccessIssues": "No citizen reported access problems"
   },
   "override": {
     "title": "Override score with manual priority",
@@ -354,5 +359,13 @@
       "forbidden": "Only an active authority can decide on plans.",
       "generic": "The operation could not be completed. Please try again."
     }
+  },
+  "access": {
+    "ROAD_BLOCKED": "Blocked road",
+    "NO_DRINKING_WATER": "No drinking water",
+    "NO_CELL_SIGNAL": "No signal",
+    "DAMAGED_BUILDING": "Damaged building",
+    "reports_one": "{{count}} report",
+    "reports_other": "{{count}} reports"
   }
 }

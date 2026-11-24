@@ -4,8 +4,11 @@ import { LEVEL_COLORS, BRIGADE_COLORS } from '../utils/gisColors.js';
 const CLUSTER_PX = 34;
 const NO_CLUSTER_ZOOM = 16;
 
-// Marcadores de zona (agrupados cuando se tocan) y de brigadas, sobre el mapa.
-export default function MapMarkers({ ctx, zones, brigades, showZones, showBrigades, selectedId, onSelect, onCluster, clusterLabel, brigadeLabel }) {
+// Marcadores de zona (agrupados cuando se tocan), de brigadas y de vías bloqueadas, sobre el mapa.
+export default function MapMarkers({
+  ctx, zones, brigades, showZones, showBrigades, showBlockedRoads = false, selectedId, onSelect, onCluster,
+  clusterLabel, brigadeLabel, blockedRoadLabel = () => '',
+}) {
   const { view, toScreen } = ctx;
 
   const clusters = showZones
@@ -16,8 +19,21 @@ export default function MapMarkers({ ctx, zones, brigades, showZones, showBrigad
       )
     : [];
 
+  // Zonas a las que los ciudadanos reportan la vía bloqueada: la ayuda puede no llegar por tierra.
+  const blocked = showBlockedRoads ? zones.filter((zone) => zone.blockedRoadReports > 0) : [];
+
   return (
     <>
+      {blocked.map((zone) => {
+        const s = toScreen(zone.latitude, zone.longitude);
+        const label = blockedRoadLabel(zone);
+        return (
+          <span key={'road-' + zone.id} className="gm-road" style={{ transform: 'translate(' + s.x + 'px,' + s.y + 'px)' }} title={label} role="img" aria-label={label}>
+            !
+          </span>
+        );
+      })}
+
       {showBrigades &&
         brigades.map((brigade) => {
           const s = toScreen(brigade.latitude, brigade.longitude);
