@@ -75,10 +75,14 @@
     "publicCode": "Código público",
     "recordHash": "Hash del registro",
     "evidences": "Evidencias",
+    "technical": "Detalle técnico para auditoría",
+    "technicalHint": "El hash es la huella digital del registro de la entrega. Si alguien cambiara un dato o una evidencia, la huella dejaría de coincidir con la guardada en blockchain.",
+    "transaction": "Transacción en blockchain",
     "verify": {
       "title": "Verificación de entrega",
       "hint": "Recalcula el hash con los datos y archivos actuales y lo compara con el de la blockchain.",
       "action": "Verificar integridad",
+      "again": "Comprobar de nuevo",
       "checking": "Verificando...",
       "ok": "Íntegra: el registro coincide con la blockchain.",
       "mismatch": "No coincide: el registro cambió después de anclarse.",
@@ -102,7 +106,41 @@
       "PDF": "PDF",
       "AUDIO": "Audio"
     },
-    "open": "Abrir"
+    "open": "Abrir",
+    "outcome": {
+      "verified": {
+        "title": "Entrega comprobada",
+        "text": "El registro de esta entrega coincide con el guardado en blockchain: nadie lo modificó después de registrarlo."
+      },
+      "tampered": {
+        "title": "El registro no coincide",
+        "text": "Los datos o evidencias de esta entrega cambiaron después de guardarse en blockchain. Revisa el detalle técnico y repórtalo."
+      },
+      "checking": {
+        "title": "Comprobando la entrega…",
+        "text": "Se compara el registro de la entrega con el guardado en blockchain."
+      },
+      "anchoring": {
+        "title": "Entrega registrada",
+        "text": "La entrega ya está guardada. Falta que blockchain confirme el registro; podrás comprobarla en unos minutos."
+      },
+      "retrying": {
+        "title": "Entrega registrada, falta guardarla en blockchain",
+        "text": "El envío a blockchain falló y se reintenta solo cada 5 minutos. La entrega no se pierde."
+      },
+      "onTheWay": {
+        "title": "La brigada va en camino",
+        "text": "La entrega se podrá comprobar cuando la brigada la registre en campo."
+      },
+      "unavailable": {
+        "title": "No se pudo comprobar ahora",
+        "text": "Blockchain no responde en este momento. Inténtalo de nuevo en unos minutos."
+      },
+      "error": {
+        "title": "No se pudo comprobar la entrega",
+        "text": "Vuelve a intentarlo. Si el problema sigue, revisa tu conexión."
+      }
+    }
   },
   "export": {
     "titleTable": "Descargar informe de auditoría",
