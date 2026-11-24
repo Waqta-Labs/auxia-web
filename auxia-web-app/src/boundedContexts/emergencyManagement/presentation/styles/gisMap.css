@@ -100,6 +100,8 @@
 .gm-cluster { width: 38px; height: 38px; margin: -19px 0 0 -19px; padding: 0; border: 3px solid var(--pin); border-radius: 50%; background: rgba(11, 11, 46, 0.85); color: #fff; font: inherit; font-size: 0.8125rem; font-weight: 800; cursor: pointer; }
 .gm-cluster:hover, .gm-cluster:focus-visible { background: var(--pin); color: var(--night-600); outline: none; }
 .gm-brigade { width: 11px; height: 11px; margin: -5px 0 0 -5px; border: 1.5px solid #0b0b2e; z-index: 9; }
+/* Vía bloqueada: aviso naranja junto al marcador de la zona */
+.gm-road { position: absolute; left: 0; top: 0; z-index: 11; width: 16px; height: 16px; margin: -22px 0 0 6px; border: 1.5px solid #0b0b2e; border-radius: 4px; background: #ff9f43; color: #0b0b2e; font-size: 0.6875rem; font-weight: 800; line-height: 13px; text-align: center; }
 .gm[data-mode='measure'] .gm-pin, .gm[data-mode='measure'] .gm-cluster, .gm[data-mode='create'] .gm-pin, .gm[data-mode='create'] .gm-cluster { pointer-events: none; }
 .gm-draft { width: 20px; height: 20px; margin: -10px 0 0 -10px; border: 3px solid var(--color-lime); border-radius: 50%; background: rgba(190, 242, 100, 0.25); animation: gm-pulse 1.4s ease-out infinite; pointer-events: none; }
 @keyframes gm-pulse { 0% { box-shadow: 0 0 0 0 rgba(190, 242, 100, 0.6); } 100% { box-shadow: 0 0 0 16px rgba(190, 242, 100, 0); } }

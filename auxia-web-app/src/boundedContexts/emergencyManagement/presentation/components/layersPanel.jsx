@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { HEAT_RAMP } from '@shared/presentation/components/geoMap/heatLayer.jsx';
 
-const DOTS = { heat: HEAT_RAMP[3][1], zones: '#ffffff', brigades: '#85d5f6', boundaries: '#8c8cc9' };
+const DOTS = { heat: HEAT_RAMP[3][1], zones: '#ffffff', roads: '#ff9f43', brigades: '#85d5f6', boundaries: '#8c8cc9' };
 
 // Capas del mapa: interruptores y opacidad del calor.
 export default function LayersPanel({ layers, onToggle, opacity, onOpacity, hasBrigades }) {
@@ -11,6 +11,7 @@ export default function LayersPanel({ layers, onToggle, opacity, onOpacity, hasB
   const rows = [
     ['heat', t('gisMap.layers.heat')],
     ['zones', t('gisMap.layers.zones')],
+    ['roads', t('gisMap.layers.roads')],
     ['brigades', t('gisMap.layers.brigades')],
     ['boundaries', t('gisMap.layers.boundaries')],
   ];
