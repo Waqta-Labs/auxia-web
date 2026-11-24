@@ -75,10 +75,14 @@
     "publicCode": "Public code",
     "recordHash": "Record hash",
     "evidences": "Evidence files",
+    "technical": "Technical detail for auditing",
+    "technicalHint": "The hash is the fingerprint of the delivery record. If anyone changed a field or an evidence, the fingerprint would no longer match the one stored on the blockchain.",
+    "transaction": "Blockchain transaction",
     "verify": {
       "title": "Delivery verification",
       "hint": "Recomputes the hash from the current data and files and compares it with the one on the blockchain.",
       "action": "Verify integrity",
+      "again": "Check again",
       "checking": "Verifying...",
       "ok": "Intact: the record matches the blockchain.",
       "mismatch": "Mismatch: the record changed after it was anchored.",
@@ -102,7 +106,41 @@
       "PDF": "PDF",
       "AUDIO": "Audio"
     },
-    "open": "Open"
+    "open": "Open",
+    "outcome": {
+      "verified": {
+        "title": "Delivery verified",
+        "text": "The record of this delivery matches the one stored on the blockchain: nobody changed it after it was registered."
+      },
+      "tampered": {
+        "title": "The record does not match",
+        "text": "The data or evidence of this delivery changed after it was stored on the blockchain. Check the technical detail and report it."
+      },
+      "checking": {
+        "title": "Checking the delivery…",
+        "text": "The delivery record is being compared with the one stored on the blockchain."
+      },
+      "anchoring": {
+        "title": "Delivery registered",
+        "text": "The delivery is stored. The blockchain still has to confirm it; you can check it in a few minutes."
+      },
+      "retrying": {
+        "title": "Delivery registered, not yet on the blockchain",
+        "text": "Sending it to the blockchain failed and is retried every 5 minutes. The delivery is not lost."
+      },
+      "onTheWay": {
+        "title": "The brigade is on its way",
+        "text": "The delivery can be checked once the brigade registers it in the field."
+      },
+      "unavailable": {
+        "title": "Could not check it now",
+        "text": "The blockchain is not answering right now. Try again in a few minutes."
+      },
+      "error": {
+        "title": "Could not check the delivery",
+        "text": "Try again. If the problem continues, check your connection."
+      }
+    }
   },
   "export": {
     "titleTable": "Download audit report",

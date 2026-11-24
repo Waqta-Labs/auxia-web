@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { formatDateTime, formatNumber, humanize, truncateHash } from '@shared/utils/formatters.js';
-import { useVerifyDelivery } from '../hooks/useVerifyDelivery.js';
+import { useDeliveryVerification } from '../hooks/useDeliveryVerification.js';
+import { outcomeTone, verificationOutcome } from '../../domain/services/verificationOutcome.js';
 
 // Pasos del ciclo de vida: entregada en campo → registrada y sellada con hash → anclada en la blockchain.
 function buildSteps(detail, t, lng) {
@@ -26,20 +27,17 @@ function buildSteps(detail, t, lng) {
   ];
 }
 
-const verifyMessage = (t, error) => {
-  if (error.detail) return error.detail;
-  if (error.status === 404) return t('card.verify.notFound');
-  if (error.status === 503) return t('card.verify.unavailable');
-  return t('card.verify.error');
-};
-
 export default function TraceabilityCard({ detail, zoneName, onClose, onDownload }) {
   const { t, i18n } = useTranslation('traceability');
   const lng = i18n.resolvedLanguage;
-  const verify = useVerifyDelivery();
   const [copied, setCopied] = useState(false);
 
   const data = detail.data;
+  // Una entrega anclada se comprueba sola al abrir la ficha: el resultado se muestra en palabras.
+  const verification = useDeliveryVerification(data?.status === 'CERTIFIED' ? data.id : null);
+  const outcome = data
+    ? verificationOutcome(data.status, { result: verification.data, error: verification.error, checking: verification.isFetching })
+    : null;
   const publicUrl = data ? window.location.origin + '/public/verify/' + data.id : null;
   const location = data?.location ?? null;
   const copy = async () => {
@@ -68,6 +66,11 @@ export default function TraceabilityCard({ detail, zoneName, onClose, onDownload
 
       {data && (
         <>
+          <div className={'tl-result tl-outcome tl-result--' + outcomeTone(outcome)} role="status">
+            <strong>{t('card.outcome.' + outcome + '.title')}</strong>
+            <span>{t('card.outcome.' + outcome + '.text')}</span>
+          </div>
+
           <ol className="tl-steps">
             {buildSteps(data, t, lng).map((step, index) => (
               <li key={step.key} className={'tl-step tl-step--' + step.state}>
@@ -75,9 +78,6 @@ export default function TraceabilityCard({ detail, zoneName, onClose, onDownload
                 <div>
                   <strong>{step.title}</strong>
                   {step.note && <p>{step.note}</p>}
-                  {step.key === 'anchored' && data.explorerUrl && (
-                    <a href={data.explorerUrl} target="_blank" rel="noreferrer">{t('card.viewTx')} ↗ {truncateHash(data.transactionHash)}</a>
-                  )}
                 </div>
               </li>
             ))}
@@ -97,10 +97,23 @@ export default function TraceabilityCard({ detail, zoneName, onClose, onDownload
             </section>
           )}
 
-          <section>
-            <span className="tl-label">{t('card.integrity')}</span>
+          <details className="tl-tech">
+            <summary className="tl-label">{t('card.technical')}</summary>
+            <p className="tl-note">{t('card.technicalHint')}</p>
             <dl className="tl-facts">
               <div><dt>{t('card.recordHash')}</dt><dd title={data.recordHash ?? ''}>{data.recordHash ? truncateHash(data.recordHash, 8, 6) : '—'}</dd></div>
+              {data.explorerUrl && (
+                <div>
+                  <dt>{t('card.transaction')}</dt>
+                  <dd><a href={data.explorerUrl} target="_blank" rel="noreferrer">{truncateHash(data.transactionHash)} ↗</a></dd>
+                </div>
+              )}
+              {verification.data && !verification.data.verified && (
+                <>
+                  <div><dt>{t('card.verify.recomputed')}</dt><dd title={verification.data.recordHash ?? ''}>{truncateHash(verification.data.recordHash, 8, 6)}</dd></div>
+                  <div><dt>{t('card.verify.onChain')}</dt><dd title={verification.data.anchoredHash ?? ''}>{truncateHash(verification.data.anchoredHash, 8, 6)}</dd></div>
+                </>
+              )}
               <div><dt>{t('card.evidences')}</dt><dd>{data.evidences.length}</dd></div>
               {location && (
                 <div>
@@ -127,25 +140,16 @@ export default function TraceabilityCard({ detail, zoneName, onClose, onDownload
                 ))}
               </ul>
             )}
-          </section>
+          </details>
 
           <section className="tl-verify">
             <span className="tl-label">{t('card.verify.title')}</span>
             <button
-              type="button" className="tl-btn-outline" disabled={verify.isPending || data.status === 'INITIATED'}
-              onClick={() => verify.mutate(data.id)}
+              type="button" className="tl-btn-outline" disabled={verification.isFetching || data.status !== 'CERTIFIED'}
+              onClick={() => verification.refetch()}
             >
-              {verify.isPending ? t('card.verify.checking') : t('card.verify.action')}
+              {verification.isFetching ? t('card.verify.checking') : t('card.verify.again')}
             </button>
-            {verify.data?.verified && <p className="tl-result tl-result--ok" role="status">{t('card.verify.ok')}</p>}
-            {verify.data && !verify.data.verified && (
-              <div className="tl-result tl-result--bad" role="alert">
-                <p>{t('card.verify.mismatch')}</p>
-                <small>{t('card.verify.recomputed')}: {truncateHash(verify.data.recordHash, 8, 6)}</small>
-                <small>{t('card.verify.onChain')}: {truncateHash(verify.data.anchoredHash, 8, 6)}</small>
-              </div>
-            )}
-            {verify.error && <p className="tl-error" role="alert">{verifyMessage(t, verify.error)}</p>}
             <div className="tl-link">
               <span className="tl-link__url" title={publicUrl}>{publicUrl}</span>
               <button type="button" className="tl-link-btn" onClick={copy}>{copied ? t('card.copied') : t('card.copy')}</button>
