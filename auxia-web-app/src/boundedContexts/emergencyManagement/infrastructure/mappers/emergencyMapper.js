@@ -19,7 +19,7 @@ export function toEmergency(dto) {
   });
 }
 
-// item = ZoneRankingItem { id, name, status, damageLevel, peopleAffected, score, priorityLevel, needs, manualPriority }
+// item = ZoneRankingItem { id, name, status, damageLevel, peopleAffected, score, priorityLevel, needs, manualPriority, accessConditions }
 // detail = ZoneResource (GET /zones/{id}) o null: aporta "geolocation", que el ranking no trae.
 export function toZone(item, detail, emergencyId) {
   return new Zone({
@@ -35,6 +35,7 @@ export function toZone(item, detail, emergencyId) {
     peopleAffected: item.peopleAffected ?? null,
     needs: item.needs ?? [],
     manualPriority: Boolean(item.manualPriority),
+    accessConditions: item.accessConditions ?? {},
   });
 }
 

@@ -6,9 +6,10 @@ import { useZoneDistributionPlan } from '../hooks/useZoneDistributionPlan.js';
 import { useRecommendDistribution } from '../hooks/useRecommendDistribution.js';
 import { useApproveDistributionPlan } from '../hooks/useApproveDistributionPlan.js';
 import { useAssignBrigadeToPlan } from '../hooks/useAssignBrigadeToPlan.js';
-import { useBrigadeOverview } from '@bc/resourceManagement/presentation/hooks/useBrigadeOverview.js';
 import { useInventory } from '@bc/resourceManagement/presentation/hooks/useInventory.js';
-import { coverageLabel, planErrorMessage, statusLabel } from '../utils/planFormat.js';
+import { useBrigadeList } from '@bc/resourceManagement/presentation/hooks/useBrigadeList.js';
+import { availabilitySummary, brigadeOfPlan } from '@bc/resourceManagement/domain/services/brigadeAvailability.js';
+import { coverageLabel, noBrigadeReason, planErrorMessage, statusLabel } from '../utils/planFormat.js';
 import RejectPlanForm from './rejectPlanForm.jsx';
 
 // Vista "Asignar brigada" del drawer. El despacho no es un botón suelto: la IA propone un plan de
@@ -25,7 +26,6 @@ export default function AssignBrigadePanel({ zoneId, zone, onBack }) {
   const [generated, setGenerated] = useState(false);
   const [failure, setFailure] = useState(null); // último error de recomendar / aprobar / asignar
   const [alreadyAssigned, setAlreadyAssigned] = useState(null); // { id } cuando el backend dice 409 "ya asignado"
-  const brigades = useBrigadeOverview();
   const [settling, setSettling] = useState(false); // aprobado, comprobando si el backend ya le asignó brigada
 
   useEffect(() => {
@@ -36,6 +36,9 @@ export default function AssignBrigadePanel({ zoneId, zone, onBack }) {
   }, [zoneId]);
 
   const plan = planQuery.data ?? null;
+  // El plan del backend no trae su brigada: se busca la brigada que lo está entregando.
+  const brigadeList = useBrigadeList();
+  const brigades = brigadeList.data ?? [];
   // El plan solo trae el id del recurso: el nombre y la unidad salen del inventario de la organización.
   const inventory = useInventory();
   const stockById = new Map((inventory.data?.resources ?? []).map((resource) => [resource.id, resource]));
@@ -72,9 +75,10 @@ export default function AssignBrigadePanel({ zoneId, zone, onBack }) {
       },
     });
   };
-  const brigadeId = plan?.brigade?.id ?? alreadyAssigned?.id ?? null;
-  const brigadeName = plan?.brigade?.name ?? (brigades.data?.brigades ?? []).find((b) => b.id === brigadeId)?.name ?? null;
-  const hasBrigade = Boolean(plan?.hasBrigade || alreadyAssigned);
+  // La brigada del plan: la que lo está entregando según GET /brigades o, tras un 409, la que nombró el backend.
+  const named = alreadyAssigned ? brigades.find((b) => b.id === alreadyAssigned.id) ?? { id: alreadyAssigned.id, name: null } : null;
+  const brigade = plan?.brigade ?? (plan ? brigadeOfPlan(brigades, plan.id) : null) ?? named;
+  const awaitingBrigade = Boolean(plan?.isApproved) && !brigade && !settling && brigadeList.isSuccess;
   // La brigada la asigna el backend justo después de aprobar. Se confirma enseguida con brigade-assignment
   // (409: ya la tiene; 422: no hay brigada libre) para no mostrar el aviso "sin brigada" por una lectura anterior.
   const approveAndAssign = () => {
@@ -163,20 +167,21 @@ export default function AssignBrigadePanel({ zoneId, zone, onBack }) {
 
       {settling && <p className="pz-note">{t('plan.noBrigade.assigning')}</p>}
 
-      {plan?.needsBrigade && !hasBrigade && !settling && (
-        <section className="pz-box pz-box--manual">
+      {awaitingBrigade && (
+        <section className="pz-box pz-box--manual" role="status">
           <span className="pz-label">{t('plan.noBrigade.title')}</span>
-          <p>{t('plan.noBrigade.text')}</p>
+          <p>{noBrigadeReason(t, availabilitySummary(brigades))}</p>
+          <p className="pz-note">{t('plan.noBrigade.blocked')}</p>
           <button type="button" className="pz-btn-lime pz-stack-gap" disabled={busy} onClick={retryAssign}>
             {assign.isPending ? t('plan.noBrigade.assigning') : t('plan.noBrigade.retry')}
           </button>
         </section>
       )}
 
-      {plan?.isApproved && hasBrigade && (
+      {plan?.isApproved && brigade && (
         <section className="pz-box pz-box--ok">
           <span className="pz-label">{t('plan.assigned.title')}</span>
-          <p className="pz-brigade">{brigadeName ?? t('plan.assigned.unnamed')}</p>
+          <p className="pz-brigade">{brigade.name ?? t('plan.assigned.unnamed')}</p>
           <p className="pz-note">{t('plan.assigned.text')}</p>
         </section>
       )}

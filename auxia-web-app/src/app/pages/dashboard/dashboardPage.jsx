@@ -7,6 +7,7 @@ import { usePermissions } from '@bc/identityAccess/presentation/hooks/usePermiss
 import { useActiveEmergency } from '@bc/emergencyManagement/presentation/hooks/useActiveEmergency.js';
 import { useZoneRanking } from '@bc/emergencyManagement/presentation/hooks/useZoneRanking.js';
 import { useFieldReportSummary } from '@bc/emergencyManagement/presentation/hooks/useFieldReportSummary.js';
+import { usePlansAwaitingBrigade } from '@bc/emergencyManagement/presentation/hooks/usePlansAwaitingBrigade.js';
 import { useBrigadeOverview } from '@bc/resourceManagement/presentation/hooks/useBrigadeOverview.js';
 import { useDeliveryOverview } from '@bc/traceability/presentation/hooks/useDeliveryOverview.js';
 import UrgencyHeatMap from '@bc/emergencyManagement/presentation/components/urgencyHeatMap.jsx';
@@ -29,6 +30,7 @@ export default function DashboardPage() {
   const reports = useFieldReportSummary(emergencyId);
   const brigades = useBrigadeOverview();
   const deliveries = useDeliveryOverview({ zones: ranking.data, limit: RECENT_DELIVERIES });
+  const awaiting = usePlansAwaitingBrigade(emergencyId);
 
   // Sin emergencia activa las consultas que dependen de ella nunca arrancan: no es "cargando".
   const noEmergency = emergency.isSuccess && !emergency.data;
@@ -45,6 +47,14 @@ export default function DashboardPage() {
   return (
     <div className="db">
       {hasError && <p className="db-alert" role="alert">{t('dashboard.error')}</p>}
+      {awaiting.data.length > 0 && (
+        <p className="db-notice" role="status">
+          {t('dashboard.awaitingBrigade', { count: awaiting.data.length })}{' '}
+          <button type="button" className="db-notice__action" onClick={() => navigate(routes.prioritization + '?zone=' + awaiting.data[0].zoneId)}>
+            {t('dashboard.awaitingBrigadeAction')}
+          </button>
+        </p>
+      )}
 
       <section className="db-kpis" aria-label={t('dashboard.title')}>
         <KpiCard

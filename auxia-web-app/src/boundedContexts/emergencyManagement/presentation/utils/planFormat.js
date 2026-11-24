@@ -10,6 +10,15 @@ export function coverageLabel(t, coverage) {
 export const statusLabel = (t, status) => t('plan.status.' + status, { defaultValue: humanize(status) });
 
 // El backend responde application/problem+json: se muestra su "detail" tal cual; si no hay, un texto según el caso.
+// Por qué no hay brigada para el plan, con las cifras de la organización y qué hacer.
+export function noBrigadeReason(t, summary) {
+  if (summary.total === 0) return t('plan.noBrigade.reasons.none');
+  if (summary.ready > 0) return t('plan.noBrigade.reasons.ready', { count: summary.ready });
+  return t('plan.noBrigade.reasons.busy', {
+    onMission: summary.onMission, offDuty: summary.offDuty, withoutLeader: summary.withoutLeader,
+  });
+}
+
 export function planErrorMessage(t, error) {
   if (!error) return null;
   if (error.message === 'reasonRequired') return t('plan.reject.reasonRequired');

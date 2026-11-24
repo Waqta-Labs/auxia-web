@@ -9,6 +9,8 @@
     "emptyHint": "Usa «Nueva zona» y haz clic en el mapa para registrar la primera.",
     "cluster": "{{count}} zonas agrupadas: acercar",
     "brigade": "Brigada {{name}}",
+    "blockedRoad_one": "{{name}}: {{count}} reporte de vía bloqueada",
+    "blockedRoad_other": "{{name}}: {{count}} reportes de vía bloqueada",
     "map": {
       "label": "Mapa de calor de zonas por prioridad",
       "zoomIn": "Acercar",
@@ -49,6 +51,7 @@
       "title": "Capas",
       "heat": "Mapa de calor de prioridad",
       "zones": "Zonas (marcadores)",
+      "roads": "Vías bloqueadas (reportes ciudadanos)",
       "brigades": "Brigadas (base GPS)",
       "opacity": "Opacidad del calor",
       "unavailable": "Las zonas inundadas y la cobertura celular aún no las entrega el servicio.",
@@ -262,7 +265,8 @@
       "elderly": "Adultos mayores",
       "disabled": "Personas con discapacidad",
       "lastAid": "Última ayuda recibida",
-      "needs": "Necesidades"
+      "needs": "Necesidades",
+      "access": "Acceso reportado"
     },
     "noLocation": "Sin ubicación",
     "noAid": "Aún no recibe ayuda",
@@ -272,7 +276,8 @@
     "assign": "Asignar brigada",
     "override": "Anular score",
     "readOnly": "Tu rol solo permite consultar.",
-    "noNeeds": "Sin necesidades reportadas"
+    "noNeeds": "Sin necesidades reportadas",
+    "noAccessIssues": "Ningún ciudadano reportó problemas de acceso"
   },
   "override": {
     "title": "Anular score con prioridad manual",
@@ -326,9 +331,15 @@
     },
     "noBrigade": {
       "title": "Aprobado sin brigada",
-      "text": "No había una brigada libre con líder al aprobar. Cuando haya una disponible, vuelve a intentarlo.",
       "retry": "Asignar brigada",
-      "assigning": "Asignando..."
+      "assigning": "Asignando...",
+      "reasons": {
+        "none": "Tu organización todavía no tiene brigadas. El administrador puede crearlas en Logística de campo.",
+        "ready_one": "Ya hay {{count}} brigada libre con líder. Pide la asignación.",
+        "ready_other": "Ya hay {{count}} brigadas libres con líder. Pide la asignación.",
+        "busy": "Ninguna brigada está libre y con líder: {{onMission}} en misión, {{offDuty}} fuera de servicio y {{withoutLeader}} libres sin líder. Cuando una termine su misión o tenga líder, vuelve a pedir la asignación."
+      },
+      "blocked": "Mientras el plan no tenga brigada no se abre la misión ni la entrega de esta zona."
     },
     "assigned": {
       "title": "Brigada asignada",
@@ -348,5 +359,13 @@
       "forbidden": "Solo una autoridad activa puede decidir sobre los planes.",
       "generic": "No se pudo completar la operación. Inténtalo nuevamente."
     }
+  },
+  "access": {
+    "ROAD_BLOCKED": "Vía bloqueada",
+    "NO_DRINKING_WATER": "Sin agua potable",
+    "NO_CELL_SIGNAL": "Sin señal",
+    "DAMAGED_BUILDING": "Edificio dañado",
+    "reports_one": "{{count}} reporte",
+    "reports_other": "{{count}} reportes"
   }
 }

@@ -12,6 +12,8 @@ export function toBrigade(dto) {
     latitude: dto.baseLocation?.latitude ?? null,
     longitude: dto.baseLocation?.longitude ?? null,
     memberCount: Array.isArray(dto.members) ? dto.members.length : dto.memberCount ?? null,
+    hasLeader: typeof dto.hasLeader === 'boolean' ? dto.hasLeader : null,
+    assignedPlanId: dto.currentAssignment?.distributionPlanId ?? null,
   });
 }
 

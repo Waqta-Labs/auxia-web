@@ -39,7 +39,7 @@ export default function GisMapPage() {
   const brigadeQuery = useBrigadeOverview();
 
   const [view, setView] = useState(DEFAULT_VIEW);
-  const [layers, setLayers] = useState({ heat: true, zones: true, brigades: true, boundaries: true });
+  const [layers, setLayers] = useState({ heat: true, zones: true, roads: true, brigades: true, boundaries: true });
   const boundaries = useBoundaries();
   const [place, setPlace] = useState(null); // { feature, lat, lng } | { outside: true, lat, lng }
   const stageRef = useRef(null);
@@ -182,6 +182,8 @@ export default function GisMapPage() {
                 brigades={brigades}
                 showZones={layers.zones}
                 showBrigades={layers.brigades}
+                showBlockedRoads={layers.roads}
+                blockedRoadLabel={(zone) => t('gisMap.blockedRoad', { name: zone.name, count: zone.blockedRoadReports })}
                 selectedId={selected?.id ?? null}
                 onSelect={selectZone}
                 onCluster={(points) => { const next = boundsView(points, ctx.size.w, ctx.size.h, { padding: 140, maxZoom: 17 }); if (next) flyTo(next); }}
