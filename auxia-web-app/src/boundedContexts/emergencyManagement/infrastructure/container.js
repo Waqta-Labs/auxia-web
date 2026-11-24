@@ -19,6 +19,7 @@ import { RecommendDistribution } from '../application/useCases/recommendDistribu
 import { ApproveDistributionPlan } from '../application/useCases/approveDistributionPlan.js';
 import { RejectDistributionPlan } from '../application/useCases/rejectDistributionPlan.js';
 import { AssignBrigadeToPlan } from '../application/useCases/assignBrigadeToPlan.js';
+import { GetEmergencyDistributionPlans } from '../application/useCases/getEmergencyDistributionPlans.js';
 import { env } from '@shared/infrastructure/config/env.js';
 
 const emergencyRepository = env.useMocks ? new EmergencyMockRepository() : new EmergencyHttpRepository();
@@ -39,3 +40,4 @@ export const recommendDistributionUseCase = new RecommendDistribution(distributi
 export const approveDistributionPlanUseCase = new ApproveDistributionPlan(distributionPlanRepository);
 export const rejectDistributionPlanUseCase = new RejectDistributionPlan(distributionPlanRepository);
 export const assignBrigadeToPlanUseCase = new AssignBrigadeToPlan(distributionPlanRepository);
+export const getEmergencyDistributionPlansUseCase = new GetEmergencyDistributionPlans(distributionPlanRepository);

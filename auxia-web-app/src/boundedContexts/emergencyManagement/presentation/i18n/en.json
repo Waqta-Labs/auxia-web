@@ -326,9 +326,15 @@
     },
     "noBrigade": {
       "title": "Approved without a brigade",
-      "text": "No free brigade with a leader was available at approval. Try again when one is.",
       "retry": "Assign brigade",
-      "assigning": "Assigning..."
+      "assigning": "Assigning...",
+      "reasons": {
+        "none": "Your organization has no brigades yet. The administrator can create them in Field logistics.",
+        "ready_one": "{{count}} brigade with a leader is free now. Ask for the assignment.",
+        "ready_other": "{{count}} brigades with a leader are free now. Ask for the assignment.",
+        "busy": "No brigade is free and has a leader: {{onMission}} on a mission, {{offDuty}} off duty and {{withoutLeader}} free without a leader. When one finishes its mission or gets a leader, ask for the assignment again."
+      },
+      "blocked": "Until the plan has a brigade, the mission and the delivery of this zone do not start."
     },
     "assigned": {
       "title": "Brigade assigned",

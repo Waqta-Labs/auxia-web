@@ -1,7 +1,10 @@
 import { BrigadeStatus } from '../enums/brigadeStatus.js';
 
 export class Brigade {
-  constructor({ id, name, code = null, status, latitude = null, longitude = null, memberCount = null }) {
+  constructor({
+    id, name, code = null, status, latitude = null, longitude = null, memberCount = null,
+    hasLeader = null, assignedPlanId = null,
+  }) {
     this.id = id;
     this.name = name;
     this.code = code;
@@ -9,6 +12,8 @@ export class Brigade {
     this.latitude = latitude; // base / última posición GPS
     this.longitude = longitude;
     this.memberCount = memberCount; // null si el listado no lo trae
+    this.hasLeader = hasLeader; // sin líder el backend no le asigna planes; null si no se sabe
+    this.assignedPlanId = assignedPlanId; // plan de distribución que está entregando, o null
     Object.freeze(this);
   }
 

@@ -26,6 +26,11 @@ export class DistributionPlanMockRepository extends DistributionPlanRepository {
     this.sequence = 0;
   }
 
+  async findByEmergency() {
+    await delay(350);
+    return [...this.plans.values()].reverse().map(toDistributionPlan);
+  }
+
   async findByZone(zoneId) {
     await delay(350);
     return [...this.plans.values()].filter((plan) => plan.zoneId === zoneId).reverse().map(toDistributionPlan);
